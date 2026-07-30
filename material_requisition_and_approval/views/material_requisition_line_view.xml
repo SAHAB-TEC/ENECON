@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) 2016-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<!-- License URL : <https://store.webkul.com/license.html/> -->
+<odoo>
+    <record id="view_material_requisition_line_search" model="ir.ui.view">
+        <field name="name">material.requisition.line.search</field>
+        <field name="model">material.requisition.line</field>
+        <field name="arch" type="xml">
+            <search >
+                <field name="requisition_id"/>
+                <field name="product_id"/>
+                <field name="requisition_action"/>
+                <field name="vendor_id"/>
+                <field name="rfq_id"/>
+                <field name="picking_id"/>
+                <!-- <filter name="requisition_actions" string="Requisition Actions" domain="[('requisition_action', 'in', ['transfer','purchase'])]"/> -->
+            </search>
+        </field>
+    </record>
+    
+    <record id="view_material_requisition_line_list" model="ir.ui.view">
+        <field name="name">material.requisition.line.list</field>
+        <field name="model">material.requisition.line</field>
+        <field name="arch" type="xml">
+            <list string="Material Requisition Lines">
+                <field name="requisition_id"  />
+                <field name="product_id"/>
+                <field name="quantity"/>
+                <field name="requisition_action" />
+
+            </list>
+        </field>
+    </record>
+
+    <record id="view_material_requisition_line_form" model="ir.ui.view">
+        <field name="name">material.requisition.line.form</field>
+        <field name="model">material.requisition.line</field>
+            <field name="arch" type="xml">
+                <form string="Material Requisition Line">
+                    <sheet>
+                        <div class="oe_title">
+                            <label for="product_id" class="oe_edit_only"/>
+                            <h1>
+                                <field name="product_id" readonly="1"/>
+                            </h1>
+                        </div>
+                        <group>
+                            <group string="Requisition Info" col="2">
+                                <field name="requisition_id" readonly="1"/>
+                                <field name="quantity" readonly="1"/>
+                                <field name="uom_id" readonly="1"/>
+                                <field name="available_qty" readonly="1"/>
+                            </group>
+                            <group string="Processing Info" col="2">
+                                <field name="requisition_action" readonly="1"/>
+                                <field name="vendor_id" readonly="1"/>
+                                <field name="rfq_id" readonly="1"/>
+                                <field name="picking_id" readonly="1"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Remarks">
+                                <field name="remarks" 
+                                    nolabel="1" 
+                                    readonly="1" 
+                                    placeholder="Remarks or notes about this requisition line..."/>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+    </record>
+
+    <record id="view_material_requisition_line_pivot" model="ir.ui.view">
+        <field name="name">material.requisition.line.pivot</field>
+        <field name="model">material.requisition.line</field>
+        <field name="arch" type="xml">
+            <pivot string="Requisition Line Analysis">
+                <field name="quantity" type="measure"/>
+                <field name="product_id" type="row"/>
+                <field name="vendor_id" type="col"/>
+                <field name="requisition_action" type="row"/>
+            </pivot>
+        </field>
+    </record>
+
+    <record id="view_material_requisition_line_graph" model="ir.ui.view">
+        <field name="name">material.requisition.line.graph</field>
+        <field name="model">material.requisition.line</field>
+        <field name="arch" type="xml">
+            <graph string="Requisition Line Graph" type="bar">
+                <field name="product_id" type="row"/>
+                <field name="quantity" type="measure"/>
+                <field name="vendor_id" type="col"/>
+            </graph>
+        </field>
+    </record>
+
+    <record id="action_material_requisition_summary" model="ir.actions.act_window">
+        <field name="name">Material Requisition Summary</field>
+        <field name="res_model">material.requisition.line</field>
+        <field name="view_mode">graph,pivot,list,form</field>
+        <!-- <field name="search_view_id" ref="material_requisition_and_approval.view_material_requisition_line_search"/> -->
+        <field name="context">{'search_default_requisition_actions':True}</field>
+    </record>
+
+    <record id="action_material_requisition_summary_dashboard" model="ir.actions.act_window">
+        <field name="name">Material Requisition Summary</field>
+        <field name="res_model">material.requisition.line</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="material_requisition_and_approval.view_material_requisition_line_search"/>
+        <!-- <field name="context">{'search_default_requisition_actions':True}</field> -->
+    </record>
+
+</odoo>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) 2016-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<!-- License URL : <https://store.webkul.com/license.html/> -->
+
+ <template >
+    <t t-name="material_requisition_and_approval.Ribbon">
+    <div class="straight-ribbon">
+            <t t-esc="getCurrentLabel()" />
+    </div>
+    </t>
+</template>
+

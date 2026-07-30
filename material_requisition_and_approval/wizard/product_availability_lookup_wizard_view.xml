@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) 2016-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<!-- License URL : <https://store.webkul.com/license.html/> -->
+
+<odoo>
+<record id="action_check_product_availability" model="ir.actions.act_window">
+    <field name="name">Check Product Availability</field>
+    <field name="res_model">product.availability.lookup.wizard</field>
+    <field name="view_mode">form</field>
+    <field name="target">new</field>
+</record>
+
+
+<record id="view_product_availability_lookup_form" model="ir.ui.view">
+    <field name="name">product.availability.lookup.wizard.form</field>
+    <field name="model">product.availability.lookup.wizard</field>
+    <field name="arch" type="xml">
+        <form string="Product Availability">
+        <field name="requisition_id" invisible="1"/>
+       
+                <field name="line_ids" readonly="1">
+                    <list>
+                        <field name="product_id"/>
+                        <field name="location_id"/>
+                        <field name="requested_qty"/>
+                        <field name="available_qty" widget="badge" decoration-success="True"  />
+                 
+                    </list>
+                </field>
+
+          <footer>
+                    <button string="Close" special="cancel"/>
+            </footer>
+        </form>
+    </field>
+</record>
+</odoo>

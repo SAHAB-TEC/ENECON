@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) 2016-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<!-- License URL : <https://store.webkul.com/license.html/> -->
+
+<odoo>
+    <template id="report_approval_log_csv">
+        <t t-foreach="docs" t-as="doc">
+            Level,Approver(s),Type,Status,Remarks,Date
+            <t t-foreach="doc.approval_ids" t-as="ap">
+            <t t-esc="ap.level"/>,<t t-esc="', '.join(ap.approver_ids.mapped('name'))"/>,<t t-esc="ap.approver_type"/>,<t t-esc="ap.status"/>,<t t-esc="ap.remarks or ''"/>,<t t-esc="ap.date or ''"/>
+            </t>
+        </t>
+    </template>
+</odoo>

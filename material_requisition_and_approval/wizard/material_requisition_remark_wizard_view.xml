@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) 2016-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<!-- License URL : <https://store.webkul.com/license.html/> -->
+
+<odoo>
+    <record id="view_material_requisition_remark_wizard_form" model="ir.ui.view">
+        <field name="name">material.requisition.remark.wizard.form</field>
+        <field name="model">material.requisition.remark.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Approval Remark">
+                <group>
+                    <field name="remark"/>
+                </group>
+                <footer>
+                    <button string="Confirm" type="object" name="action_remark" class="btn-danger"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+</odoo>

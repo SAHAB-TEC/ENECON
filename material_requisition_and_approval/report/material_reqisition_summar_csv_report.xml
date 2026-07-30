@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) 2016-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<!-- License URL : <https://store.webkul.com/license.html/> -->
+
+<odoo>
+
+   
+    <template id="report_material_summary_csv">
+        <t t-foreach="docs" t-as="doc">
+            Requisition,Requester,Department,Date
+            <t t-esc="doc.name"/>,<t t-esc="doc.employee_id.name or ''"/>,<t t-esc="doc.department_id.name or ''"/>,<t t-esc="doc.required_date"/>
+
+            Product,Quantity,UOM
+            <t t-foreach="doc.requested_product_ids" t-as="line">
+            <t t-esc="line.product_id.name"/>,<t t-esc="line.quantity"/>,<t t-esc="line.product_id.uom_id.name"/>
+            </t>
+        </t>
+    </template>
+</odoo>

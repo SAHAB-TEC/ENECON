@@ -1,0 +1,828 @@
+<!-- Copyright (c) 2017-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<!-- License URL : https://store.webkul.com/license.html/ -->
+<!-- <meta name="keywords" content="OneDrive, Backups, Retention Count, Automatically, Tracking, Restore Backups, Cloud Storage, Odoo Database, SaaS, Integration, Odoo Data"> -->
+<!-- banner -->
+
+
+<head>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+    integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous" />
+  <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"
+    integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+    integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+    crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+    integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+    crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+    integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+    crossorigin="anonymous"></script>
+  <link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,500,600,700&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+</head>
+
+<body>
+
+  <section class="container-fluid"
+    style="background-image:url(https://apps.odoocdn.com/apps/assets/18.0/odoo_powerbi_connect/layout/glasssy.png);background-size: cover; height: 1001px; background-position: center;">
+     <div class="container">
+    <nav class="navbar navbar-expand-lg py-3">
+      <div class="collapse navbar-collapse">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item" style="margin-left: 17px;">
+            <a class="nav-link" href="https://webkul.com/" target="_blank">
+              <img src="layout/badges/webkul-odoo.png" alt="Webkul Logo">
+            </a>
+          </li>
+        </ul>
+        <ul class="navbar-nav mb-2 mb-lg-0">
+          <li class="nav-item">
+            <span class="fw-bold text-dark me-4">Supported Editions:</span>
+          </li>
+          <li class="nav-item">
+            <span class="text-dark me-3">
+              <img src="layout/hero-section/check-circle.png" alt="✓"> Community
+            </span>
+          </li>
+          <li class="nav-item">
+            <span class="text-dark me-3">
+              <img src="layout/hero-section/check-circle.png" alt="✓"> On-Premise
+            </span>
+          </li>
+          <li class="nav-item">
+            <span class="text-dark me-3">
+              <img src="layout/hero-section/check-circle.png" alt="✓"> Odoo.sh
+            </span>
+          </li>
+        </ul>
+      </div>
+    </nav>
+  </div>
+
+
+    <div class="d-flex justify-content-center flex-column align-items-center text-center mt-5">
+      <p class="fs-5" style="font-size: large;color: black;font-weight: 400;">
+        Boost Collaboration
+        <img src="layout/hero-section/rocket-02.png" alt="Rocket icon">
+      </p>
+      <h1 style="font-weight: 800;font-size:40px;">Material Requisition and Approval</h1>
+      <p style="max-width: 900px; color: #1A2733;">
+        Material Requisition and Approval helps people ask for items easily. Managers check and approve step by
+        step. It checks stock, buys or moves items, and safely gives them to employees.
+      </p>
+      <div class="d-inline-flex align-items-center bg-white p-3 px-4 shadow-sm mb-3"
+        style="border-radius:5.25rem !important;">
+        <label class="fw-semibold me-2 mb-0" style="font-weight: bold;font-size: 16px;color:#202021;">User Guide
+        </label>
+        <img src="/layout/hero-section/Rectangle 19544.png" style="height: 25px;" />
+
+        <span class="mx-2" style="font-weight: bold;"> </span>
+        <a href="https://webkul.com/blog/" target="_blank"
+          class="text-dark text-decoration-none">
+          https://webkul.com/blog/
+        </a>
+      </div>
+      <div class="mt-4">
+        <img src="layout/hero-section/hero-image.png" alt="OneDrive Backup" class="img-fluid mt-4">
+      </div>
+    </div>
+  </section>
+
+  <section class="container" style="margin-top: 130px;">
+    <div class="row">
+      <div class="col-md-4 d-flex justify-content-center flex-column align-items-center text-center mb-4">
+        <img class="mb-2" src="layout/key-feture/key-features-01.png" alt="UoM Selection per Product">
+        <p style="max-width: 220px;">Multi-level Approval Workflow</p>
+      </div>
+      <div class="col-md-4 d-flex justify-content-center flex-column align-items-center text-center mb-4">
+        <img class="mb-2" src="layout/key-feture/key-features-02.png" alt="Automatic UoM Filtering">
+        <p style="max-width: 220px;">Automatic or Manual Approver Configuration</p>
+      </div>
+      <div class="col-md-4 d-flex justify-content-center flex-column align-items-center text-center mb-4">
+        <img class="mb-2" src="layout/key-feture/key-features-03.png" alt="Prevent Wrong UoMs Selection">
+        <p style="max-width: 220px;">Manager Hierarchy-based Approvals</p>
+      </div>
+
+
+      <div class="row">
+        <div class="col-md-4 d-flex justify-content-center flex-column align-items-center text-center mb-4">
+          <img class="mb-2" src="layout/key-feture/key-features-04.png" alt="UoM Selection per Product">
+          <p style="max-width: 220px;">Stock Availability Checking</p>
+        </div>
+        <div class="col-md-4 d-flex justify-content-center flex-column align-items-center text-center mb-4">
+          <img class="mb-2" src="layout/key-feture/key-features-05.png" alt="Automatic UoM Filtering">
+          <p style="max-width: 220px;">Internal Transfer Creation</p>
+        </div>
+        <div class="col-md-4 d-flex justify-content-center flex-column align-items-center text-center mb-4">
+          <img class="mb-2" src="layout/key-feture/key-features-06.png" alt="Prevent Wrong UoMs Selection">
+          <p style="max-width: 220px;">RFQ / Purchase Order Creation</p>
+        </div>
+      </div>
+
+    </div>
+
+
+    </div>
+    <div class="mt-2">
+      <img src="layout/hero-section/scan-banner.png" alt="OneDrive Backup Integration" class="img-fluid mt-4">
+    </div>
+  </section>
+
+
+  <section class="container" style="padding: 20px 0;">
+    <div class="text-center">
+      <h2 class="text-dark" style="font-size: 2.5rem;">Highlights Features of Our Module</h2>
+      <p style="color: #1A2733;">We are excited to introduce the latest features that will enhance your user experience!
+      </p>
+    </div>
+    <div class="row " style="margin-top: 70px;">
+      <div class="col-md-4 d-flex justify-content-start flex-column align-items-start text-start mb-4">
+        <img class="mb-2" src="layout/Highlights-Features/highlighted-feature-01.png"
+          alt="Seamless OneDrive Integration">
+        <h5 class="fw-bold">Easy Request Creation</h5>
+        <p>Material Requisition and Approval helps users create requests with products, quantity, and location easily.</p>
+      </div>
+      <div class="col-md-4 d-flex justify-content-start flex-column align-items-start text-start mb-4">
+        <img class="mb-2" src="layout/Highlights-Features/highlighted-feature-02.png" alt="Backup Status Tracking">
+        <h5 class="fw-bold">Smart Approval Process</h5>
+        <p>Requests move step by step to managers, where each manager can easily approve or reject.</p>
+      </div>
+      <div class="col-md-4 d-flex justify-content-start flex-column align-items-start text-start mb-4">
+        <img class="mb-2" src="layout/Highlights-Features/highlighted-feature-03.png" alt="Simple UI Configuration">
+        <h5 class="fw-bold">Stock Checking System</h5>
+        <p>The system shows options to fulfill the request. The manager checks the stock and decides whether to use transfer or purchase.</p>
+      </div>
+    </div>
+
+
+    <div class="row " style="margin-top: 70px;">
+      <div class="col-md-4 d-flex justify-content-start flex-column align-items-start text-start mb-4">
+        <img class="mb-2" src="layout/Highlights-Features/highlighted-feature-04.png"
+          alt="Seamless OneDrive Integration">
+        <h5 class="fw-bold">Flexible Approval Type</h5>
+        <p>Select the approval type as manual or employee manager. If a manager is selected, the system automatically picks the manager for approval.</p>
+      </div>
+      <div class="col-md-4 d-flex justify-content-start flex-column align-items-start text-start mb-4">
+        <img class="mb-2" src="layout/Highlights-Features/highlighted-feature-05.png" alt="Backup Status Tracking">
+        <h5 class="fw-bold">Delivery Tracking</h5>
+        <p>Users can see delivered, pending, and cancelled quantities and track request status anytime.</p>
+      </div>
+      <div class="col-md-4 d-flex justify-content-start flex-column align-items-start text-start mb-4">
+        <img class="mb-2" src="layout/Highlights-Features/highlighted-feature-06.png" alt="Simple UI Configuration">
+        <h5 class="fw-bold">Easy Completion</h5>
+        <p>User marks items as received, and the system updates the status to fulfilled and closes the request.</p>
+      </div>
+    </div>
+
+  </section>
+
+  <section class="container" style="padding: 20px 0;">
+    <div class="text-center">
+      <h2 class="text-dark" style="font-size: 2.5rem;">Essential Features of Our Module</h2>
+      <p style="color: #1A2733;">We are excited to introduce the latest features that will enhance your user experience!
+      </p>
+    </div>
+
+    <div class="row mt-5">
+      <div class="col-md-6 p-5 d-flex justify-content-center flex-column align-items-start">
+        <h3 class="text-dark my-3">Create Material Requisition</h3>
+        <ul class="ps-0" style="list-style: none; color:#1A2733">
+          <li class="mb-3 d-flex align-items-start">
+            <img src="layout/hero-section/check-circle.png" alt="check icon">
+            <span class="text-start ms-2">Employee can create a material request</span>
+          </li>
+          <li class="mb-3 d-flex align-items-start">
+            <img src="layout/hero-section/check-circle.png" alt="check icon">
+            <span class="text-start ms-2">Add products, quantity, and required date</span>
+          </li>
+          <li class="mb-3 d-flex align-items-start">
+            <img src="layout/hero-section/check-circle.png" alt="check icon">
+            <span class="text-start ms-2">Define Purpose and Submit request</span>
+          </li>
+          <li class="mb-3 d-flex align-items-start">
+            <img src="layout/hero-section/check-circle.png" alt="check icon">
+            <span class="text-start ms-2">System creates approvals Logs and notifications</span>
+          </li>
+          <li class="mb-3 d-flex align-items-start">
+            <img src="layout/hero-section/check-circle.png" alt="check icon">
+            <span class="text-start ms-2">Status updated to waiting for approval</span>
+          </li>
+        </ul>
+      </div>
+      <div class="col-md-6">
+        <img src="layout/Essential Features/Create Material Requisition.png" alt="OneDrive Integration" class="img-fluid">
+      </div>
+    </div>
+
+    <div class="row mt-5">
+      <div class="col-md-6">
+        <img src="layout/Essential Features/Approval Process.png" alt="Automated Backup Process" class="img-fluid">
+      </div>
+      <div class="col-md-6 p-5 d-flex justify-content-center flex-column align-items-start">
+        <h3 class="text-dark my-3">Approval Process</h3>
+        <ul class="ps-0" style="list-style: none; color:#1A2733">
+          <li class="mb-3 d-flex align-items-start">
+            <img src="layout/hero-section/check-circle.png" alt="check icon">
+            <span class="text-start ms-2">Approvers check and review the request</span>
+          </li>
+          <li class="mb-3 d-flex align-items-start">
+            <img src="layout/hero-section/check-circle.png" alt="check icon">
+            <span class="text-start ms-2">Approve moves request to next level</span>
+          </li>
+          <li class="mb-3 d-flex align-items-start">
+            <img src="layout/hero-section/check-circle.png" alt="check icon">
+            <span class="text-start ms-2">Reject stops the request process</span>
+          </li>
+          <li class="mb-3 d-flex align-items-start">
+            <img src="layout/hero-section/check-circle.png" alt="check icon">
+            <span class="text-start ms-2">If rejected, status becomes rejected</span>
+          </li>
+          <li class="mb-3 d-flex align-items-start">
+            <img src="layout/hero-section/check-circle.png" alt="check icon">
+            <span class="text-start ms-2">Final approval sends to the stock team</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="row mt-5 mb-5">
+      <div class="col-md-6 p-5 d-flex justify-content-center flex-column align-items-start">
+        <h3 class="text-dark my-3">Internal Transfer</h3>
+        <ul class="ps-0" style="list-style: none; color:#1A2733">
+          <li class="mb-3 d-flex align-items-start">
+            <img src="layout/hero-section/check-circle.png" alt="check icon">
+            <span class="text-start ms-2">Stock manager checks product availability</span>
+          </li>
+          <li class="mb-3 d-flex align-items-start">
+            <img src="layout/hero-section/check-circle.png" alt="check icon">
+            <span class="text-start ms-2">Decide on internal transfer or purchase</span>
+          </li>
+          <li class="mb-3 d-flex align-items-start">
+            <img src="layout/hero-section/check-circle.png" alt="check icon">
+            <span class="text-start ms-2">Reuse saved templates for faster</span>
+          </li>
+          <li class="mb-3 d-flex align-items-start">
+            <img src="layout/hero-section/check-circle.png" alt="check icon">
+            <span class="text-start ms-2">Use Pricelist integration for different customers</span>
+          </li>
+        </ul>
+      </div>
+      <div class="col-md-6">
+        <img src="layout/Essential Features/Internal Transfer.png" alt="Backup Control & Tracking" class="img-fluid">
+      </div>
+    </div>
+
+    <div class="row mt-5 mb-5">
+      <div class="col-md-6">
+        <img src="layout/Essential Features/Create Fulfillment.png" alt="Backup Control & Tracking" class="img-fluid">
+      </div>
+      <div class="col-md-6 p-5 d-flex justify-content-center flex-column align-items-start">
+        <h3 class="text-dark my-3">Create Fulfillment</h3>
+        <ul class="ps-0" style="list-style: none; color:#1A2733">
+          <li class="mb-3 d-flex align-items-start">
+            <img src="layout/hero-section/check-circle.png" alt="check icon">
+            <span class="text-start ms-2">Stock not available, choose fulfill by purchase.</span>
+          </li>
+          <li class="mb-3 d-flex align-items-start">
+            <img src="layout/hero-section/check-circle.png" alt="check icon">
+            <span class="text-start ms-2">System creates RFQ or purchase order.</span>
+          </li>
+          <li class="mb-3 d-flex align-items-start">
+            <img src="layout/hero-section/check-circle.png" alt="check icon">
+            <span class="text-start ms-2">Select vendor and confirm the order.</span>
+          </li>
+          <li class="mb-3 d-flex align-items-start">
+            <img src="layout/hero-section/check-circle.png" alt="check icon">
+            <span class="text-start ms-2">Receipt created, wait for vendor delivery.</span>
+          </li>
+          <li class="mb-3 d-flex align-items-start">
+            <img src="layout/hero-section/check-circle.png" alt="check icon">
+            <span class="text-start ms-2">Status shows in purchase or dispatch.</span>
+          </li>
+        </ul>
+      </div>
+
+    </div>
+
+    <div class="row mt-5 mb-5">
+
+      <div class="col-md-6 p-5 d-flex justify-content-center flex-column align-items-start">
+        <h3 class="text-dark my-3">Dispatch & Delivery</h3>
+        <ul class="ps-0" style="list-style: none; color:#1A2733">
+          <li class="mb-3 d-flex align-items-start">
+            <img src="layout/hero-section/check-circle.png" alt="check icon">
+            <span class="text-start ms-2">System updates delivered items quantity.</span>
+          </li>
+          <li class="mb-3 d-flex align-items-start">
+            <img src="layout/hero-section/check-circle.png" alt="check icon">
+            <span class="text-start ms-2">System shows the quantity of cancelled items.</span>
+          </li>
+          <li class="mb-3 d-flex align-items-start">
+            <img src="layout/hero-section/check-circle.png" alt="check icon">
+            <span class="text-start ms-2">System shows the remaining item quantity.</span>
+          </li>
+          <li class="mb-3 d-flex align-items-start">
+            <img src="layout/hero-section/check-circle.png" alt="check icon">
+            <span class="text-start ms-2">Updates when items are received.</span>
+          </li>
+          <li class="mb-3 d-flex align-items-start">
+            <img src="layout/hero-section/check-circle.png" alt="check icon">
+            <span class="text-start ms-2">Tracks full delivery step by step.</span>
+          </li>
+        </ul>
+      </div>
+      <div class="col-md-6">
+        <img src="layout/Essential Features/Dispatch & Delivery.png" alt="Backup Control & Tracking" class="img-fluid">
+      </div>
+
+    </div>
+
+
+    <div class="row mt-5 mb-5">
+      <div class="col-md-6">
+        <img src="layout/Essential Features/Mark as Received.png" alt="Backup Control & Tracking" class="img-fluid">
+      </div>
+      <div class="col-md-6 p-5 d-flex justify-content-center flex-column align-items-start">
+        <h3 class="text-dark my-3">Mark as Received</h3>
+        <ul class="ps-0" style="list-style: none; color:#1A2733">
+          <li class="mb-3 d-flex align-items-start">
+            <img src="layout/hero-section/check-circle.png" alt="check icon">
+            <span class="text-start ms-2">Employee gets items and confirms.</span>
+          </li>
+          <li class="mb-3 d-flex align-items-start">
+            <img src="layout/hero-section/check-circle.png" alt="check icon">
+            <span class="text-start ms-2">Employee clicks on marks as received.</span>
+          </li>
+          <li class="mb-3 d-flex align-items-start">
+            <img src="layout/hero-section/check-circle.png" alt="check icon">
+            <span class="text-start ms-2">Status changes to fulfilled.</span>
+          </li>
+          <li class="mb-3 d-flex align-items-start">
+            <img src="layout/hero-section/check-circle.png" alt="check icon">
+            <span class="text-start ms-2">Process is now fully completed.</span>
+          </li>
+          <li class="mb-3 d-flex align-items-start">
+            <img src="layout/hero-section/check-circle.png" alt="check icon">
+            <span class="text-start ms-2">Request is closed after confirmation.</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+
+  <section class="container" style="padding: 60px 0;">
+    <div class="text-center">
+      <h2 class="text-dark" style="font-size: 2.5rem;">Explore Our Module</h2>
+      <p>Discover how our Material Requisition & Approval module streamlines material requests with structured approvals, stock checks, and seamless procurement.</p>
+    </div>
+
+    <div class="row mt-5">
+      <ul class="nav nav-tabs justify-content-center gap-2" style="border:none; background-color: #ffffff;"
+        role="tablist">
+        <li class="nav-item">
+          <a class="nav-link active" style="border: solid 1px #0070F2; border-radius: 10px; background: #0070F21A;"
+            href="#screenshots" data-bs-toggle="tab">Screenshots</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" style="border: solid 1px #0070F2; border-radius: 10px; background: #0070F21A;" href="#faq"
+            data-bs-toggle="tab">FAQ</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#support"
+            style="border: solid 1px #E6E7EE; border-radius: 10px; background: #F5F6FA;"
+            data-bs-toggle="tab">Support</a>
+        </li>
+      </ul>
+    </div>
+
+    <div class="tab-content">
+      <div class="tab-pane fade show active" id="screenshots">
+        <section class="my-4">
+          <div class="p-3">
+            <img src="ss/ss-01.png" style="width:95%; height:95%;" class="img-responsive border">
+          </div>
+        </section>
+        <section class="my-4">
+          <div class="p-3">
+            <img src="ss/ss-02.png" style="width:95%; height:95%;" class="img-responsive border">
+          </div>
+        </section>
+        <section class="my-4">
+          <div class="p-3">
+            <img src="ss/ss-03.png" style="width:95%; height:95%;" class="img-responsive border">
+          </div>
+        </section>
+        <section class="my-4">
+          <div class="p-3">
+            <img src="ss/ss-04.png" style="width:95%; height:95%;" class="img-responsive border">
+          </div>
+        </section>
+        <section class="my-4">
+          <div class="p-3">
+            <img src="ss/ss-05.png" style="width:95%; height:95%;" class="img-responsive border">
+          </div>
+        </section>
+        <section class="my-4">
+          <div class="p-3">
+            <img src="ss/ss-06.png" style="width:95%; height:95%;" class="img-responsive border">
+          </div>
+        </section>
+        <section class="my-4">
+          <div class="p-3">
+            <img src="ss/ss-07.png" style="width:95%; height:95%;" class="img-responsive border">
+          </div>
+        </section>
+        <section class="my-4">
+          <div class="p-3">
+            <img src="ss/ss-08.png" style="width:95%; height:95%;" class="img-responsive border">
+          </div>
+        </section>
+        <section class="my-4">
+          <div class="p-3">
+            <img src="ss/ss-09.png" style="width:95%; height:95%;" class="img-responsive border">
+          </div>
+        </section>
+      </div>
+
+      <div class="tab-pane fade " id="faq" role="tabpanel" aria-labelledby="faq-tab">
+        <h3 class="card-header my-0">
+          Material Requisition & Approval FAQs:
+        </h3>
+        <div class="accordion accordion-flush mt-3" id="accordionFlushFAQ">
+          <div class="accordion-item">
+            <h2 class="accordion-header">
+              <a class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
+                What is Material Requisition and Approval?
+              </a>
+            </h2>
+            <div id="flush-collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionFlushFAQ"
+              >
+              <div class="accordion-body text-start">Material Requisition and Approval  helps manage material requests and approvals in a
+simple and clear way.</div>
+            </div>
+          </div>
+
+          <div class="accordion-item">
+            <h2 class="accordion-header">
+              <a class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo">
+                Can employees create requests?
+              </a>
+            </h2>
+            <div id="flush-collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionFlushFAQ"
+              >
+              <div class="accordion-body text-start">Yes, employees can create requests with product, quantity, and delivery details.</div>
+            </div>
+          </div>
+
+          <div class="accordion-item">
+            <h2 class="accordion-header">
+              <a class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                data-bs-target="#flush-collapseThree" aria-expanded="false" aria-controls="flush-collapseThree">
+               How does approval work?
+              </a>
+            </h2>
+            <div id="flush-collapseThree" class="accordion-collapse collapse" data-bs-parent="#accordionFlushFAQ">
+              <div class="accordion-body text-start">Requests go to managers step by step, and each manager can approve or reject.</div>
+            </div>
+          </div>
+
+          <div class="accordion-item">
+            <h2 class="accordion-header">
+              <a class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                data-bs-target="#flush-collapseFour" aria-expanded="false" aria-controls="flush-collapseFour">
+               What happens if the stock is not available?
+              </a>
+            </h2>
+            <div id="flush-collapseFour" class="accordion-collapse collapse" data-bs-parent="#accordionFlushFAQ">
+              <div class="accordion-body text-start">The system creates RFQ or a Purchase Order automatically.</div>
+            </div>
+          </div>
+
+          <div class="accordion-item">
+            <h2 class="accordion-header">
+              <a class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                data-bs-target="#flush-collapseFive" aria-expanded="false" aria-controls="flush-collapseFive">
+                Can I track delivery status?
+              </a>
+            </h2>
+            <div id="flush-collapseFive" class="accordion-collapse collapse" data-bs-parent="#accordionFlushFAQ">
+              <div class="accordion-body text-start">Yes, you can see delivered, pending, and cancelled quantities anytime.</div>
+            </div>
+          </div>
+
+          <div class="accordion-item">
+            <h2 class="accordion-header">
+              <a class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                data-bs-target="#flush-collapseSix" aria-expanded="false" aria-controls="flush-collapseSix">
+               How is the process completed?
+              </a>
+            </h2>
+            <div id="flush-collapseSix" class="accordion-collapse collapse" data-bs-parent="#accordionFlushFAQ">
+              <div class="accordion-body text-start">Once items are received, the user confirms, and the request is marked fulfilled.</div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="tab-pane fade " id="support">
+        <div class="row justify-content-center py-4">
+          <div class="col-12 col-lg-10 bg-white shadow-lg rounded-3 p-4"
+            style="box-shadow: 0 10px 35px rgba(0,0,0,0.12) !important;">
+            <div class="text-center mb-4">
+              <h2 class="fw-bold display-6">Support</h2>
+              <p class="text-muted">Get Immediate support for any of your query</p>
+            </div>
+            <div class="col-12 col-md-8 mx-auto mb-4">
+              <p class="text-muted text-center mb-0">
+                You will get 90 days free support for any doubt, queries, and bug fixing
+                (excluding data recovery) or any type of issue related to this module.
+              </p>
+            </div>
+            <div class="row g-4">
+              <div class="col-12 col-md-8 mx-auto">
+                <div
+                  class="card border-1 p-4 d-flex flex-column flex-md-row align-items-center align-items-md-center gap-4 shadow-sm"
+                  style="border-radius:12px;">
+                  <div class="rounded-circle d-flex align-items-center justify-content-center flex-shrink-0"
+                    style="width:60px;height:60px;background-color: #202021;">
+                    <img src="layout/mail.png" alt="Email Icon"
+                      style="width:60%;height:60%;object-fit:contain;display:block;">
+                  </div>
+                  <div class="flex-grow-1 text-start">
+                    <h6 class="text-uppercase mb-1 fw-bold">Write To Us At</h6>
+                    <a href="mailto:support@webkul.com"
+                      class="h5 mb-2 fw-bold text-decoration-none text-reset d-inline-block">
+                      support@webkul.com
+                    </a>
+                    <p class="mb-0 text-muted">
+                      For any help and doubt or issue regarding the module, drop a mail to our technical team.
+                    </p>
+                  </div>
+                  <div class="flex-shrink-0 ms-md-3 mt-3 mt-md-0">
+                    <a href="mailto:support@webkul.com" class="btn" style="background-color:#2335D7;color:#fff;">
+                      Write To Us
+                    </a>
+                  </div>
+                </div>
+              </div>
+              <div class="col-12 col-md-8 mx-auto">
+                <div
+                  class="card border-1 p-4 d-flex flex-column flex-md-row align-items-center align-items-md-center gap-4 shadow-sm"
+                  style="border-radius:12px;">
+                  <div class="rounded-circle d-flex align-items-center justify-content-center flex-shrink-0"
+                    style="width:60px;height:60px;background-color: #202021;">
+                    <img src="layout/support-icon.png" alt="Support Icon"
+                      style="width:60%;height:60%;object-fit:contain;display:block;">
+                  </div>
+                  <div class="flex-grow-1 text-start">
+                    <h6 class="text-uppercase mb-1 fw-bold">Raise A Ticket At</h6>
+                    <a href="https://webkul.com/en/customer/create-ticket/" target="_blank" rel="noopener"
+                      class="h5 mb-2 fw-bold text-decoration-none d-inline-block text-reset"
+                      style="word-break: break-all;">
+                      https://webkul.com/en/customer/create-ticket/
+                    </a>
+                    <p class="mb-0 text-muted">
+                      For support or to request customization, create a support ticket by clicking the link above.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="container text-center mb-5">
+    <h2 class="text-dark" style="font-size: 3rem;">Other Related Modules</h2>
+    <p class="text-center text-muted mb-5">
+      Webkul is well known for providing top notch, flexible, and effective products that<br />
+      meet various business requirements all around the globe.
+    </p>
+
+    <div class="row mt-4 justify-content-center">
+      <div class="col-2 p-3">
+        <a href="https://apps.odoo.com/apps/modules/19.0/wk_backup_restore" target="_blank">
+          <img class="border rounded" src="layout/related_modules/database-backup-module.png"
+            alt="Odoo Database Backup" style="height: 140px; object-fit: cover;">
+          <h5 class="mt-3 text-dark">Odoo Database Backup</h5>
+        </a>
+      </div>
+      <div class="col-2 p-3">
+        <a href="https://apps.odoo.com/apps/modules/19.0/wk_s3_backup" target="_blank">
+          <img class="border rounded" src="layout/related_modules/s3-backup-module.png" alt="Odoo S3 Backup"
+            style="height: 140px; object-fit: cover;">
+          <h5 class="mt-3 text-dark">Odoo S3 Backup</h5>
+        </a>
+      </div>
+      <div class="col-2 p-3">
+        <a href="https://apps.odoo.com/apps/modules/19.0/amazon_s3_storage" target="_blank">
+          <img class="border rounded" src="layout/related_modules/amazon-s3-cloud-storage-module.png"
+            alt="Amazon S3 Cloud Storage" style="height: 140px; object-fit: cover;">
+          <h5 class="mt-3 text-dark">Amazon S3 Cloud Storage</h5>
+        </a>
+      </div>
+      <div class="col-2 p-3">
+        <a href="https://apps.odoo.com/apps/modules/19.0/odoo_saas_kit" target="_blank">
+          <img class="border rounded" src="layout/related_modules/odoo-saas-kit-backup-module.png"
+            alt="Odoo SaaS Kit" style="height: 140px; object-fit: cover;">
+          <h5 class="mt-3 text-dark">Odoo SaaS Kit</h5>
+        </a>
+      </div>
+      <div class="col-2 p-3">
+        <a href="https://apps.odoo.com/apps/modules/19.0/saas_kit_backup" target="_blank">
+          <img class="border rounded" src="layout/related_modules/saas-kit-backup-module.png"
+            alt="SaaS Kit Backup" style="height: 140px; object-fit: cover;">
+          <h5 class="mt-3 text-dark">SaaS Kit Backup</h5>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section class="container" style="padding: 40px 0;">
+    <div class="container">
+      <div class="text-center mb-4">
+        <img src="layout/badges/Webkul-Logo.png" alt="Webkul" style="height:50px;">
+      </div>
+      <h1 class="text-center fw-bold mb-3" style="font-size: 3rem;">What Makes Us the Best Choice</h1>
+      <p class="text-center text-muted mb-5">
+        Webkul is well known for providing top notch, flexible, and effective products that <br />meet various business
+        requirements all around the globe.
+      </p>
+
+      <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4 mb-5">
+        <div class="col">
+          <div class="card h-90 shadow-sm border-0 d-flex align-items-center"
+            style="background: #f0f0f5; border-radius: 15px; min-height: 150px;">
+            <div class="card-body text-center d-flex flex-column justify-content-center">
+              <div class="h1 fw-bold mb-2">15+</div>
+              <div class="fw-bold small">Years in Odoo <br /> Development</div>
+            </div>
+          </div>
+        </div>
+        <div class="col">
+          <div class="card h-90 shadow-sm border-0 d-flex align-items-center"
+            style="background: #f0f0f5; border-radius: 15px; min-height: 150px;">
+            <div class="card-body text-center d-flex flex-column justify-content-center">
+              <div class="h1 fw-bold mb-2">300+</div>
+              <div class="fw-bold small">Certified and experienced <br /> Personnel</div>
+            </div>
+          </div>
+        </div>
+        <div class="col">
+          <div class="card h-90 shadow-sm border-0 d-flex align-items-center"
+            style="background: #f0f0f5; border-radius: 15px; min-height: 150px;">
+            <div class="card-body text-center d-flex flex-column justify-content-center">
+              <div class="h1 fw-bold mb-2">1500+</div>
+              <div class="fw-bold small">Served customers (enterprise & <br /> community)</div>
+            </div>
+          </div>
+        </div>
+        <div class="col">
+          <div class="card h-90 shadow-sm border-0 d-flex align-items-center"
+            style="background: #f0f0f5; border-radius: 15px; min-height: 150px;">
+            <div class="card-body text-center d-flex flex-column justify-content-center">
+              <div class="h1 fw-bold mb-2">700+</div>
+              <div class="fw-bold small">Tailored Odoo <br />apps</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4 mb-5">
+        <div class="col">
+          <div class="card h-90 shadow-sm border-0 d-flex align-items-center"
+            style="background: #f0f0f5; border-radius: 15px; min-height: 150px;">
+            <div class="card-body text-center d-flex flex-column justify-content-center">
+              <div class="d-flex align-items-center justify-content-center mx-auto mb-3"
+                style="width: 60px; height: 60px; background: white; border-radius: 50%;">
+                <img src="layout/badges/badges-5.png" alt="Deloitte Award" style="max-width:40px;">
+              </div>
+              <div class="small fw-semibold">
+                Deloitte Technology Fast 50 India <br /> & 500 Asia Pacific Winner
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col">
+          <div class="card h-90 shadow-sm border-0 d-flex align-items-center"
+            style="background: #f0f0f5; border-radius: 15px; min-height: 150px;">
+            <div class="card-body text-center d-flex flex-column justify-content-center">
+              <div class="d-flex align-items-center justify-content-center mx-auto mb-3"
+                style="width: 60px; height: 60px; background: white; border-radius: 50%;">
+                <img src="layout/badges/badges-6.png" alt="ET Rise Award" style="max-width:40px;">
+              </div>
+              <div class="small fw-semibold">
+                ET Rise Top MSMEs Ranking <br /> - India's Best Winner
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col">
+          <div class="card h-90 shadow-sm border-0 d-flex align-items-center"
+            style="background: #f0f0f5; border-radius: 15px; min-height: 150px;">
+            <div class="card-body text-center d-flex flex-column justify-content-center">
+              <div class="d-flex align-items-center justify-content-center mx-auto mb-3"
+                style="width: 60px; height: 60px; background: white; border-radius: 50%;">
+                <img src="layout/badges/badges-7.png" alt="Smart CEO Award" style="max-width:40px;">
+              </div>
+              <div class="small fw-semibold">
+                The Smart CEO Startup <br /> 50 Winner
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col">
+          <div class="card h-90 shadow-sm border-0 d-flex align-items-center"
+            style="background: #f0f0f5; border-radius: 15px; min-height: 150px;">
+            <div class="card-body text-center d-flex flex-column justify-content-center">
+              <div class="d-flex align-items-center justify-content-center mx-auto mb-3"
+                style="width: 60px; height: 60px; background: white; border-radius: 50%;">
+                <img src="layout/badges/badges-8.png" alt="Magento Innovation Award" style="max-width:40px;">
+              </div>
+              <div class="small fw-semibold">
+                Magento (Adobe Commerce) <br /> Innovation Lab Winner
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="container-fluid px-0" id="support">
+        <div class="row justify-content-center py-4">
+          <div class="col-12 col-lg-10 bg-white shadow-lg rounded-3 p-4"
+            style="box-shadow: 0 10px 35px rgba(0,0,0,0.12) !important;">
+            <div class="text-center mb-4">
+              <h2 class="fw-bold display-6">Support</h2>
+              <p class="text-muted">Get Immediate support for any of your query</p>
+            </div>
+            <div class="col-12 col-md-8 mx-auto mb-4">
+              <p class="text-muted text-center mb-0">
+                You will get 90 days free support for any doubt, queries, and bug fixing
+                (excluding data recovery) or any type of issue related to this module.
+              </p>
+            </div>
+            <div class="row g-4">
+              <div class="col-12 col-md-8 mx-auto">
+                <div
+                  class="card border-1 p-4 d-flex flex-column flex-md-row align-items-center align-items-md-center gap-4 shadow-sm"
+                  style="border-radius:12px;">
+                  <div class="rounded-circle d-flex align-items-center justify-content-center flex-shrink-0"
+                    style="width:60px;height:60px;background-color: #202021;">
+                    <img src="layout/mail.png" alt="Email Icon"
+                      style="width:60%;height:60%;object-fit:contain;display:block;">
+                  </div>
+                  <div class="flex-grow-1 text-start">
+                    <h6 class="text-uppercase mb-1 fw-bold">Write To Us At</h6>
+                    <a href="mailto:support@webkul.com"
+                      class="h5 mb-2 fw-bold text-decoration-none text-reset d-inline-block">
+                      support@webkul.com
+                    </a>
+                    <p class="mb-0 text-muted">
+                      For any help and doubt or issue regarding the module, drop a mail to our technical team.
+                    </p>
+                  </div>
+                  <div class="flex-shrink-0 ms-md-3 mt-3 mt-md-0">
+                    <a href="mailto:support@webkul.com" class="btn" style="background-color:#2335D7;color:#fff;">
+                      Write To Us
+                    </a>
+                  </div>
+                </div>
+              </div>
+              <div class="col-12 col-md-8 mx-auto">
+                <div
+                  class="card border-1 p-4 d-flex flex-column flex-md-row align-items-center align-items-md-center gap-4 shadow-sm"
+                  style="border-radius:12px;">
+                  <div class="rounded-circle d-flex align-items-center justify-content-center flex-shrink-0"
+                    style="width:60px;height:60px;background-color: #202021;">
+                    <img src="layout/support-icon.png" alt="Support Icon"
+                      style="width:60%;height:60%;object-fit:contain;display:block;">
+                  </div>
+                  <div class="flex-grow-1 text-start">
+                    <h6 class="text-uppercase mb-1 fw-bold">Raise A Ticket At</h6>
+                    <a href="https://webkul.com/en/customer/create-ticket/" target="_blank" rel="noopener"
+                      class="h5 mb-2 fw-bold text-decoration-none d-inline-block text-reset"
+                      style="word-break: break-all;">
+                      https://webkul.com/en/customer/create-ticket/
+                    </a>
+                    <p class="mb-0 text-muted">
+                      For support or to request customization, create a support ticket by clicking the link above.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</body>

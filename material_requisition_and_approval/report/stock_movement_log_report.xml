@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) 2016-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<!-- License URL : <https://store.webkul.com/license.html/> -->
+
+<odoo>
+
+        <template id="report_stock_movement">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="doc">
+                    <t t-call="material_requisition_and_approval.report_stock_movement_detail" t-lang="user_id.lang"/>
+                </t>
+            </t>
+        </template>
+
+
+        <template id="report_stock_movement_detail">
+            <t t-call="web.basic_layout">
+                <div class="page">
+                    <h2>Stock Movement Report</h2>
+
+                    <p><strong>Requisition:</strong> <t t-esc="doc.name"/></p>
+                    <p><strong>Requester:</strong> <t t-esc="doc.employee_id.name"/></p>
+                    <p><strong>Department:</strong> <t t-esc="doc.department_id.name"/></p>
+                    <p><strong>Date:</strong> <t t-esc="doc.required_date"/></p>
+
+                    <h4>Internal Transfers</h4>
+                    <table class="table table-sm">
+                        <thead>
+                            <tr>
+                                <th>Product</th>
+                                <th>Quantity</th>
+                                <th>Source Location</th>
+                                <th>Destination</th>
+                                <th>Status</th>
+                                <th>Picking</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr t-foreach="doc.requested_product_ids.filtered(lambda l: l.requisition_action == 'transfer' and l.picking_id)" t-as="line">
+                                <td><t t-esc="line.product_id.name"/></td>
+                                <td><t t-esc="line.quantity"/></td>
+                                <td><t t-esc="line.picking_id.location_id.display_name"/></td>
+                                <td><t t-esc="line.picking_id.location_dest_id.display_name"/></td>
+                                <td><t t-esc="line.picking_id.state"/></td>
+                                <td><t t-esc="line.picking_id.name"/></td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <h4>Purchase Deliveries (RFQs)</h4>
+                    <table class="table table-sm">
+                        <thead>
+                            <tr>
+                                <th>Product</th>
+                                <th>Quantity</th>
+                                <th>Vendor</th>
+                                <th>Source</th>
+                                <th>Destination</th>
+                                <th>Status</th>
+                                <th>Picking</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-set="rfq_lines" t-value="doc.requested_product_ids.filtered(lambda l: l.requisition_action == 'purchase' and l.rfq_id)"/>
+                            <t t-foreach="rfq_lines" t-as="line">
+                                <t t-foreach="line.rfq_id.picking_ids" t-as="pick">
+                                    <tr>
+                                        <td><t t-esc="line.product_id.name"/></td>
+                                        <td><t t-esc="line.quantity"/></td>
+                                        <td><t t-esc="line.vendor_id.name"/></td>
+                                        <td><t t-esc="pick.location_id.display_name"/></td>
+                                        <td><t t-esc="pick.location_dest_id.display_name"/></td>
+                                        <td><t t-esc="pick.state"/></td>
+                                        <td><t t-esc="pick.name"/></td>
+                                    </tr>
+                                </t>
+                            </t>
+                        </tbody>
+                    </table>
+                </div>
+            </t>
+        </template>
+
+
+
+</odoo>

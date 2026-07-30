@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) 2016-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<!-- License URL : <https://store.webkul.com/license.html/> -->
+<odoo>
+<template id="report_dispatch_log_csv">
+<t t-foreach="docs" t-as="doc">
+Picking,Source,Destination,Product,Qty,Status,Type
+<t t-foreach="doc.final_dispatch_ids" t-as="picking">
+<t t-foreach="picking.move_ids_without_package" t-as="move">
+<t t-esc="picking.name"/>,<t t-esc="picking.location_id.display_name"/>,<t t-esc="picking.location_dest_id.display_name"/>,<t t-esc="move.product_id.name"/>,<t t-esc="move.product_uom_qty"/>,<t t-esc="picking.state"/>,<t t-esc="picking.picking_type_id.name"/>
+</t>
+</t>
+</t>
+</template>
+</odoo>
