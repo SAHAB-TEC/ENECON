@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="seq_rgb_contract" model="ir.sequence">
+        <field name="name">RGB Contract</field>
+        <field name="code">rgb.contract</field>
+        <field name="prefix">CNT/%(year)s/</field>
+        <field name="padding">5</field>
+        <field name="company_id" eval="False"/>
+    </record>
+
+    <record id="seq_rgb_partner_ref" model="ir.sequence">
+        <field name="name">Partner Internal Reference</field>
+        <field name="code">rgb.partner.ref</field>
+        <field name="prefix"></field>
+        <field name="padding">1</field>
+        <field name="number_next">1</field>
+        <field name="number_increment">1</field>
+        <field name="implementation">no_gap</field>
+        <field name="company_id" eval="False"/>
+    </record>
+</odoo>

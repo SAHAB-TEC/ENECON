@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <menuitem id="menu_rgb_contract_root"
+              name="Contracts"
+              sequence="45"/>
+
+    <menuitem id="menu_rgb_contract"
+              name="Contracts"
+              parent="menu_rgb_contract_root"
+              action="action_rgb_contract"
+              sequence="1"/>
+
+    <menuitem id="menu_rgb_contract_config"
+              name="Configuration"
+              parent="menu_rgb_contract_root"
+              sequence="90"
+              groups="rgb_contract_management.group_contract_manager"/>
+
+    <menuitem id="menu_rgb_contract_insurance_type"
+              name="Insurance Types"
+              parent="menu_rgb_contract_config"
+              action="action_rgb_contract_insurance_type"
+              sequence="1"/>
+    <menuitem id="menu_rgb_contract_business_type"
+              name="Business Types"
+              parent="menu_rgb_contract_root"
+              action="action_rgb_contract_business_type"
+              sequence="95"
+              groups="rgb_contract_management.group_contract_business_type_editor"/>
+</odoo>
