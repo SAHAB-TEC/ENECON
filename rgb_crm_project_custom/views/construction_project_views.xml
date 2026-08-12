@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_construction_project_form_rgb_crm" model="ir.ui.view">
+        <field name="name">construction.project.form.rgb.crm</field>
+        <field name="model">construction.project</field>
+        <field name="inherit_id" ref="sdlc_construction_management.view_construction_project_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[@name='button_box']" position="inside">
+                <button name="action_rgb_view_source_opportunity" type="object"
+                        class="oe_stat_button" icon="fa-handshake-o"
+                        invisible="not rgb_opportunity_id">
+                    <div class="o_stat_info">
+                        <span class="o_stat_text">Opportunity</span>
+                    </div>
+                </button>
+            </xpath>
+            <xpath expr="//field[@name='name']" position="after">
+                <field name="rgb_opportunity_id" readonly="1" invisible="not rgb_opportunity_id"/>
+                <field name="partner_id"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

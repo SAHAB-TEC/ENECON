@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Tree View -->
+    <record id="view_construction_sub_project_list" model="ir.ui.view">
+        <field name="name">construction.sub.project.list</field>
+        <field name="model">construction.sub.project</field>
+        <field name="arch" type="xml">
+            <list string="Sub Projects" decoration-info="state == 'planning'"
+                  decoration-warning="state == 'procurement'"
+                  decoration-primary="state == 'construction'"
+                  decoration-success="state == 'handover'">
+                <field name="reference"/>
+                <field name="name"/>
+                <field name="project_id"/>
+                <field name="partner_id"/>
+                <field name="date_start"/>
+                <field name="date_end"/>
+                <field name="state" widget="badge"
+                       decoration-info="state == 'planning'"
+                       decoration-warning="state == 'procurement'"
+                       decoration-primary="state == 'construction'"
+                       decoration-success="state == 'handover'"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Form View -->
+    <record id="view_construction_sub_project_form" model="ir.ui.view">
+        <field name="name">construction.sub.project.form</field>
+        <field name="model">construction.sub.project</field>
+        <field name="arch" type="xml">
+            <form string="Sub Project">
+                <header>
+                    <button name="action_planning" string="Planning" type="object"
+                            invisible="state == 'planning'"/>
+                    <button name="action_procurement" string="Procurement" type="object"
+                            class="oe_highlight" invisible="state != 'planning'"/>
+                    <button name="action_construction" string="Construction" type="object"
+                            class="oe_highlight" invisible="state != 'procurement'"/>
+                    <button name="action_handover" string="Handover" type="object"
+                            class="oe_highlight" invisible="state != 'construction'"/>
+                    <field name="state" widget="statusbar" statusbar_visible="planning,procurement,construction,handover"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_tasks" type="object" class="oe_stat_button" icon="fa-check-square-o">
+                            <field name="task_count" widget="statinfo" string="Tasks"/>
+                        </button>
+                        <button name="action_view_phases" type="object" class="oe_stat_button" icon="fa-tasks">
+                            <field name="phase_count" widget="statinfo" string="Phases"/>
+                        </button>
+                        <button name="action_view_work_orders" type="object" class="oe_stat_button" icon="fa-wrench">
+                            <field name="work_order_count" widget="statinfo" string="Work Orders"/>
+                        </button>
+                        <button name="action_view_mreq" type="object" class="oe_stat_button" icon="fa-truck">
+                            <field name="mreq_count" widget="statinfo" string="MREQ"/>
+                        </button>
+                        <button name="action_view_boq" type="object" class="oe_stat_button" icon="fa-list-alt">
+                            <field name="boq_count" widget="statinfo" string="BOQ"/>
+                        </button>
+                        <button name="action_view_billings" type="object" class="oe_stat_button" icon="fa-money">
+                            <field name="billing_count" widget="statinfo" string="Billings"/>
+                        </button>
+                        <button name="action_view_expenses" type="object" class="oe_stat_button" icon="fa-credit-card">
+                            <field name="expense_count" widget="statinfo" string="Expenses"/>
+                        </button>
+                    </div>
+                    <div class="oe_title">
+                        <h1><field name="reference" readonly="1"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="project_id"/>
+                            <field name="partner_id"/>
+                            <field name="warehouse_id"/>
+                        </group>
+                        <group>
+                            <field name="date_start"/>
+                            <field name="date_end"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="BOQ">
+                            <field name="boq_ids">
+                                <list>
+                                    <field name="name"/>
+                                    <field name="work_type_id"/>
+                                    <field name="work_sub_type_id"/>
+                                    <field name="quantity"/>
+                                    <field name="total_amount" sum="Total"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Tasks">
+                            <field name="task_ids">
+                                <list>
+                                    <field name="reference"/>
+                                    <field name="name"/>
+                                    <field name="assigned_to"/>
+                                    <field name="date_start"/>
+                                    <field name="date_end"/>
+                                    <field name="priority"/>
+                                    <field name="state" widget="badge"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Project Phase (WBS)">
+                            <field name="phase_ids">
+                                <list>
+                                    <field name="name"/>
+                                    <field name="title"/>
+                                    <field name="date_start"/>
+                                    <field name="date_end"/>
+                                    <field name="total_cost" sum="Total"/>
+                                    <field name="state" widget="badge"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Work Orders">
+                            <field name="work_order_ids">
+                                <list>
+                                    <field name="name"/>
+                                    <field name="date"/>
+                                    <field name="responsible_id"/>
+                                    <field name="total_amount" sum="Total"/>
+                                    <field name="state" widget="badge"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Material Requisitions">
+                            <field name="material_requisition_ids">
+                                <list>
+                                    <field name="name"/>
+                                    <field name="date"/>
+                                    <field name="requested_by"/>
+                                    <field name="total_amount" sum="Total"/>
+                                    <field name="state" widget="badge"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Budget Lines">
+                            <field name="budget_line_ids">
+                                <list>
+                                    <field name="description"/>
+                                    <field name="work_type_id"/>
+                                    <field name="planned_amount" sum="Planned"/>
+                                    <field name="actual_amount" sum="Actual"/>
+                                    <field name="variance" sum="Variance"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Engineers">
+                            <field name="engineer_ids">
+                                <list>
+                                    <field name="name"/>
+                                    <field name="job_title"/>
+                                    <field name="department_id"/>
+                                    <field name="work_phone"/>
+                                    <field name="work_email"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Documents">
+                            <field name="document_ids">
+                                <list editable="bottom">
+                                    <field name="name"/>
+                                    <field name="doc_type"/>
+                                    <field name="document" filename="document_name"/>
+                                    <field name="document_name" column_invisible="1"/>
+                                    <field name="notes"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Insurance">
+                            <group>
+                                <group>
+                                    <field name="insurance_company"/>
+                                    <field name="insurance_policy_no"/>
+                                    <field name="insurance_amount"/>
+                                </group>
+                                <group>
+                                    <field name="insurance_start_date"/>
+                                    <field name="insurance_end_date"/>
+                                    <field name="insurance_document" filename="insurance_document_name"/>
+                                    <field name="insurance_document_name" invisible="1"/>
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Extra Expenses">
+                            <field name="extra_expense_ids">
+                                <list>
+                                    <field name="name"/>
+                                    <field name="date"/>
+                                    <field name="expense_type"/>
+                                    <field name="amount" sum="Total"/>
+                                    <field name="state" widget="badge"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Progress Billing">
+                            <field name="progress_billing_ids">
+                                <list>
+                                    <field name="reference"/>
+                                    <field name="name"/>
+                                    <field name="date"/>
+                                    <field name="total_amount" sum="Total"/>
+                                    <field name="state" widget="badge"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <!-- Search View -->
+    <record id="view_construction_sub_project_search" model="ir.ui.view">
+        <field name="name">construction.sub.project.search</field>
+        <field name="model">construction.sub.project</field>
+        <field name="arch" type="xml">
+            <search string="Sub Projects">
+                <field name="name"/>
+                <field name="reference"/>
+                <field name="project_id"/>
+                <filter name="planning" string="Planning" domain="[('state', '=', 'planning')]"/>
+                <filter name="procurement" string="Procurement" domain="[('state', '=', 'procurement')]"/>
+                <filter name="construction" string="Construction" domain="[('state', '=', 'construction')]"/>
+                <filter name="handover" string="Handover" domain="[('state', '=', 'handover')]"/>
+                <group>
+                    <filter name="group_project" string="Project" context="{'group_by': 'project_id'}"/>
+                    <filter name="group_state" string="Status" context="{'group_by': 'state'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="action_construction_sub_project" model="ir.actions.act_window">
+        <field name="name">Sub Projects</field>
+        <field name="res_model">construction.sub.project</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create a new Sub Project
+            </p>
+        </field>
+    </record>
+</odoo>

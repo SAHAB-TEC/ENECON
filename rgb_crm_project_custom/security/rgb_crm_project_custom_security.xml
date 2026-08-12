@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="module_category_rgb_crm_project_custom" model="ir.module.category">
+        <field name="name">RGB CRM Construction</field>
+        <field name="sequence">50</field>
+    </record>
+
+    <record id="group_rgb_create_construction_project_from_crm" model="res.groups">
+        <field name="name">Create Construction Project from CRM</field>
+        <field name="category_id" ref="module_category_rgb_crm_project_custom"/>
+        <field name="implied_ids" eval="[(4, ref('sdlc_construction_management.group_construction_user'))]"/>
+    </record>
+</odoo>

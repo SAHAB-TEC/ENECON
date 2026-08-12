@@ -1,0 +1,451 @@
+/* ═══════════════════════════════════════════
+   Construction Dashboard - Main Layout
+   ═══════════════════════════════════════════ */
+
+.o_construction_dashboard {
+    background: linear-gradient(135deg, #f5f7fa 0%, #e8ecf1 50%, #f0f2f5 100%);
+    height: 100%;
+    overflow-y: auto;
+    overflow-x: hidden;
+    font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+}
+
+/* Scrollbar styling */
+.o_construction_dashboard::-webkit-scrollbar { width: 6px; }
+.o_construction_dashboard::-webkit-scrollbar-track { background: transparent; }
+.o_construction_dashboard::-webkit-scrollbar-thumb { background: linear-gradient(180deg, #714B67, #9b6d8e); border-radius: 10px; }
+.o_construction_dashboard::-webkit-scrollbar-thumb:hover { background: linear-gradient(180deg, #5a3a52, #714B67); }
+.o_construction_dashboard { scrollbar-width: thin; scrollbar-color: #714B67 transparent; }
+
+/* Odoo action container scroll */
+.o_action_manager .o_action.o_construction_dashboard,
+.o_action_manager .o_action > .o_construction_dashboard {
+    height: calc(100vh - 46px);
+    overflow-y: auto;
+    overflow-x: hidden;
+    scrollbar-width: thin;
+    scrollbar-color: #714B67 transparent;
+}
+
+.cursor-pointer { cursor: pointer; }
+
+/* ═══════════════════════════════════════════
+   Dashboard Header
+   ═══════════════════════════════════════════ */
+
+.o_construction_dashboard .dashboard-header {
+    background: linear-gradient(135deg, #714B67 0%, #8e6180 40%, #a07794 100%);
+    border-radius: 16px;
+    padding: 24px 28px;
+    color: #fff;
+    box-shadow: 0 4px 20px rgba(113, 75, 103, 0.3), 0 1px 4px rgba(113, 75, 103, 0.15);
+    position: relative;
+    overflow: hidden;
+}
+
+.o_construction_dashboard .dashboard-header::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -20%;
+    width: 300px;
+    height: 300px;
+    background: radial-gradient(circle, rgba(255,255,255,0.08) 0%, transparent 70%);
+    border-radius: 50%;
+    pointer-events: none;
+}
+
+.o_construction_dashboard .dashboard-header::after {
+    content: '';
+    position: absolute;
+    bottom: -40%;
+    left: -10%;
+    width: 200px;
+    height: 200px;
+    background: radial-gradient(circle, rgba(255,255,255,0.05) 0%, transparent 70%);
+    border-radius: 50%;
+    pointer-events: none;
+}
+
+.o_construction_dashboard .dashboard-header h4 {
+    font-weight: 700;
+    font-size: 1.35rem;
+    letter-spacing: 0.3px;
+    margin: 0;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.15);
+}
+
+.o_construction_dashboard .dashboard-header .header-subtitle {
+    font-size: 0.8rem;
+    opacity: 0.8;
+    margin-top: 2px;
+    font-weight: 400;
+}
+
+/* ═══════════════════════════════════════════
+   Filter Dropdowns
+   ═══════════════════════════════════════════ */
+
+.o_construction_dashboard .filter-select {
+    min-width: 170px;
+    border-radius: 8px;
+    border: 1.5px solid rgba(255,255,255,0.3);
+    font-size: 0.82rem;
+    background: rgba(255,255,255,0.15);
+    color: #fff;
+    backdrop-filter: blur(4px);
+    padding: 6px 12px;
+    transition: all 0.2s ease;
+    font-weight: 500;
+}
+
+.o_construction_dashboard .filter-select:focus {
+    border-color: rgba(255,255,255,0.6);
+    background: rgba(255,255,255,0.25);
+    box-shadow: 0 0 0 3px rgba(255,255,255,0.1);
+    outline: none;
+    color: #fff;
+}
+
+.o_construction_dashboard .filter-select option {
+    background: #fff;
+    color: #2c3e50;
+}
+
+/* ═══════════════════════════════════════════
+   KPI Cards (top row - pastel)
+   ═══════════════════════════════════════════ */
+
+.o_construction_dashboard .kpi-card {
+    border-radius: 16px;
+    padding: 22px 16px;
+    text-align: center;
+    transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    height: 100%;
+    border: 1px solid rgba(255,255,255,0.6);
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04), 0 1px 3px rgba(0, 0, 0, 0.03);
+    position: relative;
+    overflow: hidden;
+    backdrop-filter: blur(10px);
+}
+
+.o_construction_dashboard .kpi-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    border-radius: 16px 16px 0 0;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.o_construction_dashboard .kpi-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.1), 0 4px 10px rgba(0, 0, 0, 0.05);
+}
+
+.o_construction_dashboard .kpi-card:hover::before {
+    opacity: 1;
+}
+
+.o_construction_dashboard .kpi-icon {
+    margin-bottom: 10px;
+}
+
+.o_construction_dashboard .kpi-icon i {
+    font-size: 1.6rem;
+    transition: transform 0.3s ease;
+}
+
+.o_construction_dashboard .kpi-card:hover .kpi-icon i {
+    transform: scale(1.15);
+}
+
+.o_construction_dashboard .kpi-label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    margin-bottom: 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.o_construction_dashboard .kpi-value {
+    font-size: 1.7rem;
+    font-weight: 800;
+    line-height: 1;
+}
+
+/* KPI color variants */
+.kpi-blue   { background: linear-gradient(145deg, #e8f4fd, #d6ecfa); }
+.kpi-blue .kpi-icon i, .kpi-blue .kpi-label { color: #3498db; }
+.kpi-blue .kpi-value { color: #2176ae; }
+.kpi-blue::before { background: linear-gradient(90deg, #3498db, #74b9ff); }
+
+.kpi-green  { background: linear-gradient(145deg, #e8f8e8, #d4f0d4); }
+.kpi-green .kpi-icon i, .kpi-green .kpi-label { color: #27ae60; }
+.kpi-green .kpi-value { color: #1a7a42; }
+.kpi-green::before { background: linear-gradient(90deg, #27ae60, #55efc4); }
+
+.kpi-teal   { background: linear-gradient(145deg, #e5f5f0, #d0ede6); }
+.kpi-teal .kpi-icon i, .kpi-teal .kpi-label { color: #1abc9c; }
+.kpi-teal .kpi-value { color: #128a72; }
+.kpi-teal::before { background: linear-gradient(90deg, #1abc9c, #81ecec); }
+
+.kpi-coral  { background: linear-gradient(145deg, #fdeaea, #f9d5d5); }
+.kpi-coral .kpi-icon i, .kpi-coral .kpi-label { color: #e74c3c; }
+.kpi-coral .kpi-value { color: #c0392b; }
+.kpi-coral::before { background: linear-gradient(90deg, #e74c3c, #ff7675); }
+
+.kpi-yellow { background: linear-gradient(145deg, #fef9e7, #fdf0cc); }
+.kpi-yellow .kpi-icon i, .kpi-yellow .kpi-label { color: #f39c12; }
+.kpi-yellow .kpi-value { color: #d68910; }
+.kpi-yellow::before { background: linear-gradient(90deg, #f39c12, #fdcb6e); }
+
+.kpi-purple { background: linear-gradient(145deg, #f4ecf7, #e8d8ee); }
+.kpi-purple .kpi-icon i, .kpi-purple .kpi-label { color: #8e44ad; }
+.kpi-purple .kpi-value { color: #6c3483; }
+.kpi-purple::before { background: linear-gradient(90deg, #8e44ad, #a29bfe); }
+
+/* ═══════════════════════════════════════════
+   Section Titles
+   ═══════════════════════════════════════════ */
+
+.o_construction_dashboard .section-title {
+    font-weight: 700;
+    font-size: 0.95rem;
+    color: #2c3e50;
+    margin-bottom: 14px;
+    padding-bottom: 8px;
+    border-bottom: none;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    letter-spacing: 0.2px;
+}
+
+.o_construction_dashboard .section-title::before {
+    content: '';
+    width: 4px;
+    height: 18px;
+    background: linear-gradient(180deg, #714B67, #a07794);
+    border-radius: 4px;
+    flex-shrink: 0;
+}
+
+.o_construction_dashboard .section-title::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, #ddd, transparent);
+    margin-left: 8px;
+}
+
+/* ═══════════════════════════════════════════
+   Chart Cards
+   ═══════════════════════════════════════════ */
+
+.o_construction_dashboard .chart-card {
+    background: #fff;
+    border: 1px solid rgba(0, 0, 0, 0.06);
+    border-radius: 14px;
+    padding: 20px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04), 0 1px 3px rgba(0, 0, 0, 0.02);
+    transition: box-shadow 0.3s ease;
+}
+
+.o_construction_dashboard .chart-card:hover {
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.07), 0 2px 6px rgba(0, 0, 0, 0.03);
+}
+
+.o_construction_dashboard .chart-card-header {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: #2c3e50;
+    margin-bottom: 14px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.o_construction_dashboard .chart-card-header::before {
+    content: '';
+    width: 8px;
+    height: 8px;
+    background: linear-gradient(135deg, #714B67, #a07794);
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.o_construction_dashboard .chart-container canvas {
+    width: 100% !important;
+}
+
+.o_construction_dashboard .chart-timeline    { height: 300px; }
+.o_construction_dashboard .chart-donut       { height: 300px; }
+.o_construction_dashboard .chart-bar         { height: 220px; }
+.o_construction_dashboard .chart-timeline-sm { height: 220px; }
+.o_construction_dashboard .chart-donut-sm    { height: 230px; }
+.o_construction_dashboard .chart-line        { height: 320px; }
+
+/* ═══════════════════════════════════════════
+   Status Cards (Sub Projects, MREQ, IT)
+   ═══════════════════════════════════════════ */
+
+.o_construction_dashboard .status-card {
+    border-radius: 12px;
+    padding: 16px 10px;
+    text-align: center;
+    transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    height: 100%;
+    border: 1px solid rgba(255,255,255,0.5);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+    position: relative;
+    overflow: hidden;
+}
+
+.o_construction_dashboard .status-card::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(255,255,255,0.3) 0%, transparent 60%);
+    pointer-events: none;
+    border-radius: 12px;
+}
+
+.o_construction_dashboard .status-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+}
+
+.o_construction_dashboard .sc-icon {
+    margin-bottom: 6px;
+}
+
+.o_construction_dashboard .sc-icon i {
+    font-size: 1.3rem;
+    transition: transform 0.3s ease;
+}
+
+.o_construction_dashboard .status-card:hover .sc-icon i {
+    transform: scale(1.12);
+}
+
+.o_construction_dashboard .sc-label {
+    font-size: 0.68rem;
+    font-weight: 600;
+    margin-bottom: 4px;
+    line-height: 1.2;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+}
+
+.o_construction_dashboard .sc-value {
+    font-size: 1.35rem;
+    font-weight: 800;
+    line-height: 1;
+}
+
+/* Status card color variants */
+.sc-cyan    { background: linear-gradient(145deg, #e0f7fa, #ccf0f4); }
+.sc-cyan .sc-icon i, .sc-cyan .sc-label { color: #00acc1; }
+.sc-cyan .sc-value { color: #00838f; }
+
+.sc-pink    { background: linear-gradient(145deg, #fce4ec, #f8d0da); }
+.sc-pink .sc-icon i, .sc-pink .sc-label { color: #e91e63; }
+.sc-pink .sc-value { color: #c2185b; }
+
+.sc-green   { background: linear-gradient(145deg, #e8f5e9, #d4ecd6); }
+.sc-green .sc-icon i, .sc-green .sc-label { color: #43a047; }
+.sc-green .sc-value { color: #2e7d32; }
+
+.sc-gray    { background: linear-gradient(145deg, #f5f5f5, #ebebeb); }
+.sc-gray .sc-icon i, .sc-gray .sc-label { color: #757575; }
+.sc-gray .sc-value { color: #424242; }
+
+.sc-orange  { background: linear-gradient(145deg, #fff3e0, #ffe8c8); }
+.sc-orange .sc-icon i, .sc-orange .sc-label { color: #ef6c00; }
+.sc-orange .sc-value { color: #e65100; }
+
+.sc-blue    { background: linear-gradient(145deg, #e3f2fd, #d0e8fa); }
+.sc-blue .sc-icon i, .sc-blue .sc-label { color: #1976d2; }
+.sc-blue .sc-value { color: #1565c0; }
+
+.sc-teal    { background: linear-gradient(145deg, #e0f2f1, #ccebe8); }
+.sc-teal .sc-icon i, .sc-teal .sc-label { color: #00897b; }
+.sc-teal .sc-value { color: #00695c; }
+
+.sc-purple  { background: linear-gradient(145deg, #f3e5f5, #e6d2ea); }
+.sc-purple .sc-icon i, .sc-purple .sc-label { color: #8e24aa; }
+.sc-purple .sc-value { color: #6a1b9a; }
+
+.sc-yellow  { background: linear-gradient(145deg, #fffde7, #fff8cc); }
+.sc-yellow .sc-icon i, .sc-yellow .sc-label { color: #f9a825; }
+.sc-yellow .sc-value { color: #f57f17; }
+
+/* ═══════════════════════════════════════════
+   Animations
+   ═══════════════════════════════════════════ */
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(12px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.o_construction_dashboard .kpi-card {
+    animation: fadeInUp 0.4s ease-out both;
+}
+.o_construction_dashboard .kpi-card:nth-child(1) .kpi-card { animation-delay: 0s; }
+.o_construction_dashboard .kpi-card:nth-child(2) .kpi-card { animation-delay: 0.05s; }
+.o_construction_dashboard .kpi-card:nth-child(3) .kpi-card { animation-delay: 0.1s; }
+.o_construction_dashboard .kpi-card:nth-child(4) .kpi-card { animation-delay: 0.15s; }
+.o_construction_dashboard .kpi-card:nth-child(5) .kpi-card { animation-delay: 0.2s; }
+.o_construction_dashboard .kpi-card:nth-child(6) .kpi-card { animation-delay: 0.25s; }
+
+.o_construction_dashboard .chart-card {
+    animation: fadeInUp 0.5s ease-out both;
+    animation-delay: 0.2s;
+}
+
+.o_construction_dashboard .status-card {
+    animation: fadeInUp 0.4s ease-out both;
+}
+
+/* ═══════════════════════════════════════════
+   Responsive
+   ═══════════════════════════════════════════ */
+
+@media (max-width: 991.98px) {
+    .o_construction_dashboard .chart-timeline,
+    .o_construction_dashboard .chart-donut { height: 250px; }
+    .o_construction_dashboard .chart-line { height: 260px; }
+    .o_construction_dashboard .kpi-value { font-size: 1.4rem; }
+    .o_construction_dashboard .dashboard-header { padding: 20px 22px; }
+    .o_construction_dashboard .dashboard-header h4 { font-size: 1.15rem; }
+}
+
+@media (max-width: 575.98px) {
+    .o_construction_dashboard .kpi-card { padding: 16px 10px; }
+    .o_construction_dashboard .kpi-value { font-size: 1.2rem; }
+    .o_construction_dashboard .filter-select { min-width: 130px; }
+    .o_construction_dashboard .dashboard-header {
+        padding: 16px 18px;
+        border-radius: 12px;
+    }
+    .o_construction_dashboard .dashboard-header .d-flex.gap-2 {
+        flex-direction: column;
+        gap: 6px !important;
+    }
+}

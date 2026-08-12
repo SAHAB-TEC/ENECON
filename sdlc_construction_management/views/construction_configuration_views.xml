@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Work Type Tree -->
+    <record id="view_construction_work_type_list" model="ir.ui.view">
+        <field name="name">construction.work.type.list</field>
+        <field name="model">construction.work.type</field>
+        <field name="arch" type="xml">
+            <list string="Work Types" editable="bottom">
+                <field name="name"/>
+                <field name="code"/>
+                <field name="description"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Work Type Form -->
+    <record id="view_construction_work_type_form" model="ir.ui.view">
+        <field name="name">construction.work.type.form</field>
+        <field name="model">construction.work.type</field>
+        <field name="arch" type="xml">
+            <form string="Work Type">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="code"/>
+                            <field name="active"/>
+                        </group>
+                        <group>
+                            <field name="description"/>
+                        </group>
+                    </group>
+                    <field name="sub_type_ids">
+                        <list editable="bottom">
+                            <field name="name"/>
+                            <field name="code"/>
+                            <field name="description"/>
+                            <field name="active"/>
+                        </list>
+                    </field>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Work Type Action -->
+    <record id="action_construction_work_type" model="ir.actions.act_window">
+        <field name="name">Work Types</field>
+        <field name="res_model">construction.work.type</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <!-- Work Sub Type Tree -->
+    <record id="view_construction_work_sub_type_list" model="ir.ui.view">
+        <field name="name">construction.work.sub.type.list</field>
+        <field name="model">construction.work.sub.type</field>
+        <field name="arch" type="xml">
+            <list string="Work Sub Types" editable="bottom">
+                <field name="work_type_id"/>
+                <field name="name"/>
+                <field name="code"/>
+                <field name="description"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Work Sub Type Action -->
+    <record id="action_construction_work_sub_type" model="ir.actions.act_window">
+        <field name="name">Work Sub Types</field>
+        <field name="res_model">construction.work.sub.type</field>
+        <field name="view_mode">list,form</field>
+    </record>
+</odoo>

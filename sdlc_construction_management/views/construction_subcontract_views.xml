@@ -1,0 +1,292 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Subcontract Tree View -->
+    <record id="view_construction_subcontract_list" model="ir.ui.view">
+        <field name="name">construction.subcontract.list</field>
+        <field name="model">construction.subcontract</field>
+        <field name="arch" type="xml">
+            <list string="Subcontracting">
+                <field name="name"/>
+                <field name="project_id"/>
+                <field name="sub_project_id"/>
+                <field name="partner_id"/>
+                <field name="date"/>
+                <field name="contract_amount" sum="Total"/>
+                <field name="state" widget="badge"
+                       decoration-info="state == 'draft'"
+                       decoration-warning="state == 'confirmed'"
+                       decoration-primary="state == 'in_progress'"
+                       decoration-success="state == 'completed'"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Subcontract Form View -->
+    <record id="view_construction_subcontract_form" model="ir.ui.view">
+        <field name="name">construction.subcontract.form</field>
+        <field name="model">construction.subcontract</field>
+        <field name="arch" type="xml">
+            <form string="Subcontracting">
+                <header>
+                    <button name="action_confirm" string="Confirm" type="object"
+                            class="oe_highlight" invisible="state != 'draft'"/>
+                    <button name="action_start" string="Start" type="object"
+                            class="oe_highlight" invisible="state != 'confirmed'"/>
+                    <button name="action_complete" string="Complete" type="object"
+                            class="oe_highlight" invisible="state != 'in_progress'"/>
+                    <button name="action_create_bill" string="Create Bill" type="object"
+                            invisible="state not in ('in_progress', 'completed')"/>
+                    <button name="action_cancel" string="Cancel" type="object"
+                            invisible="state in ('completed', 'cancelled')"/>
+                    <button name="action_reset_draft" string="Reset to Draft" type="object"
+                            invisible="state in ('draft', 'completed')"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,confirmed,in_progress,completed"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_consume_orders" type="object" class="oe_stat_button" icon="fa-cubes">
+                            <field name="consume_order_count" widget="statinfo" string="Consume Orders"/>
+                        </button>
+                        <button name="action_view_ra_billings" type="object" class="oe_stat_button" icon="fa-money">
+                            <field name="ra_billing_count" widget="statinfo" string="RA Billings"/>
+                        </button>
+                    </div>
+                    <div class="oe_title">
+                        <h1><field name="name" readonly="1"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="project_id"/>
+                            <field name="sub_project_id"/>
+                            <field name="partner_id"/>
+                        </group>
+                        <group>
+                            <field name="date"/>
+                            <field name="date_start"/>
+                            <field name="date_end"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Scope of Work">
+                            <field name="work_description"/>
+                        </page>
+                        <page string="Work Lines">
+                            <field name="line_ids">
+                                <list editable="bottom">
+                                    <field name="work_description"/>
+                                    <field name="description"/>
+                                    <field name="quantity"/>
+                                    <field name="uom_id"/>
+                                    <field name="rate"/>
+                                    <field name="amount" sum="Total"/>
+                                </list>
+                            </field>
+                            <group class="oe_subtotal_footer oe_right">
+                                <field name="contract_amount"/>
+                                <field name="billed_amount"/>
+                            </group>
+                        </page>
+                        <page string="Work Completion">
+                            <group>
+                                <group>
+                                    <field name="completion_date"/>
+                                    <field name="completion_certificate" filename="completion_certificate_name"/>
+                                    <field name="completion_certificate_name" invisible="1"/>
+                                </group>
+                                <group>
+                                    <field name="completion_notes"/>
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Notes">
+                            <field name="notes"/>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <!-- Subcontract Search -->
+    <record id="view_construction_subcontract_search" model="ir.ui.view">
+        <field name="name">construction.subcontract.search</field>
+        <field name="model">construction.subcontract</field>
+        <field name="arch" type="xml">
+            <search string="Subcontracting">
+                <field name="name"/>
+                <field name="project_id"/>
+                <field name="partner_id"/>
+                <filter name="draft" string="Draft" domain="[('state', '=', 'draft')]"/>
+                <filter name="in_progress" string="In Progress" domain="[('state', '=', 'in_progress')]"/>
+                <filter name="completed" string="Completed" domain="[('state', '=', 'completed')]"/>
+                <group>
+                    <filter name="group_project" string="Project" context="{'group_by': 'project_id'}"/>
+                    <filter name="group_partner" string="Subcontractor" context="{'group_by': 'partner_id'}"/>
+                    <filter name="group_state" string="Status" context="{'group_by': 'state'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Subcontract Action -->
+    <record id="action_construction_subcontract" model="ir.actions.act_window">
+        <field name="name">Subcontracting</field>
+        <field name="res_model">construction.subcontract</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create a new Subcontract
+            </p>
+        </field>
+    </record>
+
+    <!-- Consume Order Tree -->
+    <record id="view_construction_consume_order_list" model="ir.ui.view">
+        <field name="name">construction.consume.order.list</field>
+        <field name="model">construction.consume.order</field>
+        <field name="arch" type="xml">
+            <list string="Consume Orders">
+                <field name="name"/>
+                <field name="subcontract_id"/>
+                <field name="project_id"/>
+                <field name="date"/>
+                <field name="state" widget="badge"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Consume Order Form -->
+    <record id="view_construction_consume_order_form" model="ir.ui.view">
+        <field name="name">construction.consume.order.form</field>
+        <field name="model">construction.consume.order</field>
+        <field name="arch" type="xml">
+            <form string="Consume Order">
+                <header>
+                    <button name="action_confirm" string="Confirm" type="object"
+                            class="oe_highlight" invisible="state != 'draft'"/>
+                    <button name="action_done" string="Done" type="object"
+                            class="oe_highlight" invisible="state != 'confirmed'"/>
+                    <button name="action_cancel" string="Cancel" type="object"
+                            invisible="state in ('done', 'cancelled')"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,confirmed,done"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="name" readonly="1"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="subcontract_id"/>
+                            <field name="project_id"/>
+                        </group>
+                        <group>
+                            <field name="date"/>
+                        </group>
+                    </group>
+                    <field name="line_ids">
+                        <list editable="bottom">
+                            <field name="product_id"/>
+                            <field name="description"/>
+                            <field name="quantity"/>
+                            <field name="uom_id"/>
+                        </list>
+                    </field>
+                    <field name="notes"/>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <!-- Consume Order Action -->
+    <record id="action_construction_consume_order" model="ir.actions.act_window">
+        <field name="name">Consume Orders</field>
+        <field name="res_model">construction.consume.order</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <!-- RA Billing Tree -->
+    <record id="view_construction_ra_billing_list" model="ir.ui.view">
+        <field name="name">construction.ra.billing.list</field>
+        <field name="model">construction.ra.billing</field>
+        <field name="arch" type="xml">
+            <list string="RA Billings">
+                <field name="name"/>
+                <field name="subcontract_id"/>
+                <field name="partner_id"/>
+                <field name="date"/>
+                <field name="billing_no"/>
+                <field name="total_amount" sum="Total"/>
+                <field name="current_amount" sum="Current"/>
+                <field name="state" widget="badge"
+                       decoration-info="state == 'draft'"
+                       decoration-warning="state == 'submitted'"
+                       decoration-success="state == 'approved'"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- RA Billing Form -->
+    <record id="view_construction_ra_billing_form" model="ir.ui.view">
+        <field name="name">construction.ra.billing.form</field>
+        <field name="model">construction.ra.billing</field>
+        <field name="arch" type="xml">
+            <form string="RA Billing">
+                <header>
+                    <button name="action_submit" string="Submit" type="object"
+                            class="oe_highlight" invisible="state != 'draft'"/>
+                    <button name="action_approve" string="Approve" type="object"
+                            class="oe_highlight" invisible="state != 'submitted'"/>
+                    <button name="action_reject" string="Reject" type="object"
+                            invisible="state != 'submitted'"/>
+                    <button name="action_reset_draft" string="Reset to Draft" type="object"
+                            invisible="state in ('draft', 'approved')"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,submitted,approved"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="name" readonly="1"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="subcontract_id"/>
+                            <field name="project_id"/>
+                            <field name="partner_id"/>
+                        </group>
+                        <group>
+                            <field name="date"/>
+                            <field name="billing_no"/>
+                            <field name="previous_amount"/>
+                        </group>
+                    </group>
+                    <field name="line_ids">
+                        <list editable="bottom">
+                            <field name="description"/>
+                            <field name="quantity"/>
+                            <field name="uom_id"/>
+                            <field name="rate"/>
+                            <field name="amount" sum="Total"/>
+                            <field name="completion_percentage"/>
+                        </list>
+                    </field>
+                    <group class="oe_subtotal_footer oe_right">
+                        <field name="total_amount"/>
+                        <field name="previous_amount"/>
+                        <field name="current_amount" class="oe_subtotal_footer_separator"/>
+                    </group>
+                    <field name="notes"/>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <!-- RA Billing Action -->
+    <record id="action_construction_ra_billing" model="ir.actions.act_window">
+        <field name="name">RA Billings</field>
+        <field name="res_model">construction.ra.billing</field>
+        <field name="view_mode">list,form</field>
+    </record>
+</odoo>

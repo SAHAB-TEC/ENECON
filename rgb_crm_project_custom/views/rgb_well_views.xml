@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_rgb_well_tree" model="ir.ui.view">
+        <field name="name">rgb.well.tree</field>
+        <field name="model">rgb.well</field>
+        <field name="arch" type="xml">
+            <list string="Wells" editable="bottom">
+                <field name="name"/>
+                <field name="code" optional="show"/>
+                <field name="partner_id" optional="show"/>
+                <field name="active" widget="boolean_toggle"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_rgb_well_form" model="ir.ui.view">
+        <field name="name">rgb.well.form</field>
+        <field name="model">rgb.well</field>
+        <field name="arch" type="xml">
+            <form string="Well">
+                <sheet>
+                    <widget name="web_ribbon" title="Archived" bg_color="text-bg-danger" invisible="active"/>
+                    <group>
+                        <field name="name"/>
+                        <field name="code"/>
+                        <field name="partner_id"/>
+                        <field name="active"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_rgb_well" model="ir.actions.act_window">
+        <field name="name">Wells</field>
+        <field name="res_model">rgb.well</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <menuitem id="menu_rgb_well_root"
+              name="Wells"
+              parent="crm.crm_menu_config"
+              action="action_rgb_well"
+              sequence="35"
+              groups="sales_team.group_sale_manager"/>
+</odoo>

@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!-- Default Work Types -->
+        <record id="work_type_site_survey" model="construction.work.type">
+            <field name="name">Site Survey</field>
+            <field name="code">SS</field>
+        </record>
+        <record id="work_type_foundation" model="construction.work.type">
+            <field name="name">Foundation Work</field>
+            <field name="code">FW</field>
+        </record>
+        <record id="work_type_rcc" model="construction.work.type">
+            <field name="name">RCC Structure</field>
+            <field name="code">RCC</field>
+        </record>
+        <record id="work_type_brickwork" model="construction.work.type">
+            <field name="name">Brickwork</field>
+            <field name="code">BW</field>
+        </record>
+        <record id="work_type_plaster" model="construction.work.type">
+            <field name="name">Plaster &amp; Finishing</field>
+            <field name="code">PF</field>
+        </record>
+        <record id="work_type_electrical" model="construction.work.type">
+            <field name="name">Electrical Work</field>
+            <field name="code">EW</field>
+        </record>
+        <record id="work_type_plumbing" model="construction.work.type">
+            <field name="name">Plumbing &amp; Sanitary</field>
+            <field name="code">PS</field>
+        </record>
+        <record id="work_type_painting" model="construction.work.type">
+            <field name="name">Painting</field>
+            <field name="code">PT</field>
+        </record>
+        <record id="work_type_flooring" model="construction.work.type">
+            <field name="name">Flooring &amp; Tiling</field>
+            <field name="code">FT</field>
+        </record>
+        <record id="work_type_architectural" model="construction.work.type">
+            <field name="name">Architectural Design</field>
+            <field name="code">AD</field>
+        </record>
+
+        <!-- Default Work Sub Types -->
+        <record id="work_sub_type_soil_test" model="construction.work.sub.type">
+            <field name="name">Soil Testing</field>
+            <field name="code">ST</field>
+            <field name="work_type_id" ref="work_type_site_survey"/>
+        </record>
+        <record id="work_sub_type_topography" model="construction.work.sub.type">
+            <field name="name">Topography Survey</field>
+            <field name="code">TS</field>
+            <field name="work_type_id" ref="work_type_site_survey"/>
+        </record>
+        <record id="work_sub_type_excavation" model="construction.work.sub.type">
+            <field name="name">Excavation</field>
+            <field name="code">EX</field>
+            <field name="work_type_id" ref="work_type_foundation"/>
+        </record>
+        <record id="work_sub_type_pcc" model="construction.work.sub.type">
+            <field name="name">PCC (Plain Cement Concrete)</field>
+            <field name="code">PCC</field>
+            <field name="work_type_id" ref="work_type_foundation"/>
+        </record>
+        <record id="work_sub_type_rcc_footing" model="construction.work.sub.type">
+            <field name="name">RCC Footing</field>
+            <field name="code">RF</field>
+            <field name="work_type_id" ref="work_type_rcc"/>
+        </record>
+        <record id="work_sub_type_column" model="construction.work.sub.type">
+            <field name="name">Column Casting</field>
+            <field name="code">CC</field>
+            <field name="work_type_id" ref="work_type_rcc"/>
+        </record>
+        <record id="work_sub_type_slab" model="construction.work.sub.type">
+            <field name="name">Slab Casting</field>
+            <field name="code">SC</field>
+            <field name="work_type_id" ref="work_type_rcc"/>
+        </record>
+        <record id="work_sub_type_structural_design" model="construction.work.sub.type">
+            <field name="name">Structural Design</field>
+            <field name="code">SD</field>
+            <field name="work_type_id" ref="work_type_architectural"/>
+        </record>
+        <record id="work_sub_type_mep_design" model="construction.work.sub.type">
+            <field name="name">MEP Design (Electrical, Plumbing, HVAC)</field>
+            <field name="code">MEP</field>
+            <field name="work_type_id" ref="work_type_architectural"/>
+        </record>
+    </data>
+</odoo>

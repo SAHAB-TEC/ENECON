@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Tree View -->
+    <record id="view_construction_boq_list" model="ir.ui.view">
+        <field name="name">construction.boq.list</field>
+        <field name="model">construction.boq</field>
+        <field name="arch" type="xml">
+            <list string="Bill of Quantities">
+                <field name="name"/>
+                <field name="project_id"/>
+                <field name="sub_project_id"/>
+                <field name="work_type_id"/>
+                <field name="work_sub_type_id"/>
+                <field name="quantity"/>
+                <field name="total_amount" sum="Total"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Form View -->
+    <record id="view_construction_boq_form" model="ir.ui.view">
+        <field name="name">construction.boq.form</field>
+        <field name="model">construction.boq</field>
+        <field name="arch" type="xml">
+            <form string="Bill of Quantities">
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="name" readonly="1"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="project_id"/>
+                            <field name="sub_project_id"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                        </group>
+                        <group>
+                            <field name="work_type_id"/>
+                            <field name="work_sub_type_id"/>
+                            <field name="uom_id"/>
+                        </group>
+                    </group>
+                    <group string="Measurement (Length x Width x Height x Nos)">
+                        <group>
+                            <field name="length"/>
+                            <field name="width"/>
+                        </group>
+                        <group>
+                            <field name="height"/>
+                            <field name="nos"/>
+                        </group>
+                        <group>
+                            <field name="quantity"/>
+                        </group>
+                    </group>
+                    <separator string="Description"/>
+                    <field name="description"/>
+                    <separator string="BOQ Lines"/>
+                    <field name="line_ids">
+                        <list editable="bottom">
+                            <field name="product_id"/>
+                            <field name="description"/>
+                            <field name="quantity"/>
+                            <field name="uom_id"/>
+                            <field name="unit_price"/>
+                            <field name="amount" sum="Total"/>
+                        </list>
+                    </field>
+                    <group class="oe_subtotal_footer oe_right">
+                        <field name="total_amount" class="oe_subtotal_footer_separator"/>
+                    </group>
+                    <div class="oe_clear"/>
+                    <button name="action_create_budget" string="Create / Update Budget" type="object"
+                            class="oe_highlight" icon="fa-calculator"/>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <!-- Search View -->
+    <record id="view_construction_boq_search" model="ir.ui.view">
+        <field name="name">construction.boq.search</field>
+        <field name="model">construction.boq</field>
+        <field name="arch" type="xml">
+            <search string="Bill of Quantities">
+                <field name="name"/>
+                <field name="project_id"/>
+                <field name="sub_project_id"/>
+                <field name="work_type_id"/>
+                <group>
+                    <filter name="group_project" string="Project" context="{'group_by': 'project_id'}"/>
+                    <filter name="group_work_type" string="Work Type" context="{'group_by': 'work_type_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="action_construction_boq" model="ir.actions.act_window">
+        <field name="name">Bill of Quantities</field>
+        <field name="res_model">construction.boq</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create a new Bill of Quantities
+            </p>
+        </field>
+    </record>
+</odoo>
