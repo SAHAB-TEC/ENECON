@@ -4,6 +4,17 @@
     'version': '18.0.1.0.1',
     'category': 'Sales/CRM',
     'summary': 'Create construction projects from CRM opportunities; wells and rigs master data',
+    'description': """
+RGB CRM Construction Project
+============================
+Create construction projects from CRM opportunities and link them bidirectionally.
+Adds Wells and Rigs master data under CRM Configuration.
+
+Open this app in Apps to view the full Arabic usage guide
+(static/description/index.html): installation, security group, create-project
+flow, and Wells/Rigs menus.
+    """,
+    'author': 'RGB / ENECON',
     'depends': [
         'crm',
         'mail',

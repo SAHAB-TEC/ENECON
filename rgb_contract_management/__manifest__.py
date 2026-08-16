@@ -10,8 +10,12 @@ RGB Contract Management
 Manage purchase (contractor) and sale (customer) contracts with approval workflow,
 insurance documents, bank guarantees, payment conditions, delay penalties,
 and linked accounting invoices with analytic distribution.
+
+Open this app in Apps to view the full Arabic usage guide
+(static/description/index.html): installation, security groups, workflow
+(Draft → … → Done Locked), invoicing rules, and reminders.
     """,
-    'author': 'RGB / Arabian Nile',
+    'author': 'RGB / ENECON',
     'license': 'LGPL-3',
     'depends': [
         'base',
