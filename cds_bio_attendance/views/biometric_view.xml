@@ -1,0 +1,284 @@
+<odoo>
+    <data>
+
+        <record id="biometric_record_form_view" model="ir.ui.view">
+            <field name="name">biometric.record.form_.view</field>
+            <field name="model">biometric.record</field>
+            <field name="arch" type="xml">
+                <form string="">
+
+                    <header>
+                        <field name="state" widget="statusbar"
+                               clickable="1"
+                               options="{'clickable': '1'}"
+                               statusbar_visible="success,failed"
+                               statusbar_colors="{'failed':'red','success':'green'}"/>
+                    </header>
+
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+
+                        </group>
+                        <field name="note"/>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="biometric_record_tree_view" model="ir.ui.view">
+            <field name="name">biometric.record.list.view</field>
+            <field name="model">biometric.record</field>
+            <field name="arch" type="xml">
+                <list>
+
+                    <field name="name"/>
+                    <field name="state"/>
+                    <field name="machine"/>
+                    <field name="note"/>
+                </list>
+            </field>
+        </record>
+
+        <record id="action_vie_biometric_record" model="ir.actions.act_window">
+            <field name="name">Biometric Records</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">biometric.record</field>
+            <field name="path">biometric-record</field>
+            <field name="view_mode">list,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    <!-- Add Text Here -->
+                </p>
+                <p>
+                    <!-- More details about what a user can do with this object will be OK -->
+                </p>
+            </field>
+        </record>
+
+
+        <record id="biometric_log_form_view" model="ir.ui.view">
+            <field name="name">biometric.log.form_.view</field>
+            <field name="model">biometric.log</field>
+            <field name="arch" type="xml">
+                <form string="">
+
+                    <sheet>
+                        <group>
+                            <field name="employee_id"/>
+                            <field name="user"/>
+                            <field name="name"/>
+                            <field name="type"/>
+                            <field name="machine"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="biometric_log_tree_view" model="ir.ui.view">
+            <field name="name">biometric.log.list.view</field>
+            <field name="model">biometric.log</field>
+            <field name="arch" type="xml">
+                <list>
+                    <field name="employee_id"/>
+                    <field name="name"/>
+                    <field name="machine"/>
+                    <field name="type"/>
+                </list>
+            </field>
+        </record>
+
+        <record id="biometric_log_view_search" model="ir.ui.view">
+            <field name='name'>biometric.log.search</field>
+            <field name='model'>biometric.log</field>
+            <field name='arch' type='xml'>
+                <search string="Biometric Logs">
+                    <field name="employee_id"/>
+                    <field name="machine"/>
+                    <field name="name"/>
+                    <field name="user"/>
+                    <filter name="group_by_employee" string="Employee"
+                            context="{'group_by':'employee_id'}"/>
+                    <filter name="group_by_machine" string="Machine"
+                            context="{'group_by':'machine'}"/>
+                     <filter name="group_by_date" string="Date"
+                            context="{'group_by':'name'}"/>
+                    <filter name="group_by_type" string="Type"
+                            context="{'group_by':'type'}"/>
+                </search>
+            </field>
+        </record>
+
+        <record id="action_view_biometric_log" model="ir.actions.act_window">
+            <field name="name">Biometric Logs</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">biometric.log</field>
+            <field name="path">biometric-log</field>
+            <field name="view_mode">list,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    <!-- Add Text Here -->
+                </p>
+                <p>
+                    <!-- More details about what a user can do with this object will be OK -->
+                </p>
+            </field>
+        </record>
+
+
+        <record id="view_employee_form_bio_inherit" model="ir.ui.view">
+            <field name="name">view.employee.form.bio.inherit</field>
+            <field name="model">hr.employee</field>
+            <field name="inherit_id" ref="hr.view_employee_form"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//group[@name='active_group']" position="inside">
+
+                    <field name="att_user_id"/>
+                    <button name="action_convert_log_to_attendance" groups="base.group_system" type="object" string="Download"/>
+
+                </xpath>
+            </field>
+        </record>
+
+        <record id="view_biometric_machine_form" model="ir.ui.view">
+            <field name="name">view.biometric.machine.form</field>
+            <field name="model">biometric.machine</field>
+            <field name="arch" type="xml">
+                <form string="">
+
+                    <header>
+                        <button name="download_attendancenew"
+                                type="object"
+                                string="Download Log" invisible="state != 'active'"
+                                class="btn-primary"
+                        />
+
+
+                          <button name="download_attendance_from_log"
+                                  string="Download from log"
+                                  class="btn btn-primary" type="object"
+                                  groups="base.group_system"/>
+                        
+<button name="action_active" class="btn btn-primary" type="object" string="Active"
+                                invisible="state == 'active'"/>
+                        <button name="action_inactive" class="btn btn-primary" type="object" string="Inactive"
+                                invisible="state == 'inactive'"/>
+                        <field name="state" widget="statusbar" readonly="True"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_button_box">
+                            <button name="action_view_attendance_log"
+                                    type="object"
+                                    class="oe_stat_button"
+                                    invisible="att_log_cnt == 0"
+                                    icon="fa-edit">
+                                <field name="att_log_cnt"
+                                       widget="statinfo"
+                                       string="Logs"/>
+                            </button>
+
+
+                        </div>
+                        <div class="oe_left">
+                            <h1>
+                                <field name="name" required="1"
+                                       placeholder="Machine Name"/>
+                            </h1>
+                        </div>
+
+                        <br/>
+                        <br/>
+                        <br/>
+                        <group>
+                            <group>
+                                <field name="ip_address" required="1"/>
+                                <field name="port" required="1"/>
+                                <field name="password" password="1"/>
+                                <field name="timezone" required="1"/>
+                                <field name="type"/>
+                                <field name="convert_type"/>
+                                <field name="start_date"/>
+                                <field name="employee_create"/>
+                            </group>
+                            <group>
+                                <label for="interval_min"/>
+                                <div>
+                                    <field name="time_interval_min"
+                                           class="oe_inline"
+                                           required="True"/>
+                                    <field name="interval_min" class="oe_inline"
+                                           required="True"/>
+                                </div>
+                                <label for="interval_max"/>
+                                <div>
+                                    <field name="time_interval_max"
+                                           class="oe_inline"
+                                           required="True"/>
+                                    <field name="interval_max" class="oe_inline"
+                                           required="True"/>
+                                </div>
+                            </group>
+                        </group>
+
+                        <br/>
+                        <span>Download Logs</span>
+                        <br/>
+                        <field name="log_ids" nolabel="1" readonly="1"/>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_biometric_machine_tree" model="ir.ui.view">
+            <field name="name">biometric.machine.list</field>
+            <field name="model">biometric.machine</field>
+            <field name="type">list</field>
+            <field name="arch" type="xml">
+                <list string="Biometric Machine">
+                    <field name="name"/>
+                    <field name="ip_address"/>
+
+                </list>
+            </field>
+        </record>
+
+
+        <record id="action_biometric_machine_view"
+                model="ir.actions.act_window">
+            <field name="name">Biometric Machines</field>
+            <field name="res_model">biometric.machine</field>
+            <field name="path">biometric-machine</field>
+            <field name="view_mode">list,form</field>
+        </record>
+
+
+        <menuitem id="menu_biometric_attendance" name="Biometric Attendances"
+                  parent="hr_attendance.menu_hr_attendance_root" sequence="60"
+                  groups="hr_attendance.group_hr_attendance_manager"/>
+
+
+        <menuitem id="menu_action_biometric_machine" name="Biometric Machines"
+                  parent="menu_biometric_attendance"
+                  sequence="10"
+                  groups="hr_attendance.group_hr_attendance_manager"
+                  action="action_biometric_machine_view"/>
+
+        <menuitem id="biometric_record_menu" parent="menu_biometric_attendance"
+                  name="Biometric Records"
+                  action="action_vie_biometric_record" sequence="30"
+                  groups="base.group_system"/>
+
+
+        <menuitem id="menu_biometric_log_action" parent="hr_attendance.menu_hr_attendance_root"
+                  name="Biometric Logs"
+                  action="action_view_biometric_log" sequence="50"
+                  groups="hr_attendance.group_hr_attendance_manager"/>
+        <menuitem id="biometric_log_menu" parent="menu_biometric_attendance"
+                  name="Biometric Logs"
+                  action="action_view_biometric_log" sequence="50"
+                  groups="hr_attendance.group_hr_attendance_manager"/>
+
+    </data>
+</odoo>

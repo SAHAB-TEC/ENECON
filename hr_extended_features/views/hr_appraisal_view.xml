@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Pivot View Extension -->
+    <record id="view_appraisal_report_pivot_inherit" model="ir.ui.view">
+        <field name="name">hr.appraisal.report.pivot.inherit</field>
+        <field name="model">hr.appraisal.report</field>
+        <field name="inherit_id" ref="hr_appraisal.view_appraisal_report_pivot"/>
+        <field name="arch" type="xml">
+            <xpath expr="//pivot" position="inside">
+                <field name="assessment_rating_value" string="Final Rating" type="measure" />
+
+
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Graph View Extension -->
+    <record id="view_appraisal_report_graph_inherit" model="ir.ui.view">
+        <field name="name">hr.appraisal.report.graph.inherit</field>
+        <field name="model">hr.appraisal.report</field>
+        <field name="inherit_id" ref="hr_appraisal.view_appraisal_report_graph"/>
+        <field name="arch" type="xml">
+            <xpath expr="//graph" position="inside">
+                <field name="assessment_rating_value" string="Final Rating" type="measure"/>
+
+            </xpath>
+        </field>
+    </record>
+
+
+
+</odoo>
