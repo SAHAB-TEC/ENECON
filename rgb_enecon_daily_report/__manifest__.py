@@ -1,0 +1,26 @@
+{
+    'name': 'RGB ENECON Daily Report',
+    'version': '18.0.1.0.0',
+    'summary': 'Daily operational reports for ENECON construction projects',
+    'category': 'Construction',
+    'author': 'RGB',
+    'license': 'LGPL-3',
+    'depends': [
+        'sdlc_construction_management',
+        'rgb_crm_project_custom',
+        'product',
+        'mail',
+    ],
+    'data': [
+        'security/daily_report_security.xml',
+        'security/ir.model.access.csv',
+        'data/sequence_data.xml',
+        'views/product_template_views.xml',
+        'views/construction_project_views.xml',
+        'views/daily_report_views.xml',
+        'reports/daily_report_report.xml',
+    ],
+    'installable': True,
+    'application': False,
+    'auto_install': False,
+}
