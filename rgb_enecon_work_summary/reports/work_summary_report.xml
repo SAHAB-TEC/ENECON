@@ -4,12 +4,12 @@
         <field name="name">Work Summary</field>
         <field name="model">rgb.enecon.work.summary.report.wizard</field>
         <field name="report_type">qweb-pdf</field>
-        <field name="report_name">rgb_enecon_work_summary.report_rgb_enecon_work_summary_document</field>
-        <field name="report_file">rgb_enecon_work_summary.report_rgb_enecon_work_summary_document</field>
+        <field name="report_name">rgb_enecon_work_summary.work_summary_document</field>
+        <field name="report_file">rgb_enecon_work_summary.work_summary_document</field>
         <field name="print_report_name">'Work Summary - %s' % (object.project_id.name)</field>
     </record>
 
-    <template id="report_rgb_enecon_work_summary_document">
+    <template id="work_summary_document">
         <t t-call="web.html_container">
             <t t-call="web.external_layout">
                 <div class="page">
@@ -87,6 +87,26 @@
                         No workforce data for the selected period.
                     </p>
 
+                    <t t-if="notes_before">
+                        <h4 class="mt-4">Notes Before Transportation / Equipment</h4>
+                        <table class="table table-sm table-bordered" style="font-size:10px;">
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Notes</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr t-foreach="notes_before" t-as="note">
+                                    <td><span t-esc="note['date']"/></td>
+                                    <td style="white-space:pre-wrap;">
+                                        <span t-esc="note['before']"/>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </t>
+
                     <h4 class="mt-4">Transportation / Equipment</h4>
                     <t t-if="transport_columns">
                         <table class="table table-sm table-bordered" style="font-size:10px;">
@@ -117,22 +137,18 @@
                         No transportation / equipment data for the selected period.
                     </p>
 
-                    <t t-if="notes">
-                        <h4 class="mt-4">Notes</h4>
+                    <t t-if="notes_after">
+                        <h4 class="mt-4">Notes After Transportation / Equipment</h4>
                         <table class="table table-sm table-bordered" style="font-size:10px;">
                             <thead>
                                 <tr>
                                     <th>Date</th>
-                                    <th>Before Transportation / Equipment</th>
-                                    <th>After Transportation / Equipment</th>
+                                    <th>Notes</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr t-foreach="notes" t-as="note">
+                                <tr t-foreach="notes_after" t-as="note">
                                     <td><span t-esc="note['date']"/></td>
-                                    <td style="white-space:pre-wrap;">
-                                        <span t-esc="note['before']"/>
-                                    </td>
                                     <td style="white-space:pre-wrap;">
                                         <span t-esc="note['after']"/>
                                     </td>

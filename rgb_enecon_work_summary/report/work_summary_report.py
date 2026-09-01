@@ -5,7 +5,7 @@ from odoo import models
 
 
 class EneconWorkSummaryReport(models.AbstractModel):
-    _name = 'report.rgb_enecon_work_summary.report_rgb_enecon_work_summary_document'
+    _name = 'report.rgb_enecon_work_summary.work_summary_document'
     _description = 'ENECON Work Summary Report'
 
     def _get_report_values(self, docids, data=None):
@@ -166,5 +166,7 @@ class EneconWorkSummaryReport(models.AbstractModel):
             'transport_columns': transport_columns,
             'transport_rows': transport_rows,
             'transport_totals': transport_totals,
+            'notes_before': [note for note in notes if note['before']],
+            'notes_after': [note for note in notes if note['after']],
             'notes': notes,
         }

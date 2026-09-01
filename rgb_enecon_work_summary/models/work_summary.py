@@ -99,6 +99,8 @@ class EneconWorkSummaryEntry(models.Model):
 class EneconWorkSummaryMaterial(models.Model):
     _name = 'rgb.enecon.work.summary.material'
     _description = 'ENECON Work Summary Material'
+    _inherit = "rgb.enecon.approval.lock.mixin"
+    _parent_lock_field = "entry_id"
     _order = 'id'
 
     entry_id = fields.Many2one(
@@ -129,6 +131,8 @@ class EneconWorkSummaryMaterial(models.Model):
 class EneconWorkSummaryWorkforce(models.Model):
     _name = 'rgb.enecon.work.summary.workforce'
     _description = 'ENECON Work Summary Workforce'
+    _inherit = "rgb.enecon.approval.lock.mixin"
+    _parent_lock_field = "entry_id"
     _order = 'id'
 
     entry_id = fields.Many2one(
@@ -149,6 +153,8 @@ class EneconWorkSummaryWorkforce(models.Model):
 class EneconWorkSummaryTransport(models.Model):
     _name = 'rgb.enecon.work.summary.transport'
     _description = 'ENECON Work Summary Transportation / Equipment'
+    _inherit = "rgb.enecon.approval.lock.mixin"
+    _parent_lock_field = "entry_id"
     _order = 'id'
 
     entry_id = fields.Many2one(

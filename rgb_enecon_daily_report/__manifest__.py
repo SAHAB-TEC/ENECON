@@ -1,6 +1,6 @@
 {
     'name': 'RGB ENECON Daily Report',
-    'version': '18.0.1.0.0',
+    'version': '18.0.1.0.1',
     'summary': 'Daily operational reports for ENECON construction projects',
     'category': 'Construction',
     'author': 'RGB',

@@ -150,6 +150,8 @@ class EneconDailyReport(models.Model):
 class EneconDailyReportMaterial(models.Model):
     _name = 'rgb.enecon.daily.report.material'
     _description = 'ENECON Daily Report Material'
+    _inherit = "rgb.enecon.approval.lock.mixin"
+    _parent_lock_field = "report_id"
     _order = 'id'
 
     report_id = fields.Many2one(
@@ -180,6 +182,8 @@ class EneconDailyReportMaterial(models.Model):
 class EneconDailyReportEquipment(models.Model):
     _name = 'rgb.enecon.daily.report.equipment'
     _description = 'ENECON Daily Report Equipment'
+    _inherit = "rgb.enecon.approval.lock.mixin"
+    _parent_lock_field = "report_id"
     _order = 'id'
 
     report_id = fields.Many2one(
@@ -210,6 +214,8 @@ class EneconDailyReportEquipment(models.Model):
 class EneconDailyReportTransport(models.Model):
     _name = 'rgb.enecon.daily.report.transport'
     _description = 'ENECON Daily Report Transportation'
+    _inherit = "rgb.enecon.approval.lock.mixin"
+    _parent_lock_field = "report_id"
     _order = 'id'
 
     report_id = fields.Many2one(
@@ -223,6 +229,8 @@ class EneconDailyReportTransport(models.Model):
 class EneconDailyReportImage(models.Model):
     _name = 'rgb.enecon.daily.report.image'
     _description = 'ENECON Daily Report Image'
+    _inherit = "rgb.enecon.approval.lock.mixin"
+    _parent_lock_field = "report_id"
     _order = 'sequence, id'
 
     report_id = fields.Many2one(
