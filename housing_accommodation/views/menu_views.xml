@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Root Menu -->
+    <menuitem id="menu_housing_root" name="Accommodation" sequence="10"/>
+
+    <!-- Accommodations Submenu -->
+    <menuitem id="menu_housing_accommodations" name="Accommodations"
+              parent="menu_housing_root" sequence="10"/>
+
+    <menuitem id="menu_housing_property_unit" name="Property Units"
+              parent="menu_housing_accommodations"
+              action="action_housing_property_unit" sequence="10"/>
+
+    <menuitem id="menu_housing_guest_allocation" name="Guests / Occupants"
+              parent="menu_housing_accommodations"
+              action="action_housing_guest_allocation" sequence="20"/>
+
+    <!-- Reporting Submenu (placeholder for future reports) -->
+    <menuitem id="menu_housing_reporting" name="Reporting"
+              parent="menu_housing_root" sequence="20"/>
+
+    <!-- Configuration Submenu -->
+    <menuitem id="menu_housing_configuration" name="Configuration"
+              parent="menu_housing_root" sequence="30"/>
+
+    <menuitem id="menu_housing_unit_type" name="Unit Types"
+              parent="menu_housing_configuration"
+              action="action_housing_unit_type" sequence="10"/>
+
+</odoo>

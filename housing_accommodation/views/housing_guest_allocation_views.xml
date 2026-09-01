@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- LIST VIEW -->
+    <record id="view_housing_guest_allocation_list" model="ir.ui.view">
+        <field name="name">housing.guest.allocation.list</field>
+        <field name="model">housing.guest.allocation</field>
+        <field name="arch" type="xml">
+            <list string="Guests / Occupants"
+                  decoration-muted="actual_check_out != False"
+                  decoration-bf="actual_check_out == False">
+                <field name="employee_id"/>
+                <field name="job_title"/>
+                <field name="job_id"/>
+                <field name="phone"/>
+                <field name="unit_id"/>
+                <field name="unit_number" optional="hide"/>
+                <field name="check_in"/>
+                <field name="expected_check_out"/>
+                <field name="actual_check_out" optional="hide"/>
+                <field name="unit_status" widget="badge"
+                       decoration-danger="unit_status == 'occupied'"
+                       decoration-warning="unit_status == 'reserved'"
+                       decoration-success="unit_status == 'available'"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- FORM VIEW -->
+    <record id="view_housing_guest_allocation_form" model="ir.ui.view">
+        <field name="name">housing.guest.allocation.form</field>
+        <field name="model">housing.guest.allocation</field>
+        <field name="arch" type="xml">
+            <form string="Guest Allocation">
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="employee_id" placeholder="Select Guest"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group string="Guest Information">
+                            <field name="job_title"/>
+                            <field name="job_id"/>
+                            <field name="phone"/>
+                        </group>
+                        <group string="Accommodation">
+                            <field name="unit_id"
+                                   domain="[('has_available_capacity', '=', True)]"/>
+                            <field name="check_in"/>
+                            <field name="expected_check_out"/>
+                            <field name="actual_check_out"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Guest Belongings" name="belongings">
+                            <field name="belonging_ids">
+                                <list editable="bottom">
+                                    <field name="name"/>
+                                    <field name="quantity"/>
+                                    <field name="condition"/>
+                                    <field name="notes"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- SEARCH VIEW -->
+    <record id="view_housing_guest_allocation_search" model="ir.ui.view">
+        <field name="name">housing.guest.allocation.search</field>
+        <field name="model">housing.guest.allocation</field>
+        <field name="arch" type="xml">
+            <search string="Search Guests / Occupants">
+                <field name="unit_id" string="Unit Name"/>
+                <field name="employee_id" string="Guest Name"/>
+                <field name="phone" string="Guest Phone"/>
+                <field name="unit_number" string="Unit Number"/>
+                <separator/>
+                <filter name="filter_current" string="Current Occupants"
+                        domain="[('actual_check_out', '=', False)]"/>
+                <separator/>
+                <filter name="filter_occupied" string="Occupied Units"
+                        domain="[('unit_status', '=', 'occupied')]"/>
+                <filter name="filter_available" string="Available Units"
+                        domain="[('unit_status', '=', 'available')]"/>
+                <filter name="filter_reserved" string="Reserved Units"
+                        domain="[('unit_status', '=', 'reserved')]"/>
+                <group expand="0" string="Group By">
+                    <filter name="groupby_unit" string="Unit" context="{'group_by': 'unit_id'}"/>
+                    <filter name="groupby_status" string="Unit Status" context="{'group_by': 'unit_status'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- ACTION -->
+    <record id="action_housing_guest_allocation" model="ir.actions.act_window">
+        <field name="name">Guests / Occupants</field>
+        <field name="res_model">housing.guest.allocation</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="view_housing_guest_allocation_search"/>
+        <field name="context">{'search_default_filter_current': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Add New Guest
+            </p>
+            <p>
+                Check in a guest/employee into a property unit and track their stay.
+            </p>
+        </field>
+    </record>
+
+</odoo>

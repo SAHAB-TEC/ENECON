@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- KANBAN VIEW: dynamic colors by status -->
+    <record id="view_housing_property_unit_kanban" model="ir.ui.view">
+        <field name="name">housing.property.unit.kanban</field>
+        <field name="model">housing.property.unit</field>
+        <field name="arch" type="xml">
+            <kanban class="o_kanban_small_column" sample="1">
+                <field name="name"/>
+                <field name="unit_number"/>
+                <field name="type_id"/>
+                <field name="status"/>
+                <field name="color"/>
+                <field name="max_capacity"/>
+                <field name="current_occupant_count"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div t-attf-class="oe_kanban_global_click oe_kanban_card #{kanban_color(record.color.raw_value)}">
+                            <div class="o_kanban_card_header">
+                                <div class="o_kanban_card_header_title">
+                                    <div class="o_primary">
+                                        <field name="name"/>
+                                    </div>
+                                    <div class="o_secondary" t-if="record.unit_number.value">
+                                        # <field name="unit_number"/>
+                                    </div>
+                                </div>
+                                <div class="o_kanban_manage_button_section">
+                                    <span t-attf-class="badge #{record.status.raw_value === 'occupied' ? 'text-bg-danger' : record.status.raw_value === 'reserved' ? 'text-bg-warning' : 'text-bg-success'}">
+                                        <field name="status"/>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="o_kanban_card_content">
+                                <ul>
+                                    <li t-if="record.type_id.value">
+                                        <strong>Type:</strong>
+                                        <field name="type_id"/>
+                                    </li>
+                                    <li>
+                                        <strong>Occupancy:</strong>
+                                        <field name="current_occupant_count"/> / <field name="max_capacity"/>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <!-- LIST VIEW -->
+    <record id="view_housing_property_unit_list" model="ir.ui.view">
+        <field name="name">housing.property.unit.list</field>
+        <field name="model">housing.property.unit</field>
+        <field name="arch" type="xml">
+            <list string="Property Units"
+                  decoration-danger="status == 'occupied'"
+                  decoration-warning="status == 'reserved'"
+                  decoration-success="status == 'available'">
+                <field name="name"/>
+                <field name="unit_number"/>
+                <field name="type_id"/>
+                <field name="rooms_count" optional="hide"/>
+                <field name="bathrooms_count" optional="hide"/>
+                <field name="kitchens_count" optional="hide"/>
+                <field name="max_capacity"/>
+                <field name="current_occupant_count" string="Occupants"/>
+                <field name="status" widget="badge"
+                       decoration-danger="status == 'occupied'"
+                       decoration-warning="status == 'reserved'"
+                       decoration-success="status == 'available'"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- FORM VIEW -->
+    <record id="view_housing_property_unit_form" model="ir.ui.view">
+        <field name="name">housing.property.unit.form</field>
+        <field name="model">housing.property.unit</field>
+        <field name="arch" type="xml">
+            <form string="Property Unit">
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button class="oe_stat_button" type="object"
+                                name="action_view_current_occupants" icon="fa-users">
+                            <field name="current_occupant_count" widget="statinfo" string="Current Occupants"/>
+                        </button>
+                        <button class="oe_stat_button" type="object"
+                                name="action_view_history" icon="fa-history">
+                            <field name="history_log_count" widget="statinfo" string="History Log"/>
+                        </button>
+                        <button class="oe_stat_button" type="object"
+                                name="action_view_belongings" icon="fa-suitcase">
+                            <field name="belongings_count" widget="statinfo" string="Belongings"/>
+                        </button>
+                    </div>
+                    <widget name="web_ribbon" title="Occupied" bg_color="text-bg-danger"
+                            invisible="status != 'occupied'"/>
+                    <widget name="web_ribbon" title="Reserved" bg_color="text-bg-warning"
+                            invisible="status != 'reserved'"/>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" placeholder="Unit Name"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group string="General Information">
+                            <field name="unit_number"/>
+                            <field name="type_id"/>
+                            <field name="status"/>
+                        </group>
+                        <group string="Capacity">
+                            <field name="rooms_count"/>
+                            <field name="bathrooms_count"/>
+                            <field name="kitchens_count"/>
+                            <field name="max_capacity"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Room Contents" name="room_contents">
+                            <field name="room_content_ids">
+                                <list editable="bottom">
+                                    <field name="name"/>
+                                    <field name="quantity"/>
+                                    <field name="condition"/>
+                                    <field name="notes"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Bathroom Contents" name="bathroom_contents">
+                            <field name="bathroom_content_ids">
+                                <list editable="bottom">
+                                    <field name="name"/>
+                                    <field name="quantity"/>
+                                    <field name="condition"/>
+                                    <field name="notes"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Kitchen Contents" name="kitchen_contents">
+                            <field name="kitchen_content_ids">
+                                <list editable="bottom">
+                                    <field name="name"/>
+                                    <field name="quantity"/>
+                                    <field name="condition"/>
+                                    <field name="notes"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- SEARCH VIEW -->
+    <record id="view_housing_property_unit_search" model="ir.ui.view">
+        <field name="name">housing.property.unit.search</field>
+        <field name="model">housing.property.unit</field>
+        <field name="arch" type="xml">
+            <search string="Search Property Units">
+                <field name="name"/>
+                <field name="unit_number"/>
+                <field name="type_id"/>
+                <separator/>
+                <filter name="filter_available" string="Available" domain="[('status', '=', 'available')]"/>
+                <filter name="filter_reserved" string="Reserved" domain="[('status', '=', 'reserved')]"/>
+                <filter name="filter_occupied" string="Occupied" domain="[('status', '=', 'occupied')]"/>
+                <group expand="0" string="Group By">
+                    <filter name="groupby_status" string="Status" context="{'group_by': 'status'}"/>
+                    <filter name="groupby_type" string="Unit Type" context="{'group_by': 'type_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- ACTION -->
+    <record id="action_housing_property_unit" model="ir.actions.act_window">
+        <field name="name">Property Units</field>
+        <field name="res_model">housing.property.unit</field>
+        <field name="view_mode">kanban,list,form</field>
+        <field name="search_view_id" ref="view_housing_property_unit_search"/>
+        <field name="context">{'search_default_filter_available': 0}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create a new Property Unit
+            </p>
+            <p>
+                Manage accommodation units, their status and occupancy.
+            </p>
+        </field>
+    </record>
+
+</odoo>
