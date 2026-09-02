@@ -1,0 +1,219 @@
+# Translation of Accommodation Management module into Arabic.
+msgid ""
+msgstr ""
+"Project-Id-Version: Accommodation Management 18.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-01-01 00:00+0000\n"
+"PO-Revision-Date: 2026-01-01 00:00+0000\n"
+"Last-Translator: \n"
+"Language-Team: Arabic\n"
+"Language: ar\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;\n"
+
+#. Module / menus
+msgid "Accommodation"
+msgstr "الإسكان"
+
+msgid "Accommodation Units"
+msgstr "وحدات الإسكان"
+
+msgid "Guests"
+msgstr "النزلاء"
+
+msgid "Maintenance"
+msgstr "الصيانة"
+
+msgid "Configuration"
+msgstr "الإعدادات"
+
+msgid "Accommodation Types"
+msgstr "أنواع الإسكان"
+
+msgid "Reports"
+msgstr "التقارير"
+
+msgid "Maintenance Analytics"
+msgstr "تحليلات الصيانة"
+
+#. accommodation.type
+msgid "Type Name"
+msgstr "اسم النوع"
+
+#. accommodation.unit
+msgid "Unit Name"
+msgstr "اسم الوحدة"
+
+msgid "Unit Number"
+msgstr "رقم الوحدة"
+
+msgid "Unit Nature"
+msgstr "طبيعة الوحدة"
+
+msgid "Fixed Unit"
+msgstr "وحدة ثابتة"
+
+msgid "Mobile Unit"
+msgstr "وحدة متنقلة"
+
+msgid "Unit Type"
+msgstr "نوع الوحدة"
+
+msgid "Status"
+msgstr "الحالة"
+
+msgid "Vacant"
+msgstr "شاغرة"
+
+msgid "Reserved"
+msgstr "محجوزة"
+
+msgid "Occupied"
+msgstr "مشغولة"
+
+msgid "Number of Rooms"
+msgstr "عدد الغرف"
+
+msgid "Number of Bathrooms"
+msgstr "عدد الحمامات"
+
+msgid "Number of Kitchens"
+msgstr "عدد المطابخ"
+
+msgid "Max Guest Capacity"
+msgstr "الحد الأقصى لعدد النزلاء"
+
+msgid "Current Guest Count"
+msgstr "العدد الحالي للنزلاء"
+
+msgid "Unit Contents &amp; Inventory"
+msgstr "محتويات ومقتنيات الوحدة"
+
+msgid "Room"
+msgstr "غرفة"
+
+msgid "Bathroom"
+msgstr "حمام"
+
+msgid "Kitchen"
+msgstr "مطبخ"
+
+#. accommodation.guest
+msgid "Guest Name"
+msgstr "اسم النزيل"
+
+msgid "Housing Unit"
+msgstr "الوحدة السكنية"
+
+msgid "Location"
+msgstr "الموقع"
+
+msgid "Project"
+msgstr "المشروع"
+
+msgid "Job Title"
+msgstr "المسمى الوظيفي"
+
+msgid "Phone Number"
+msgstr "رقم الهاتف"
+
+msgid "Check-in Date"
+msgstr "تاريخ تسجيل الدخول"
+
+msgid "Expected Check-out Date"
+msgstr "تاريخ المغادرة المتوقع"
+
+msgid "Checked In"
+msgstr "تم تسجيل الدخول"
+
+msgid "Checked Out"
+msgstr "تم تسجيل الخروج"
+
+msgid "Check Out"
+msgstr "تسجيل الخروج"
+
+msgid "Belongings"
+msgstr "المقتنيات الشخصية"
+
+msgid "Item Description"
+msgstr "وصف الغرض"
+
+msgid "Quantity"
+msgstr "الكمية"
+
+msgid "Notes"
+msgstr "ملاحظات"
+
+msgid "Add New Guest"
+msgstr "إضافة نزيل جديد"
+
+#. accommodation.repair
+msgid "Serial Number"
+msgstr "الرقم التسلسلي"
+
+msgid "Reason for Maintenance"
+msgstr "سبب طلب الصيانة"
+
+msgid "Responsible / Faulty Party"
+msgstr "الطرف المسؤول / المتسبب"
+
+msgid "Target Item for Repair"
+msgstr "العنصر المستهدف للإصلاح"
+
+msgid "Request Date"
+msgstr "تاريخ الطلب"
+
+msgid "New"
+msgstr "جديد"
+
+msgid "In Progress"
+msgstr "قيد التنفيذ"
+
+msgid "Completed"
+msgstr "مكتمل"
+
+msgid "Create Maintenance Request"
+msgstr "إنشاء طلب صيانة"
+
+msgid "Maintenance Completed"
+msgstr "اكتملت الصيانة"
+
+msgid "Start Progress"
+msgstr "بدء التنفيذ"
+
+msgid "Reset to New"
+msgstr "إعادة تعيين كجديد"
+
+msgid "Approved By"
+msgstr "تمت الموافقة بواسطة"
+
+msgid "Completion Date"
+msgstr "تاريخ الاكتمال"
+
+#. Security group / checkbox labels (res.users Access Rights tab)
+msgid "Accommodation Module Access"
+msgstr "صلاحية الوصول لوحدة الإسكان"
+
+msgid "Configuration Menu Access"
+msgstr "صلاحية الوصول لقائمة الإعدادات"
+
+msgid "Create Guest"
+msgstr "إنشاء نزيل"
+
+msgid "Edit Guest"
+msgstr "تعديل بيانات النزيل"
+
+msgid "Edit Maintenance Request"
+msgstr "تعديل طلب الصيانة"
+
+msgid "Approve Maintenance (Done)"
+msgstr "اعتماد اكتمال الصيانة"
+
+#. Validation alerts
+msgid "Cannot check in '%(guest)s': accommodation unit '%(unit)s' has reached its maximum capacity of %(max)s guest(s)."
+msgstr "لا يمكن تسجيل دخول '%(guest)s': وصلت الوحدة السكنية '%(unit)s' إلى الحد الأقصى لسعتها البالغ %(max)s نزيل/نزلاء."
+
+msgid "You are not allowed to close maintenance requests. This action is restricted to approved maintenance supervisors."
+msgstr "غير مصرح لك بإغلاق طلبات الصيانة. هذا الإجراء مقتصر على مشرفي الصيانة المعتمدين."
