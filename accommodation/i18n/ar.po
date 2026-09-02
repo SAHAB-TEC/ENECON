@@ -1,4 +1,7 @@
-# Translation of Accommodation Management module into Arabic.
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* accommodation
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: Accommodation Management 18.0\n"
