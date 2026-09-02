@@ -1,6 +1,0 @@
-id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_housing_unit_type_user,housing.unit.type.user,model_housing_unit_type,base.group_user,1,1,1,1
-access_housing_property_unit_user,housing.property.unit.user,model_housing_property_unit,base.group_user,1,1,1,1
-access_housing_property_content_user,housing.property.content.user,model_housing_property_content,base.group_user,1,1,1,1
-access_housing_guest_allocation_user,housing.guest.allocation.user,model_housing_guest_allocation,base.group_user,1,1,1,1
-access_housing_guest_belonging_user,housing.guest.belonging.user,model_housing_guest_belonging,base.group_user,1,1,1,1
