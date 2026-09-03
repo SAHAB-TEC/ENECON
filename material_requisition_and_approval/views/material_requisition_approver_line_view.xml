@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) 2016-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<!-- License URL : <https://store.webkul.com/license.html/> -->
+<odoo>
+    <record id="view_material_requisition_approver_line_tree" model="ir.ui.view">
+        <field name="name">material.requisition.approver.line.tree</field>
+        <field name="model">material.requisition.approver.line</field>
+        <field name="arch" type="xml">
+            <list string="Approval  Lines">
+                <field name="rule_id"/>
+                <field name="level"/>
+                <field name="user_ids" widget="many2many_tags"/>
+                <field name="required"/>
+            </list>
+        </field>
+    </record>
+    <record id="view_material_requisition_approver_line_form" model="ir.ui.view">
+        <field name="name">material.requisition.approver.line.form</field>
+        <field name="model">material.requisition.approver.line</field>
+        <field name="arch" type="xml">
+            <form string="Approval  Lines">
+                <sheet>
+                    <group>
+                             <field name="rule_id" readonly="1"/>
+                            <field name="level" readonly="1"/>
+                            <field name="user_ids" 
+                                widget="many2many_tags" 
+                                readonly="1"/>
+                            <field name="required" readonly="1"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+
+</odoo>

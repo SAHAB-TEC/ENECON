@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Title above partner name in the top-right address column -->
+    <template id="address_layout_rgb_invoice" inherit_id="web.address_layout">
+        <xpath expr="//div[@name='address']/t[@t-esc='address or None']" position="before">
+            <strong t-if="o and o._name == 'account.move' and o.is_sale_document(include_receipts=True)"
+                    class="d-block mb-1">العميل:</strong>
+            <strong t-elif="o and o._name == 'account.move' and o.is_purchase_document(include_receipts=True)"
+                    class="d-block mb-1">المورد/الشركة:</strong>
+        </xpath>
+    </template>
+
+    <template id="report_invoice_document_contract" inherit_id="account.report_invoice_document">
+
+        <xpath expr="//tbody[hasclass('invoice_tbody')]" position="inside">
+            <tr t-if="o.contract_id and o.currency_split_ids"
+                class="is-subtotal text-end">
+                <td colspan="99">
+                    <t t-foreach="o.currency_split_ids" t-as="split">
+                        <span style="margin-right: 16px;">
+                            <strong t-field="split.currency_id"/>
+                            <strong> %</strong>
+                            <span t-field="split.percentage"/>
+                            —
+                            <strong>Amount</strong>
+                            <span t-field="split.amount"
+                                  t-options="{'widget': 'monetary', 'display_currency': split.currency_id}"/>
+                        </span>
+                    </t>
+                </td>
+            </tr>
+        </xpath>
+
+        <!-- Hide partner Customer Code on invoice print -->
+        <xpath expr="//div[@name='customer_code']" position="replace"/>
+
+        <!-- Allow informations block when contract code or indicative number is set -->
+        <xpath expr="//div[@id='informations']" position="attributes">
+            <attribute name="t-if">o.invoice_date or (o.invoice_date_due and o.move_type == 'out_invoice' and o.state == 'posted') or o.delivery_date or o.invoice_origin or o.ref or o.invoice_incoterm_id or o.contract_code or o.indicative_number</attribute>
+        </xpath>
+
+        <!-- Show contract code in invoice header informations -->
+        <xpath expr="//div[@id='informations']" position="inside">
+            <div class="col" t-if="o.contract_code" name="contract_code">
+                <strong>Contract Code</strong>
+                <div t-field="o.contract_code"/>
+            </div>
+            <div class="col" t-if="o.indicative_number" name="indicative_number">
+                <strong>Indicative Number</strong>
+                <div t-field="o.indicative_number"/>
+            </div>
+        </xpath>
+        <!-- Terms and Conditions: visible label above narration -->
+        <xpath expr="//div[@name='comment']" position="before">
+            <div class="mb-1" t-if="not is_html_empty(o.narration)" name="terms_title">
+                <strong>Terms and Conditions</strong>
+            </div>
+        </xpath>
+    </template>
+</odoo>

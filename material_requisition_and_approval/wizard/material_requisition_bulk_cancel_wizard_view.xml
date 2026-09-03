@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) 2016-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<!-- License URL : <https://store.webkul.com/license.html/> -->
+
+<odoo>
+    <record id="view_material_requisition_bulk_cancel_wizard_form" model="ir.ui.view">
+        <field name="name">material.requisition.bulk.cancel.wizard.form</field>
+        <field name="model">material.requisition.bulk.cancel.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Bulk Cancel Material Requisitions">
+                <header>
+                    <div class="alert alert-warning" role="alert">
+                        <i class="fa fa-exclamation-triangle"/> 
+                        <strong>Bulk Cancellation:</strong> This will cancel multiple requisitions at once.
+                    </div>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>Bulk Cancel Requisitions</h1>
+                        <p class="text-muted">Cancel multiple material requisitions simultaneously.</p>
+                    </div>
+                    
+                    <!-- Summary -->
+                    <field name="summary_html" readonly="1" nolabel="1"/>
+                    
+                    <group>
+                        <group>
+                            <field name="cancel_related_documents" 
+                                   help="Also cancel related internal transfers and purchase orders"/>
+                            <field name="send_notification" 
+                                   help="Send email notifications to requesters"/>
+                        </group>
+                    </group>
+                    
+                    <!-- Requisitions List -->
+                    <notebook>
+                        <page string="Requisitions to Cancel">
+                            <field name="requisition_ids" nolabel="1">
+                                <list decoration-info="state == 'draft'" 
+                                      decoration-warning="state == 'submitted'"
+                                      decoration-primary="state == 'waiting_for_approval'">
+                                    <field name="name"/>
+                                    <field name="requester_id"/>
+                                    <field name="department_id"/>
+                                    <field name="requested_date"/>
+                                    <field name="state" widget="badge"/>
+                                    <field name="internal_picking_count" string="Transfers"/>
+                                    <field name="rfq_count" string="POs"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                    
+                    <group>
+                        <field name="reason" placeholder="Please provide a reason for bulk cancellation..." 
+                               help="This reason will be applied to all selected requisitions"/>
+                    </group>
+                </sheet>
+                <footer>
+                    <button name="action_bulk_cancel" string="Cancel All Selected" 
+                            type="object" class="btn-danger"
+                            confirm="Are you sure you want to cancel all selected requisitions? This action cannot be undone."/>
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record forcecreate="True" id="biometric_machine_download" model="ir.cron">
+            <field name="name">Download Attendance</field>
+            <field name="interval_number">120</field>
+            <field eval="True" name="active"/>
+            <field name="interval_type">minutes</field>
+            <!--            <field name="numbercall">-1</field>-->
+            <field name="state">code</field>
+            <field name="user_id" ref="base.user_root"/>
+            <!--            <field eval="False" name="doall"/>-->
+            <field name="nextcall" eval="DateTime.now().replace(day=20, hour=3, minute=0)"/>
+
+            <field name="model_id" ref="cds_bio_attendance.model_biometric_machine"/>
+            <field name="code">model._cron_att_download()</field>
+        </record>
+
+        <record forcecreate="True" id="attendance_fix_notifications" model="ir.cron">
+            <field name="name">Wrong Attendance Notifications</field>
+            <field name="interval_number">1</field>
+            <field eval="True" name="active"/>
+            <field name="interval_type">days</field>
+            <field name="state">code</field>
+            <field name="user_id" ref="base.user_root"/>
+            <field name="nextcall" eval="(DateTime.now() + timedelta(hours=1))"/>
+            <field name="model_id" ref="hr_attendance.model_hr_attendance"/>
+            <field name="code">model._cron_send_notification()</field>
+        </record>
+
+        <record forcecreate="True" id="attendance_biometric_connection" model="ir.cron">
+            <field name="name">biometric Machine Connection Error Notifications</field>
+            <field name="interval_number">1</field>
+            <field eval="True" name="active"/>
+            <field name="interval_type">days</field>
+            <field name="state">code</field>
+            <field name="user_id" ref="base.user_root"/>
+            <field name="nextcall" eval="(DateTime.now() + timedelta(hours=1))"/>
+            <!--            <field name="nextcall"-->
+            <!--                   eval="(DateTime.now().replace(hour=3, minute=0) + timedelta(days=1)).strftime('%Y-%m-%d %H:%M:%S')"/>-->
+
+            <field name="model_id" ref="cds_bio_attendance.model_biometric_machine"/>
+            <field name="code">model._cron_check_connection()</field>
+        </record>
+    </data>
+
+
+</odoo>

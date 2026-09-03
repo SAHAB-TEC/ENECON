@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <record id="insurance_type_car" model="rgb.contract.insurance.type">
+        <field name="sequence">1</field>
+        <field name="code">CAR</field>
+        <field name="name">Contractor All Risks (CAR)</field>
+    </record>
+    <record id="insurance_type_tpl" model="rgb.contract.insurance.type">
+        <field name="sequence">2</field>
+        <field name="code">TPL</field>
+        <field name="name">Third Party Liability</field>
+    </record>
+    <record id="insurance_type_work_injury" model="rgb.contract.insurance.type">
+        <field name="sequence">3</field>
+        <field name="code">WORK_INJURY</field>
+        <field name="name">Work Injury / Employer Liability</field>
+    </record>
+    <record id="insurance_type_pi" model="rgb.contract.insurance.type">
+        <field name="sequence">4</field>
+        <field name="code">PI</field>
+        <field name="name">Professional Indemnity</field>
+    </record>
+    <record id="insurance_type_equipment" model="rgb.contract.insurance.type">
+        <field name="sequence">5</field>
+        <field name="code">EQUIPMENT</field>
+        <field name="name">Equipment and Machinery Insurance</field>
+    </record>
+    <record id="insurance_type_marine" model="rgb.contract.insurance.type">
+        <field name="sequence">6</field>
+        <field name="code">MARINE</field>
+        <field name="name">Marine / Cargo Insurance</field>
+    </record>
+    <record id="insurance_type_vehicle" model="rgb.contract.insurance.type">
+        <field name="sequence">7</field>
+        <field name="code">VEHICLE</field>
+        <field name="name">Vehicle Insurance</field>
+    </record>
+    <record id="insurance_type_hidden_defects" model="rgb.contract.insurance.type">
+        <field name="sequence">8</field>
+        <field name="code">HIDDEN_DEFECTS</field>
+        <field name="name">Hidden Defects / Decennial Liability</field>
+    </record>
+    <record id="insurance_type_cyber" model="rgb.contract.insurance.type">
+        <field name="sequence">9</field>
+        <field name="code">CYBER</field>
+        <field name="name">Cyber Insurance</field>
+    </record>
+    <record id="insurance_type_bi" model="rgb.contract.insurance.type">
+        <field name="sequence">10</field>
+        <field name="code">BI</field>
+        <field name="name">Business Interruption Insurance</field>
+    </record>
+    <record id="insurance_type_poisoning" model="rgb.contract.insurance.type">
+        <field name="sequence">11</field>
+        <field name="code">POISONING</field>
+        <field name="name">Poisoning Risk Insurance</field>
+    </record>
+    <record id="insurance_type_fire" model="rgb.contract.insurance.type">
+        <field name="sequence">12</field>
+        <field name="code">FIRE</field>
+        <field name="name">Fire Insurance</field>
+    </record>
+    <record id="insurance_type_safe" model="rgb.contract.insurance.type">
+        <field name="sequence">13</field>
+        <field name="code">SAFE</field>
+        <field name="name">Safe / Vault Insurance</field>
+    </record>
+    <record id="insurance_type_burglary" model="rgb.contract.insurance.type">
+        <field name="sequence">14</field>
+        <field name="code">BURGLARY</field>
+        <field name="name">Burglary and Embezzlement Insurance</field>
+    </record>
+</odoo>

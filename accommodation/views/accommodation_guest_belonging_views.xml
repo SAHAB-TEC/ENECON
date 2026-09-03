@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_accommodation_guest_belonging_list" model="ir.ui.view">
+        <field name="name">accommodation.guest.belonging.list</field>
+        <field name="model">accommodation.guest.belonging</field>
+        <field name="arch" type="xml">
+            <list create="false">
+                <field name="guest_id"/>
+                <field name="name"/>
+                <field name="quantity"/>
+                <field name="notes"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="action_accommodation_guest_belonging" model="ir.actions.act_window">
+        <field name="name">Guest Belongings</field>
+        <field name="res_model">accommodation.guest.belonging</field>
+        <field name="view_mode">list</field>
+    </record>
+</odoo>

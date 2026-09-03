@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="action_report_rgb_enecon_daily_report" model="ir.actions.report">
+        <field name="name">Daily Report</field>
+        <field name="model">rgb.enecon.daily.report</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">rgb_enecon_daily_report.report_rgb_enecon_daily_report_document</field>
+        <field name="report_file">rgb_enecon_daily_report.report_rgb_enecon_daily_report_document</field>
+        <field name="binding_model_id" ref="model_rgb_enecon_daily_report"/>
+        <field name="binding_type">report</field>
+        <field name="print_report_name">'Daily Report - %s' % (object.name)</field>
+    </record>
+
+    <template id="report_rgb_enecon_daily_report_document">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <h2 class="text-center">Daily Report</h2>
+                        <table class="table table-sm table-bordered">
+                            <tbody>
+                                <tr>
+                                    <th style="width:20%">Report Reference</th>
+                                    <td><span t-field="o.name"/></td>
+                                    <th style="width:20%">Date</th>
+                                    <td><span t-field="o.date"/></td>
+                                </tr>
+                                <tr>
+                                    <th>Work Order / Project</th>
+                                    <td><span t-field="o.project_id"/></td>
+                                    <th>Customer</th>
+                                    <td><span t-field="o.customer_id"/></td>
+                                </tr>
+                                <tr>
+                                    <th>Location</th>
+                                    <td colspan="3"><span t-field="o.location"/></td>
+                                </tr>
+                                <tr>
+                                    <th>Stage</th>
+                                    <td><span t-field="o.stage_name"/></td>
+                                    <th>Tank / Work Type</th>
+                                    <td><span t-field="o.tank_name"/> - <span t-field="o.work_type"/></td>
+                                </tr>
+                                <tr>
+                                    <th>Working Hours</th>
+                                    <td><span t-field="o.work_hours"/></td>
+                                    <th>Overtime Hours</th>
+                                    <td><span t-field="o.overtime_hours"/></td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <h4>Materials</h4>
+                        <table class="table table-sm table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Material</th>
+                                    <th class="text-end">Quantity</th>
+                                    <th>UoM</th>
+                                    <th>Notes</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr t-foreach="o.material_line_ids" t-as="line">
+                                    <td><span t-field="line.product_id"/></td>
+                                    <td class="text-end"><span t-field="line.quantity"/></td>
+                                    <td><span t-field="line.uom_id"/></td>
+                                    <td><span t-field="line.notes"/></td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <h4>Equipment</h4>
+                        <table class="table table-sm table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Equipment</th>
+                                    <th class="text-end">Quantity</th>
+                                    <th>UoM</th>
+                                    <th>Notes</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr t-foreach="o.equipment_line_ids" t-as="line">
+                                    <td><span t-field="line.product_id"/></td>
+                                    <td class="text-end"><span t-field="line.quantity"/></td>
+                                    <td><span t-field="line.uom_id"/></td>
+                                    <td><span t-field="line.notes"/></td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <h4>Transportation</h4>
+                        <table class="table table-sm table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Transportation / Vehicle</th>
+                                    <th class="text-end">Quantity</th>
+                                    <th>Notes</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr t-foreach="o.transport_line_ids" t-as="line">
+                                    <td><span t-field="line.name"/></td>
+                                    <td class="text-end"><span t-field="line.quantity"/></td>
+                                    <td><span t-field="line.notes"/></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="page">
+                        <h3>Work Completed / Daily Report</h3>
+                        <div style="min-height:180px; white-space:pre-wrap;">
+                            <span t-field="o.work_description"/>
+                        </div>
+
+                        <h3 class="mt-4">Work Images</h3>
+                        <div class="row">
+                            <div t-foreach="o.image_ids"
+                                 t-as="img"
+                                 class="col-6 mb-4"
+                                 style="page-break-inside:avoid;">
+                                <div class="text-center">
+                                    <img t-if="img.image"
+                                         t-att-src="image_data_uri(img.image)"
+                                         style="max-width:100%; max-height:300px;"/>
+                                    <div t-if="img.name" class="mt-1">
+                                        <span t-field="img.name"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+</odoo>

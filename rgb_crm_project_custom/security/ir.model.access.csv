@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_rgb_well_user,rgb.well.user,model_rgb_well,base.group_user,1,0,0,0
+access_rgb_well_manager,rgb.well.manager,model_rgb_well,sales_team.group_sale_manager,1,1,1,1
+access_rgb_rig_user,rgb.rig.user,model_rgb_rig,base.group_user,1,0,0,0
+access_rgb_rig_manager,rgb.rig.manager,model_rgb_rig,sales_team.group_sale_manager,1,1,1,1

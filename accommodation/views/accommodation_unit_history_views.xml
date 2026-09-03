@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_accommodation_unit_history_list" model="ir.ui.view">
+        <field name="name">accommodation.unit.history.list</field>
+        <field name="model">accommodation.unit.history</field>
+        <field name="arch" type="xml">
+            <list create="false" edit="false" delete="false">
+                <field name="unit_id"/>
+                <field name="employee_id"/>
+                <field name="location"/>
+                <field name="project_id"/>
+                <field name="check_in_date"/>
+                <field name="check_out_date"/>
+                <field name="state" widget="badge"
+                       decoration-success="state == 'in'"
+                       decoration-muted="state == 'out'"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="action_accommodation_unit_history" model="ir.actions.act_window">
+        <field name="name">Occupancy History</field>
+        <field name="res_model">accommodation.unit.history</field>
+        <field name="view_mode">list</field>
+    </record>
+</odoo>

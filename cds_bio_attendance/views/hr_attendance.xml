@@ -1,0 +1,48 @@
+<odoo>
+    <data>
+        <!-- Inherit Form View to Modify it -->
+        <record id="view_attendance_tree_biometric" model="ir.ui.view">
+            <field name="name">hr.attendance.list.biometric</field>
+            <field name="model">hr.attendance</field>
+            <field name="inherit_id" ref="hr_attendance.view_attendance_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="//list" position="attributes">
+                    <attribute name="decoration-danger">state in ('fixin','fixout')</attribute>
+                    <attribute name="decoration-warning">state == 'fixed'</attribute>
+                </xpath>
+
+
+
+
+                 <xpath expr="//field[@name='check_out']" position="after">
+                    <field name="state" invisible="0" readonly="1"/>
+                      <button string="FIX" name="fix_register"
+                            type="object"
+                              invisible="state not in ['fixin','fixout']" class="oe_highlight" groups="hr_attendance.group_hr_attendance_manager"/>
+                </xpath>
+
+
+            </field>
+        </record>
+
+
+        <record id="hr_attendance_form_view_biometric" model="ir.ui.view">
+            <field name="name">hr.attendance.form.view.biometric</field>
+            <field name="model">hr.attendance</field>
+            <field name="inherit_id" ref="hr_attendance.hr_attendance_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="/form/*" position="before">
+                    <header>
+                        <button string="Set as Fixed" name="fix_register"
+                            type="object" invisible="state not in ['fixin','fixout']" class="oe_highlight" groups="hr_attendance.group_hr_attendance_officer"/>
+                         <button string="Send Notification" name="send_notification"
+                            type="object" invisible="state not in ['fixin','fixout']" class="oe_highlight" groups="hr_attendance.group_hr_attendance_manager"/>
+                        <field name="state" widget="statusbar"
+                            statusbar_visible="right,fix"
+                            statusbar_colors='{"fixin":"red","fixout":"red"}'/>
+                   </header>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

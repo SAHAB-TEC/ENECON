@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_product_template_form_enecon_daily_report" model="ir.ui.view">
+        <field name="name">product.template.form.enecon.daily.report</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_only_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='categ_id']" position="after">
+                <field name="rgb_enecon_material"/>
+                <field name="rgb_enecon_equipment"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

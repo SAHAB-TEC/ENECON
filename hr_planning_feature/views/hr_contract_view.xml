@@ -1,0 +1,28 @@
+<odoo>
+    <record id="view_hr_contract_form_inherit_planning" model="ir.ui.view">
+        <field name="name">hr.contract.form.inherit.planning</field>
+        <field name="model">hr.contract</field>
+        <field name="inherit_id" ref="hr_contract.hr_contract_view_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='calendar_mismatch']" position="after">
+                <field name="planning"/>
+            </xpath>
+        </field>
+    </record>
+
+
+        <record id="view_attendance_sheet_inherit_unpaid_leave" model="ir.ui.view">
+            <field name="name">attendance.sheet.unpaid.leave.inherit</field>
+            <field name="model">attendance.sheet</field>
+            <field name="inherit_id" ref="rm_hr_attendance_sheet.attendance_sheet_form_view"/> <!-- Replace with actual view ID -->
+            <field name="arch" type="xml">
+                <xpath expr="//notebook/page[2]" position="inside">
+                    <group string="Unpaid Leave">
+                        <field name="unpaid_leave_days" readonly="1"/>
+                    </group>
+                </xpath>
+            </field>
+        </record>
+
+
+</odoo>

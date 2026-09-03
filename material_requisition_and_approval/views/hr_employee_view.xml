@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) 2016-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<!-- License URL : <https://store.webkul.com/license.html/> -->
+
+<odoo>
+    <record id="hr_employee_view_form" model="ir.ui.view">
+        <field name="name">hr.employee.view.form.inherit.hr.work.location</field>
+        <field name="model">hr.employee</field>
+        <field name="inherit_id" ref="hr.view_employee_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[@name='button_box']" position="inside">
+                <button name="action_view_material_requisitions" type="object" class="oe_stat_button" icon="fa-list">
+                    <field name="material_requisition_count" widget="statinfo" string="Requisitions"/>
+                </button>
+            </xpath>
+            
+            <xpath expr="//field[@name='work_location_id']" position="after">
+                <field name="default_location_id"/>
+            </xpath>
+            
+            <xpath expr="//header" position="inside">
+                <button name="action_create_material_requisition" string="Create Material Requisition" 
+                        type="object" class="oe_highlight" groups="base.group_user"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

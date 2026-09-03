@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="action_report_payroll_bank" model="ir.actions.report">
+        <field name="name">Payroll Bank Report</field>
+        <field name="model">payroll.bank.report.wizard</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">payroll_bank_report.report_payroll_bank_template</field>
+        <field name="report_file">payroll_bank_report.report_payroll_bank_template</field>
+        <field name="print_report_name">'Payroll Bank Report - %s-%s' % (object.year, object.month)</field>
+    </record>
+
+    <record id="action_report_payroll_bank_lines" model="ir.actions.report">
+        <field name="name">Print Payroll Bank Report</field>
+        <field name="model">payroll.bank.report.line</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">payroll_bank_report.report_payroll_bank_lines_template</field>
+        <field name="report_file">payroll_bank_report.report_payroll_bank_lines_template</field>
+        <field name="binding_model_id" ref="model_payroll_bank_report_line"/>
+        <field name="binding_type">report</field>
+        <field name="print_report_name">'Payroll Bank Report'</field>
+    </record>
+
+    <template id="payroll_bank_report_table">
+        <table class="table table-sm table-bordered">
+            <thead>
+                <tr>
+                    <th style="width:35%;">Employee</th>
+                    <th style="width:25%;" class="text-end">Net Salary</th>
+                    <th style="width:40%;">Bank Account</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr t-foreach="lines" t-as="line">
+                    <td>
+                        <span t-field="line.employee_id"/>
+                    </td>
+
+                    <td class="text-end">
+                        <span t-field="line.net_salary"/>
+                    </td>
+
+                    <td>
+                        <span t-esc="line.account_number"/>
+                    </td>
+                </tr>
+
+                <tr t-if="not lines">
+                    <td colspan="3" class="text-center">
+                        No paid/done payslips found for the selected criteria.
+                    </td>
+                </tr>
+            </tbody>
+
+            <tfoot t-if="lines">
+                <tr>
+                    <th class="text-end">Total</th>
+                    <th class="text-end">
+                        <span t-esc="total_net_salary"
+                              t-options="{'widget':'monetary','display_currency':company.currency_id}"/>
+                    </th>
+                    <th></th>
+                </tr>
+            </tfoot>
+        </table>
+    </template>
+
+    <template id="report_payroll_bank_template">
+        <t t-call="web.html_container">
+            <t t-call="web.external_layout">
+
+                <div class="page">
+                   <div class="text-center">
+                        <h2 style="color:#1f35c6;">Payroll Bank Report</h2>
+                        <h2 style="color:#1f35c6; margin-top:0;">
+                        <strong>Bank:</strong>
+                        <span t-esc="bank_name"/>
+                    </h2>
+                </div>
+                    <div class="row mb16">
+                        <div class="col-6">
+                            <strong>Company:</strong>
+                            <span t-esc="company.name"/>
+                        </div>
+
+                        <div class="col-6 text-end">
+                            <strong>Period:</strong>
+                            <span t-esc="date_from"/>
+                            <span> - </span>
+                            <span t-esc="date_to"/>
+                        </div>
+                    </div>
+
+                    <div class="row mb16">
+                        <div class="col-12">
+                            <strong>Filter:</strong>
+                            <span t-esc="filter_label"/>
+                        </div>
+                    </div>
+                  
+
+                    <t t-call="payroll_bank_report.payroll_bank_report_table"/>
+
+                </div>
+
+            </t>
+        </t>
+    </template>
+
+    <template id="report_payroll_bank_lines_template">
+        <t t-call="web.html_container">
+            <t t-call="web.external_layout">
+
+                <div class="page">
+
+                    <h2 class="text-center">
+                        Payroll Bank Report
+                    </h2>
+
+                    <div class="row mb16">
+                        <div class="col-6">
+                            <strong>Company:</strong>
+                            <span t-esc="company.name"/>
+                        </div>
+
+                        <div class="col-6 text-end">
+                            <strong>Period:</strong>
+                            <span t-esc="date_from"/>
+                            <span> - </span>
+                            <span t-esc="date_to"/>
+                        </div>
+                    </div>
+
+                    <div class="row mb16">
+                        <div class="col-12">
+                            <strong>Filter:</strong>
+                            <span t-esc="filter_label"/>
+                        </div>
+                    </div>
+
+                    <div class="row mb16">
+                        <div class="col-12">
+                            <strong>Bank:</strong>
+                            <span t-esc="bank_name"/>
+                        </div>
+                    </div>
+
+                    <t t-call="payroll_bank_report.payroll_bank_report_table"/>
+
+                </div>
+
+            </t>
+        </t>
+    </template>
+
+    <template id="report_payslip_hide_worked_days"
+              inherit_id="hr_payroll.report_payslip">
+        <xpath expr="//div[@id='worked_days_table']" position="replace"/>
+    </template>
+
+    <template id="report_payslip_hide_working_schedule"
+              inherit_id="hr_payroll.report_payslip">
+        <xpath expr="//div[@id='working_schedule']" position="replace"/>
+    </template>
+
+    <template id="report_payslip_hide_marital_status"
+              inherit_id="hr_payroll.report_payslip">
+        <xpath expr="//div[@id='employee_marital']" position="replace"/>
+    </template>
+
+</odoo>

@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) 2016-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<!-- License URL : <https://store.webkul.com/license.html/> -->
+<odoo>
+
+                
+            
+    <menuitem id="menu_material_requisition_root"
+                name="Material Requisition"
+                web_icon="material_requisition_and_approval,static/description/icon.png"
+                />
+
+        <menuitem id="menu_material_requisition_dashboard"
+                name="Dashboard"
+                parent="menu_material_requisition_root"
+                sequence="10"
+                action="action_material_requisition_dashboard_client"
+                />
+        
+        <menuitem id="menu_material_requisition_requests"
+                name="Material Requisition"
+                parent="menu_material_requisition_root"
+                sequence="20"
+                />
+         
+                <menuitem id="menu_my_requests"
+                        name="My Requests"
+                        parent="menu_material_requisition_requests"
+                        sequence="10"
+                        action="action_my_requests"
+                        />
+
+                <menuitem id="menu_all_requests"
+                        name="All Requests"
+                        parent="menu_material_requisition_requests"
+                        sequence="20"
+                        action="action_all_requests"
+                        groups="material_requisition_and_approval.group_requisition_officer,stock.group_stock_manager,material_requisition_and_approval.group_requisition_approver" />
+
+                <!-- <menuitem id="menu_approval_logs"
+                            name="Approval Logs"
+                            parent="menu_material_requisition_requests"
+                            sequence="30"
+                            action="action_approval_logs"
+                            groups="material_requisition_and_approval.group_requisition_approver" /> -->
+
+            <menuitem id="menu_material_requisition_reports"
+                    name="Reports"
+                    parent="menu_material_requisition_root"
+                    sequence="30"
+                    groups="material_requisition_and_approval.group_requisition_officer" />
+
+                <menuitem id="menu_material_request_summary"
+                        name="Material Request Summary"
+                        parent="menu_material_requisition_reports"
+                        sequence="10"
+                        action="action_material_requisition_summary"
+                        groups="material_requisition_and_approval.group_requisition_officer" />
+
+            <menuitem id="menu_material_requisition_config"
+                    name="Configuration"
+                    parent="menu_material_requisition_root"
+                    sequence="40"
+                    groups="material_requisition_and_approval.group_requisition_officer" />
+
+                <menuitem id="menu_approval_rules"
+                        name="Approval Rules"
+                        parent="menu_material_requisition_config"
+                        sequence="70"
+                        action="action_approval_rules"
+                        groups="material_requisition_and_approval.group_requisition_officer" />
+
+                <menuitem id="menu_location_role_setup"
+                        name="Location Role Setup"
+                        parent="menu_material_requisition_config"
+                        sequence="80"
+                        action="action_location_role_setup"
+                        groups="material_requisition_and_approval.group_requisition_officer" />
+
+                <menuitem id="menu_material_requisition_dashboard_edit"
+                                name="Dashboard Setup"
+                                parent="menu_material_requisition_config"
+                                sequence="90"
+                                action="action_material_requisition_dashboard_edit"
+                                />
+                        
+</odoo>

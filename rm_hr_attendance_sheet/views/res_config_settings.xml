@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="cds_res_config_settings_view_form" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.inherit.hr.attendance</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="hr_attendance.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//block[@name='overtime_settings']" position="after">
+                <block title="Attendance Month Settings" name="attendance_month_settings">
+                    <setting company_dependent="1">
+                        <div class="mt16">
+                            <label for="first_day_of_month" class="o_form_label">
+                                First Day of Attendance Month
+                            </label>
+                            <div class="text-muted">
+                                Specify the first day of the attendance month (e.g., 1 for 1st, 26 for 26th).
+                            </div>
+                            <span class="me-2">First Day</span>
+                            <field name="first_day_of_month" class="text-center" style="width: 5ch;" force_save="1"/>
+                            <span class="ms-2">Day</span>
+                        </div>
+                    </setting>
+                </block>
+
+            </xpath>
+        </field>
+    </record>
+    <record id="cds_view_company_form" model="ir.ui.view">
+        <field name="name">res.company.form</field>
+        <field name="model">res.company</field>
+        <field name="inherit_id" ref="base.view_company_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='currency_id']" position="after">
+                <field name="first_day_of_month"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>
+

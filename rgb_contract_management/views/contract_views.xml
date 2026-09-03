@@ -1,0 +1,411 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- List -->
+    <record id="view_rgb_contract_list" model="ir.ui.view">
+        <field name="name">rgb.contract.list</field>
+        <field name="model">rgb.contract</field>
+        <field name="arch" type="xml">
+            <list string="Contracts"
+                  decoration-muted="state in ('cancelled', 'expired', 'done_locked')"
+                  decoration-danger="reminder_alert"
+                  decoration-bf="reminder_alert">
+                <field name="reminder_alert" column_invisible="1"/>
+                <field name="name"/>
+                <field name="contract_code" optional="show"/>
+                <field name="indicative_number" optional="show"/>
+                <field name="contract_name" optional="show"/>
+                <field name="partner_id"/>
+                <field name="contract_type"/>
+                <field name="contract_business_type_id" optional="show"/>
+                <field name="service_duration_days" optional="show"/>
+                <field name="remaining_days"/>
+                <field name="reminder_alert_type" optional="show"
+                       decoration-danger="reminder_alert"
+                       widget="badge"/>
+                <field name="contract_value_currency"/>
+                <field name="contract_value_lyd"/>
+                <field name="paid_percent_currency" string="Paid %"/>
+                <field name="currency_id" column_invisible="1"/>
+                <field name="state" widget="badge"
+                       decoration-info="state == 'draft'"
+                       decoration-warning="state == 'under_approval'"
+                       decoration-success="state in ('approved', 'in_progress', 'done')"
+                       decoration-danger="state == 'done_locked'"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Kanban -->
+    <record id="view_rgb_contract_kanban" model="ir.ui.view">
+        <field name="name">rgb.contract.kanban</field>
+        <field name="model">rgb.contract</field>
+        <field name="arch" type="xml">
+            <kanban default_group_by="state" class="o_kanban_mobile" sample="1">
+                <field name="name"/>
+                <field name="partner_id"/>
+                <field name="contract_value_currency"/>
+                <field name="remaining_days"/>
+                <field name="state"/>
+                <field name="reminder_alert"/>
+                <field name="alert_guarantee_10_active"/>
+                <field name="alert_guarantee_60_active"/>
+                <field name="alert_contract_expiry_active"/>
+                <field name="alert_advance_payment_active"/>
+                <field name="alert_guarantee_10_label"/>
+                <field name="alert_guarantee_60_label"/>
+                <field name="alert_contract_expiry_label"/>
+                <field name="alert_advance_payment_label"/>
+                <templates>
+                    <t t-name="card">
+                        <div t-attf-class="#{record.reminder_alert.raw_value ? 'o_contract_reminder_alert border border-danger border-2 rounded p-2' : ''}"
+                             t-attf-style="#{record.reminder_alert.raw_value ? 'background-color: #f8d7da;' : ''}">
+                            <field name="name" class="fw-bold"/>
+                            <field name="contract_name" class="fw-bold"/>
+                            <field name="partner_id"/>
+                            <field name="contract_value_currency"/>
+                            <field name="remaining_days"/> days left
+                            <div t-if="record.alert_guarantee_10_active.raw_value" class="text-danger fw-bold mt-1 small">
+                                <i class="fa fa-exclamation-triangle"/> <t t-esc="record.alert_guarantee_10_label.value"/>
+                            </div>
+                            <div t-if="record.alert_guarantee_60_active.raw_value" class="text-warning-emphasis fw-bold mt-1 small">
+                                <i class="fa fa-exclamation-triangle"/> <t t-esc="record.alert_guarantee_60_label.value"/>
+                            </div>
+                            <div t-if="record.alert_contract_expiry_active.raw_value" class="text-danger fw-bold mt-1 small">
+                                <i class="fa fa-exclamation-triangle"/> <t t-esc="record.alert_contract_expiry_label.value"/>
+                            </div>
+                            <div t-if="record.alert_advance_payment_active.raw_value" class="text-danger fw-bold mt-1 small">
+                                <i class="fa fa-exclamation-triangle"/> <t t-esc="record.alert_advance_payment_label.value"/>
+                            </div>
+                            <field name="state" widget="badge"/>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <!-- Search -->
+    <record id="view_rgb_contract_search" model="ir.ui.view">
+        <field name="name">rgb.contract.search</field>
+        <field name="model">rgb.contract</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="contract_code"/>
+                <field name="indicative_number"/>
+                <field name="contract_name"/>
+                <field name="partner_id"/>
+                <filter name="draft" string="Draft" domain="[('state', '=', 'draft')]"/>
+                <filter name="under_approval" string="Under Approval" domain="[('state', '=', 'under_approval')]"/>
+                <filter name="in_progress" string="In Progress" domain="[('state', '=', 'in_progress')]"/>
+                <filter name="done_unlocked" string="Done Unlocked" domain="[('state', '=', 'done')]"/>
+                <filter name="done_locked" string="Done Locked" domain="[('state', '=', 'done_locked')]"/>
+                <separator/>
+                <filter name="reminder_alert" string="Expiry Reminders"
+                        domain="[('reminder_alert', '=', True)]"/>
+                <separator/>
+                <filter name="purchase" string="Purchase" domain="[('contract_type', '=', 'purchase_contract')]"/>
+                <filter name="sale" string="Sale" domain="[('contract_type', '=', 'sale_contract')]"/>
+                <group>
+                    <filter name="group_state" string="Status" context="{'group_by': 'state'}"/>
+                    <filter name="group_partner" string="Partner" context="{'group_by': 'partner_id'}"/>
+                    <filter name="group_type" string="Contract Type" context="{'group_by': 'contract_type'}"/>
+                    <filter name="group_indicative_number" string="Indicative Number"
+                            context="{'group_by': 'indicative_number'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Form -->
+    <record id="view_rgb_contract_form" model="ir.ui.view">
+        <field name="name">rgb.contract.form</field>
+        <field name="model">rgb.contract</field>
+        <field name="arch" type="xml">
+            <form string="Contract">
+                <header>
+                    <button name="action_confirm" string="Confirm" type="object"
+                            class="oe_highlight" invisible="state != 'draft'"
+                            groups="rgb_contract_management.group_contract_stage_confirm"/>
+                    <button name="action_approve" string="Approve" type="object"
+                            class="oe_highlight" invisible="state != 'under_approval'"
+                            groups="rgb_contract_management.group_contract_stage_approve"/>
+                    <button name="action_set_in_progress" string="Start" type="object"
+                            class="oe_highlight" invisible="state != 'approved'"
+                            groups="rgb_contract_management.group_contract_stage_start"/>
+                    <button name="action_done" string="Done Unlocked" type="object"
+                            invisible="state != 'in_progress'"
+                            groups="rgb_contract_management.group_contract_stage_done"/>
+                    <button name="action_lock_done" string="Done Locked" type="object"
+                            class="oe_highlight" invisible="state != 'done'"
+                            groups="rgb_contract_management.group_contract_stage_lock"/>
+                    <button name="action_unlock_done" string="Unlock Done" type="object"
+                            invisible="state != 'done_locked'"
+                            groups="rgb_contract_management.group_contract_stage_unlock"/>
+                    <button name="action_cancel" string="Cancel" type="object"
+                            invisible="state in ('done', 'done_locked', 'cancelled', 'expired')"
+                            groups="rgb_contract_management.group_contract_stage_cancel"/>
+                    <button name="action_reset_to_draft" string="Reset to Draft" type="object"
+                            invisible="state not in ('under_approval', 'cancelled')"
+                            groups="rgb_contract_management.group_contract_stage_reset"/>
+                    <button name="action_expire" string="Mark Expired" type="object"
+                            invisible="state in ('done', 'done_locked', 'cancelled', 'expired')"
+                            groups="rgb_contract_management.group_contract_stage_expire"/>
+                    <button name="action_create_invoice" string="Create Invoice" type="object"
+                            invisible="state not in ('in_progress', 'done')"
+                            groups="rgb_contract_management.group_contract_user"/>
+                    <field name="state" widget="statusbar"
+                           statusbar_visible="draft,under_approval,approved,in_progress,done,done_locked"/>
+                </header>
+                <sheet>
+                    <widget name="web_ribbon" title="Expiry Alert" bg_color="text-bg-danger"
+                            invisible="not reminder_alert"/>
+                    <field name="reminder_alert" invisible="1"/>
+                    <field name="has_hidden_reminder_alerts" invisible="1"/>
+                    <field name="alert_guarantee_10_visible" invisible="1"/>
+                    <field name="alert_guarantee_60_visible" invisible="1"/>
+                    <field name="alert_contract_expiry_visible" invisible="1"/>
+                    <field name="alert_advance_payment_visible" invisible="1"/>
+                    <div class="mb-2" invisible="not has_hidden_reminder_alerts">
+                        <button name="action_show_reminder_alerts" type="object"
+                                string="Show Reminder Alerts"
+                                class="btn btn-secondary btn-sm"
+                                icon="fa-eye"/>
+                    </div>
+                    <div class="alert alert-danger d-flex justify-content-between align-items-center mb-2"
+                         role="alert" invisible="not alert_guarantee_10_visible">
+                        <strong><i class="fa fa-exclamation-triangle"/> <field name="alert_guarantee_10_label" readonly="1" nolabel="1" class="oe_inline"/></strong>
+                        <button name="action_hide_reminder_guarantee_10" type="object"
+                                string="Hide" class="btn btn-sm btn-outline-danger" icon="fa-eye-slash"/>
+                    </div>
+                    <div class="alert alert-warning d-flex justify-content-between align-items-center mb-2"
+                         role="alert" invisible="not alert_guarantee_60_visible">
+                        <strong><i class="fa fa-exclamation-triangle"/> <field name="alert_guarantee_60_label" readonly="1" nolabel="1" class="oe_inline"/></strong>
+                        <button name="action_hide_reminder_guarantee_60" type="object"
+                                string="Hide" class="btn btn-sm btn-outline-warning" icon="fa-eye-slash"/>
+                    </div>
+                    <div class="alert alert-danger d-flex justify-content-between align-items-center mb-2"
+                         role="alert" invisible="not alert_contract_expiry_visible">
+                        <strong><i class="fa fa-exclamation-triangle"/> <field name="alert_contract_expiry_label" readonly="1" nolabel="1" class="oe_inline"/></strong>
+                        <button name="action_hide_reminder_contract_expiry" type="object"
+                                string="Hide" class="btn btn-sm btn-outline-danger" icon="fa-eye-slash"/>
+                    </div>
+                    <div class="alert alert-danger d-flex justify-content-between align-items-center mb-2"
+                         role="alert" invisible="not alert_advance_payment_visible">
+                        <strong><i class="fa fa-exclamation-triangle"/> <field name="alert_advance_payment_label" readonly="1" nolabel="1" class="oe_inline"/></strong>
+                        <button name="action_hide_reminder_advance_payment" type="object"
+                                string="Hide" class="btn btn-sm btn-outline-danger" icon="fa-eye-slash"/>
+                    </div>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_invoices" type="object"
+                                class="oe_stat_button" icon="fa-pencil-square-o">
+                            <field name="invoice_count" widget="statinfo" string="Invoices"/>
+                        </button>
+                    </div>
+                    <div class="oe_title">
+                        <h1><field name="name" readonly="1"/></h1>
+                        <label for="contract_code" string="Contract No"/>
+                        <h2><field name="contract_code" placeholder="e.g. CNT-2026-001"/></h2>
+                        <label for="indicative_number" string="Indicative Number"/>
+                        <h2><field name="indicative_number" placeholder="e.g. REF-001"/></h2>
+                        <label for="contract_name" string="Contract Name"/>
+                        <h2><field name="contract_name" placeholder="e.g. Contract Name"/></h2>
+                    </div>
+                    <group>
+                        <group string="Contract Information">
+                            <field name="contract_type" readonly="state != 'draft'"/>
+                            <field name="contract_business_type_id"
+                                   options="{'no_create': True, 'no_create_edit': True}"/>
+                            <field name="partner_id"
+                                   domain="[('is_contractor', '=', True)]"
+                                   invisible="contract_type != 'purchase_contract'"
+                                   required="contract_type == 'purchase_contract'"/>
+                            <field name="partner_id"
+                                   invisible="contract_type != 'sale_contract'"
+                                   required="contract_type == 'sale_contract'"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                            <field name="responsible_user_id"/>
+                            <field name="approval_user_id"/>
+                            <field name="analytic_account_id"/>
+                            <field name="price_list_id" invisible="contract_type != 'sale_contract'"/>
+                        </group>
+                        <group string="Dates &amp; Duration">
+                            <field name="date_start"/>
+                            <field name="date_end"/>
+                            <field name="service_duration_days"/>
+                            <field name="remaining_days" readonly="1"/>
+                        </group>
+                    </group>
+                    <group string="Amounts">
+                        <group>
+                            <field name="currency_id"/>
+                            <field name="contract_value_currency"/>
+                            <field name="exchange_rate"/>
+                            <field name="allow_over_contract_value"/>
+                            <field name="without_advance_payment"/>
+                            <field name="contract_amendment_percent"/>
+                        </group>
+                        <group>
+                            <field name="lyd_currency_id" invisible="1"/>
+                            <field name="contract_value_lyd"/>
+                            <field name="total_invoiced_amount" readonly="1"/>
+                            <field name="paid_invoice_amount" readonly="1"/>
+                            <field name="unpaid_invoice_amount" readonly="1"/>
+                            <field name="paid_percent_currency" readonly="1"/>
+                        </group>
+                    </group>
+                    <group string="Payment Currency Split">
+                        <field name="currency_split_percentage_total" readonly="1"
+                               decoration-danger="currency_split_percentage_total != 100 and currency_split_percentage_total != 0"/>
+                        <field name="currency_split_ids" nolabel="1" colspan="2">
+                            <list editable="bottom">
+                                <field name="sequence" widget="handle"/>
+                                <field name="currency_id"/>
+                                <field name="exchange_rate"/>
+                                <field name="percentage"/>
+                                <field name="amount" readonly="1"/>
+                            </list>
+                        </field>
+                        <field name="dollar_percentage" invisible="1"/>
+                        <field name="libya_dinar_percentage" invisible="1"/>
+                        <field name="usd_amount" invisible="1"/>
+                        <field name="lyd_amount" invisible="1"/>
+                    </group>
+                    <notebook>
+                        <page string="Payment Conditions" name="payment">
+                            <field name="payment_terms_text" placeholder="General payment terms..."/>
+                            <field name="payment_condition_ids">
+                                <list editable="bottom">
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="name"/>
+                                    <field name="percentage"/>
+                                    <field name="currency_id"/>
+                                    <field name="amount_currency"/>
+                                    <field name="amount_lyd"/>
+                                    <field name="payment_method"/>
+                                    <field name="notes"/>
+                                </list>
+                            </field>
+                            <group string="Advance Payment" invisible="without_advance_payment">
+                                <group>
+                                    <field name="advance_payment_percent"/>
+                                    <field name="advance_payment_amount"/>
+                                    <field name="advance_payment_due_date"/>
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Invoice Lines" name="invoice_lines">
+                            <field name="tax_type_use" invisible="1"/>
+                            <group>
+                                <group>
+                                    <field name="invoice_currency_id"/>
+                                    <field name="invoice_exchange_rate"/>
+                                </group>
+                            </group>
+                            <field name="contract_line_ids">
+                                <list editable="bottom">
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="line_role" column_invisible="1"/>
+                                    <field name="is_first_invoice_line" column_invisible="1"/>
+                                    <field name="show_advance_button" column_invisible="1"/>
+                                    <field name="show_retention_button" column_invisible="1"/>
+                                    <field name="show_performance_button" column_invisible="1"/>
+                                    <field name="advance_payment_line_id" column_invisible="1"/>
+                                    <field name="retention_guarantee_line_id" column_invisible="1"/>
+                                    <field name="performance_guarantee_line_id" column_invisible="1"/>
+                                    <field name="source_line_id" column_invisible="1"/>
+                                    <field name="product_id"/>
+                                    <field name="name"/>
+                                    <field name="contract_value_percent"
+                                             readonly="not is_first_invoice_line"
+                                             optional="show"/>
+                                    <field name="quantity"/>
+                                    <field name="product_uom_id" optional="show"/>
+                                    <field name="price_unit" readonly="contract_value_percent"/>
+                                    <field name="discount" optional="hide"/>
+                                    <field name="tax_ids" widget="many2many_tags" optional="show"/>
+                                    <field name="account_id" optional="hide"/>
+                                    <field name="price_subtotal" readonly="1"/>
+                                    <button name="action_add_advance_payment"
+                                            type="object"
+                                            string="Add Advance Payment"
+                                            icon="fa-minus-circle"
+                                            invisible="not show_advance_button"/>
+                                    <button name="action_add_retention_guarantee"
+                                            type="object"
+                                            string="Add Retention Guarantee"
+                                            icon="fa-shield"
+                                            invisible="not show_retention_button"/>
+                                    <button name="action_add_performance_guarantee"
+                                            type="object"
+                                            string="Add Performance Guarantee"
+                                            icon="fa-certificate"
+                                            invisible="not show_performance_button"/>
+                                    <field name="currency_id" column_invisible="1"/>
+                                </list>
+                            </field>
+                            <group>
+                                <field name="contract_lines_total" readonly="1"/>
+                            </group>
+                        </page>
+                        <page string="Invoices" name="invoices">
+                            <field name="invoice_ids" readonly="1">
+                                <list>
+                                    <field name="name"/>
+                                    <field name="invoice_date"/>
+                                    <field name="state"/>
+                                    <field name="payment_state"/>
+                                    <field name="amount_total"/>
+                                    <field name="amount_residual" string="Unpaid"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Insurance" name="insurance">
+                            <label for="insurance_type_ids"/>
+                            <field name="insurance_type_ids" widget="many2many_tags" nolabel="1"
+                                   domain="['|', ('applicable_contract_type', '=', 'all'), ('applicable_contract_type', '=', contract_type)]"/>
+                            <group string="Insurance Documents (PDF required before activation)">
+                                <field name="insurance_attachment_ids" widget="many2many_binary"/>
+                            </group>
+                        </page>
+                        <page string="Guarantees" name="guarantees">
+                            <group string="Performance Guarantee">
+                                <field name="performance_guarantee_expiry_date"/>
+                                <field name="performance_guarantee_attachment_ids" widget="many2many_binary"/>
+                            </group>
+                            <group string="Bank Guarantee">
+                                <field name="bank_guarantee_status"/>
+                                <field name="bank_guarantee_value"/>
+                                <field name="bank_guarantee_attachment_ids" widget="many2many_binary"/>
+                            </group>
+                        </page>
+                        <page string="Delay Penalty" name="penalty">
+                            <group>
+                                <field name="agreed_execution_date"/>
+                                <field name="actual_execution_date"/>
+                                <field name="delay_penalty_daily_rate"/>
+                                <field name="delay_penalty_max_percent"/>
+                                <field name="delay_penalty_amount" readonly="1"/>
+                            </group>
+                        </page>
+                        <page string="Notes" name="notes">
+                            <field name="notes"/>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_rgb_contract" model="ir.actions.act_window">
+        <field name="name">Contracts</field>
+        <field name="res_model">rgb.contract</field>
+        <field name="view_mode">kanban,list,form</field>
+        <field name="search_view_id" ref="view_rgb_contract_search"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Create a new contract</p>
+            <p>Manage purchase contracts with contractors and sale contracts with customers.</p>
+        </field>
+    </record>
+</odoo>

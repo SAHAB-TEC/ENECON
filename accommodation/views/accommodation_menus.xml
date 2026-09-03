@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Root app icon: visibility gated by group_accommodation_user -->
+    <menuitem id="menu_accommodation_root" name="Accommodation" sequence="85"
+              web_icon="accommodation,static/description/icon.png"
+              groups="accommodation.group_accommodation_user"/>
+
+    <!-- Accommodation Units menu: Units / Guests / Maintenance tabs -->
+    <menuitem id="menu_accommodation_units_root" name="Accommodation Units"
+              parent="menu_accommodation_root" sequence="10"/>
+    <menuitem id="menu_accommodation_unit" name="Accommodation Units"
+              parent="menu_accommodation_units_root" action="action_accommodation_unit" sequence="10"/>
+    <menuitem id="menu_accommodation_guest" name="Guests"
+              parent="menu_accommodation_units_root" action="action_accommodation_guest" sequence="20"/>
+    <menuitem id="menu_accommodation_repair" name="Maintenance"
+              parent="menu_accommodation_units_root" action="action_accommodation_repair" sequence="30"/>
+
+    <!-- Configuration menu: visibility gated by group_accommodation_config -->
+    <menuitem id="menu_accommodation_config_root" name="Configuration"
+              parent="menu_accommodation_root" sequence="90"
+              groups="accommodation.group_accommodation_config"/>
+    <menuitem id="menu_accommodation_type" name="Accommodation Types"
+              parent="menu_accommodation_config_root" action="action_accommodation_type" sequence="10"/>
+
+    <!-- Reports menu -->
+    <menuitem id="menu_accommodation_reports_root" name="Reports"
+              parent="menu_accommodation_root" sequence="80"/>
+    <menuitem id="menu_accommodation_repair_report" name="Maintenance Analytics"
+              parent="menu_accommodation_reports_root" action="action_accommodation_repair_report" sequence="10"/>
+</odoo>

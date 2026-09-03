@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="attendance_sheet_company_rule" model="ir.rule">
+            <field name="name">Attendance Sheet multi company rule</field>
+            <field name="model_id" ref="model_attendance_sheet"/>
+            <field eval="True" name="global"/>
+            <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
+        </record>
+
+
+
+        <record id="attendance_sheet_employee_own_document_rule" model="ir.rule">
+            <field name="name">Attendance Sheet : Employee Own Documents</field>
+            <field ref="rm_hr_attendance_sheet.model_attendance_sheet" name="model_id"/>
+            <field name="domain_force">[('employee_id.user_id', '=', user.id)]</field>
+            <field name="groups"
+                   eval="[(4, ref('rm_hr_attendance_sheet.group_attendance_sheet_employee'))]"/>
+        </record>
+        <record id="attendance_sheet_leader_own_team_rule" model="ir.rule">
+            <field name="name">Attendance Sheet : Leader Own Team Documents</field>
+            <field ref="rm_hr_attendance_sheet.model_attendance_sheet" name="model_id"/>
+            <field name="domain_force">['|', ('employee_id.parent_id.user_id', '=', user.id), (
+                'employee_id', 'child_of', user.employee_id.id)]</field>
+            <field name="groups"
+                   eval="[(4, ref('rm_hr_attendance_sheet.group_attendance_sheet_leader'))]"/>
+        </record>
+
+        <record id="attendance_sheet_user_all_rule" model="ir.rule">
+            <field name="name">Attendance Sheet : Officer All Documents</field>
+            <field ref="rm_hr_attendance_sheet.model_attendance_sheet" name="model_id"/>
+            <field name="domain_force">[(1, '=', 1)]</field>
+            <field name="groups"
+                   eval="[(4, ref('rm_hr_attendance_sheet.group_attendance_sheet_user'))]"/>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="utf-8"?>
+<templates xml:space="preserve">
+    <t t-name="construction_management.Dashboard">
+        <div class="o_construction_dashboard">
+            <div class="container-fluid py-4 px-4">
+
+                <!-- ═══ Header + Filters ═══ -->
+                <div class="dashboard-header d-flex justify-content-between align-items-center mb-4">
+                    <div>
+                        <h4 class="mb-0">
+                            <i class="fa fa-hard-hat me-2" style="opacity:0.85;"/>Project Statistics
+                        </h4>
+                        <div class="header-subtitle">Construction Management Overview</div>
+                    </div>
+                    <div class="d-flex gap-2">
+                        <select class="form-select form-select-sm filter-select"
+                                t-on-change="onProjectFilterChange">
+                            <option value="">All Projects</option>
+                            <t t-foreach="state.projectOptions" t-as="proj" t-key="proj.id">
+                                <option t-att-value="proj.id"
+                                        t-att-selected="state.selectedProjectId == proj.id">
+                                    <t t-esc="proj.name"/>
+                                </option>
+                            </t>
+                        </select>
+                        <select class="form-select form-select-sm filter-select"
+                                t-on-change="onSubProjectFilterChange">
+                            <option value="">All Sub Projects</option>
+                            <t t-foreach="state.subProjectOptions" t-as="sp" t-key="sp.id">
+                                <option t-att-value="sp.id"
+                                        t-att-selected="state.selectedSubProjectId == sp.id">
+                                    <t t-esc="sp.name"/>
+                                </option>
+                            </t>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- ═══ KPI Cards ═══ -->
+                <div class="row g-3 mb-4">
+                    <div class="col-lg-2 col-md-4 col-sm-6">
+                        <div class="kpi-card kpi-blue cursor-pointer" t-on-click="onProjectsClick">
+                            <div class="kpi-icon"><i class="fa fa-building"/></div>
+                            <div class="kpi-label">Projects</div>
+                            <div class="kpi-value"><t t-esc="state.projectCount"/></div>
+                        </div>
+                    </div>
+                    <div class="col-lg-2 col-md-4 col-sm-6">
+                        <div class="kpi-card kpi-green cursor-pointer" t-on-click="onSubProjectsClick">
+                            <div class="kpi-icon"><i class="fa fa-sitemap"/></div>
+                            <div class="kpi-label">Sub Projects</div>
+                            <div class="kpi-value"><t t-esc="state.subProjectCount"/></div>
+                        </div>
+                    </div>
+                    <div class="col-lg-2 col-md-4 col-sm-6">
+                        <div class="kpi-card kpi-teal cursor-pointer" t-on-click="onMreqClick">
+                            <div class="kpi-icon"><i class="fa fa-truck"/></div>
+                            <div class="kpi-label">Material Requisitions</div>
+                            <div class="kpi-value"><t t-esc="state.mreqCount"/></div>
+                        </div>
+                    </div>
+                    <div class="col-lg-2 col-md-4 col-sm-6">
+                        <div class="kpi-card kpi-coral cursor-pointer" t-on-click="onPhasesClick">
+                            <div class="kpi-icon"><i class="fa fa-tasks"/></div>
+                            <div class="kpi-label">Phases(WBS)</div>
+                            <div class="kpi-value"><t t-esc="state.phaseCount"/></div>
+                        </div>
+                    </div>
+                    <div class="col-lg-2 col-md-4 col-sm-6">
+                        <div class="kpi-card kpi-yellow cursor-pointer" t-on-click="onWorkOrdersClick">
+                            <div class="kpi-icon"><i class="fa fa-wrench"/></div>
+                            <div class="kpi-label">Work Orders</div>
+                            <div class="kpi-value"><t t-esc="state.workOrderCount"/></div>
+                        </div>
+                    </div>
+                    <div class="col-lg-2 col-md-4 col-sm-6">
+                        <div class="kpi-card kpi-purple cursor-pointer" t-on-click="onBudgetsClick">
+                            <div class="kpi-icon"><i class="fa fa-calculator"/></div>
+                            <div class="kpi-label">Budgets</div>
+                            <div class="kpi-value"><t t-esc="state.budgetCount"/></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ═══ Project Timeline + Project Status + Project Stage ═══ -->
+                <div class="row g-3 mb-4">
+                    <div class="col-lg-6">
+                        <div class="chart-card">
+                            <div class="chart-card-header">Project Timeline</div>
+                            <div class="chart-container chart-timeline">
+                                <canvas t-ref="projectTimelineCanvas"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3">
+                        <div class="chart-card">
+                            <div class="chart-card-header">Project Status</div>
+                            <div class="chart-container chart-donut">
+                                <canvas t-ref="projectStatusCanvas"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3">
+                        <div class="chart-card">
+                            <div class="chart-card-header">Project Stage</div>
+                            <div class="chart-container chart-donut">
+                                <canvas t-ref="projectStageCanvas"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ═══ Sub Projects Section ═══ -->
+                <h5 class="section-title">Sub Projects</h5>
+                <div class="row g-3 mb-4">
+                    <!-- Status Cards -->
+                    <div class="col-lg-3">
+                        <div class="row g-3">
+                            <div class="col-6">
+                                <div class="status-card sc-cyan cursor-pointer" t-on-click="onSpPlanningClick">
+                                    <div class="sc-icon"><i class="fa fa-clipboard"/></div>
+                                    <div class="sc-label">Planning</div>
+                                    <div class="sc-value"><t t-esc="state.spPlanning"/></div>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="status-card sc-pink cursor-pointer" t-on-click="onSpProcurementClick">
+                                    <div class="sc-icon"><i class="fa fa-shopping-cart"/></div>
+                                    <div class="sc-label">Procurement</div>
+                                    <div class="sc-value"><t t-esc="state.spProcurement"/></div>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="status-card sc-green cursor-pointer" t-on-click="onSpConstructionClick">
+                                    <div class="sc-icon"><i class="fa fa-industry"/></div>
+                                    <div class="sc-label">Construction</div>
+                                    <div class="sc-value"><t t-esc="state.spConstruction"/></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Bar Chart -->
+                    <div class="col-lg-4">
+                        <div class="chart-card h-100">
+                            <div class="chart-card-header">Status</div>
+                            <div class="chart-container chart-bar">
+                                <canvas t-ref="spStatusCanvas"/>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Timeline -->
+                    <div class="col-lg-5">
+                        <div class="chart-card h-100">
+                            <div class="chart-card-header">Timeline</div>
+                            <div class="chart-container chart-timeline-sm">
+                                <canvas t-ref="spTimelineCanvas"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ═══ Material Requisitions + Internal Transfers ═══ -->
+                <div class="row g-3 mb-4">
+                    <!-- MREQ Section -->
+                    <div class="col-lg-8">
+                        <h5 class="section-title">Material Requisitions</h5>
+                        <div class="row g-3">
+                            <!-- MREQ Status Cards -->
+                            <div class="col-lg-8">
+                                <div class="row g-2">
+                                    <div class="col-3">
+                                        <div class="status-card sc-gray cursor-pointer" t-on-click="onMreqDraftClick">
+                                            <div class="sc-icon"><i class="fa fa-file-o"/></div>
+                                            <div class="sc-label">Draft</div>
+                                            <div class="sc-value"><t t-esc="state.mreqDraft"/></div>
+                                        </div>
+                                    </div>
+                                    <div class="col-3">
+                                        <div class="status-card sc-orange cursor-pointer" t-on-click="onMreqApprovalClick">
+                                            <div class="sc-icon"><i class="fa fa-hourglass-half"/></div>
+                                            <div class="sc-label">Waiting Approval</div>
+                                            <div class="sc-value"><t t-esc="state.mreqApproval"/></div>
+                                        </div>
+                                    </div>
+                                    <div class="col-3">
+                                        <div class="status-card sc-blue cursor-pointer" t-on-click="onMreqInProgressClick">
+                                            <div class="sc-icon"><i class="fa fa-spinner"/></div>
+                                            <div class="sc-label">In Progress</div>
+                                            <div class="sc-value"><t t-esc="state.mreqInProgress"/></div>
+                                        </div>
+                                    </div>
+                                    <div class="col-3">
+                                        <div class="status-card sc-teal cursor-pointer" t-on-click="onMreqReadyClick">
+                                            <div class="sc-icon"><i class="fa fa-check"/></div>
+                                            <div class="sc-label">Ready to Deliver</div>
+                                            <div class="sc-value"><t t-esc="state.mreqReady"/></div>
+                                        </div>
+                                    </div>
+                                    <div class="col-3">
+                                        <div class="status-card sc-green cursor-pointer" t-on-click="onMreqDoneClick">
+                                            <div class="sc-icon"><i class="fa fa-check-circle"/></div>
+                                            <div class="sc-label">MRQ Done</div>
+                                            <div class="sc-value"><t t-esc="state.mreqDone"/></div>
+                                        </div>
+                                    </div>
+                                    <div class="col-3">
+                                        <div class="status-card sc-purple cursor-pointer" t-on-click="onPoClick">
+                                            <div class="sc-icon"><i class="fa fa-shopping-bag"/></div>
+                                            <div class="sc-label">Material Orders</div>
+                                            <div class="sc-value"><t t-esc="state.poCount"/></div>
+                                        </div>
+                                    </div>
+                                    <div class="col-3">
+                                        <div class="status-card sc-cyan cursor-pointer" t-on-click="onItClick">
+                                            <div class="sc-icon"><i class="fa fa-exchange"/></div>
+                                            <div class="sc-label">Internal Transfers</div>
+                                            <div class="sc-value"><t t-esc="state.itCount"/></div>
+                                        </div>
+                                    </div>
+                                    <div class="col-3">
+                                        <div class="status-card sc-yellow cursor-pointer" t-on-click="onMreqClick">
+                                            <div class="sc-icon"><i class="fa fa-list-alt"/></div>
+                                            <div class="sc-label">All MREQs</div>
+                                            <div class="sc-value"><t t-esc="state.mreqCount"/></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- MREQ Donut -->
+                            <div class="col-lg-4">
+                                <div class="chart-card h-100">
+                                    <div class="chart-container chart-donut-sm">
+                                        <canvas t-ref="mreqChartCanvas"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Internal Transfers Section -->
+                    <div class="col-lg-4">
+                        <h5 class="section-title">Internal Transfers</h5>
+                        <div class="row g-2">
+                            <div class="col-6">
+                                <div class="status-card sc-blue cursor-pointer" t-on-click="onItDraftClick">
+                                    <div class="sc-icon"><i class="fa fa-file-o"/></div>
+                                    <div class="sc-label">Draft</div>
+                                    <div class="sc-value"><t t-esc="state.itDraft"/></div>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="status-card sc-pink cursor-pointer" t-on-click="onItInProgressClick">
+                                    <div class="sc-icon"><i class="fa fa-spinner"/></div>
+                                    <div class="sc-label">In Progress</div>
+                                    <div class="sc-value"><t t-esc="state.itInProgress"/></div>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="status-card sc-green cursor-pointer" t-on-click="onItDoneClick">
+                                    <div class="sc-icon"><i class="fa fa-check-circle"/></div>
+                                    <div class="sc-label">Done</div>
+                                    <div class="sc-value"><t t-esc="state.itDone"/></div>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="status-card sc-teal cursor-pointer" t-on-click="onItForwardClick">
+                                    <div class="sc-icon"><i class="fa fa-arrow-right"/></div>
+                                    <div class="sc-label">Forward Transfer</div>
+                                    <div class="sc-value"><t t-esc="state.itForward"/></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ═══ Purchase Orders Chart ═══ -->
+                <h5 class="section-title">Purchase Orders</h5>
+                <div class="row g-3 mb-4">
+                    <div class="col-12">
+                        <div class="chart-card">
+                            <div class="chart-container chart-line">
+                                <canvas t-ref="poChartCanvas"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </t>
+</templates>

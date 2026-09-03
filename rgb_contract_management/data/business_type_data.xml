@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <record id="business_type_supply" model="rgb.contract.business.type">
+        <field name="sequence">1</field>
+        <field name="code">supply</field>
+        <field name="name">Supply Only</field>
+    </record>
+    <record id="business_type_supply_install" model="rgb.contract.business.type">
+        <field name="sequence">2</field>
+        <field name="code">supply_install</field>
+        <field name="name">Supply &amp; Installation</field>
+    </record>
+    <record id="business_type_construction" model="rgb.contract.business.type">
+        <field name="sequence">3</field>
+        <field name="code">construction</field>
+        <field name="name">Construction</field>
+    </record>
+    <record id="business_type_rental" model="rgb.contract.business.type">
+        <field name="sequence">4</field>
+        <field name="code">rental</field>
+        <field name="name">Equipment Rental / Service</field>
+    </record>
+</odoo>

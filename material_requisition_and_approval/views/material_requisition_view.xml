@@ -1,0 +1,416 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) 2016-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<!-- License URL : <https://store.webkul.com/license.html/> -->
+
+<odoo>
+
+    <record id="view_material_requisition_my_requests_search" model="ir.ui.view">
+        <field name="name">material.requisition.my.requests.search</field>
+        <field name="model">material.requisition</field>
+        <field name="arch" type="xml">
+            <search string="Material Requisition Search">
+                <field name="state_id"/>
+                <field name="department_id" />
+                <field name="requested_date"/>
+                <field name="requester_id" />
+                <field name="state_ids" />
+                <field name="request_type_id" />
+                <filter name="my_requests"
+                    string="My Requests" 
+                    domain="['|', ('employee_id.user_id', '=', uid), ('requester_id', '=', uid)]"/>
+                <separator/>
+                <group expand="0" string="Group By">
+                    <filter name="group_by_state" 
+                        string="State" 
+                        context="{'group_by': 'state_id'}"/>
+                    <filter name="group_by_date" 
+                        string="Request Date" 
+                        context="{'group_by': 'requested_date'}"/>
+                     <filter name="group_by_department" 
+                        string="Department" 
+                        context="{'group_by': 'department_id'}"/>
+                    <filter name="group_by_request_type_id" 
+                        string="Request Type" 
+                        context="{'group_by': 'request_type_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+   
+    <record id="view_material_requisition_form" model="ir.ui.view">
+        <field name="name">material.requisition.form</field>
+        <field name="model">material.requisition</field>
+        <field name="arch" type="xml">
+            <form string="Material Requisition">
+                <header>
+                    <field name="state" 
+                        widget="statusbar"
+                        options="{'clickable': '1','editable':'0'}"
+                        invisible="state_code == 'draft'" 
+                        statusbar_visible="draft,submitted,fullfiled"/>      
+                    <button string="Confirm"
+                        name="action_submit"
+                        type="object"
+                        class="btn-primary"
+                        invisible="state_code != 'draft'" 
+                        groups="base.group_user"/>  
+            
+                    <button string="Approve"
+                        name="action_approve"
+                        type="object"
+                        class="btn-primary"
+                        invisible="state_code in ['draft','rejected','cancel'] or can_current_user_approve == False"
+                        groups="material_requisition_and_approval.group_requisition_approver,stock.group_stock_manager"/>
+                    <button name="action_reject"
+                        string="Reject"
+                        type="object"
+                        class="btn-danger"
+                        groups="material_requisition_and_approval.group_requisition_approver,stock.group_stock_manager"
+                        invisible="state_code in ['rejected', 'fulfilled', 'cancel'] or can_current_user_approve == False" />
+                    <button name="open_internal_transfer_wizard"
+                        string="Fulfill by Internal Transfer"
+                        type="object"
+               
+                        groups="material_requisition_and_approval.group_store_checker"
+                        invisible="(state_code in ['draft', 'submitted', 'fulfilled','waiting_stock_manager_approval','waiting_level_5_approval','waiting_level_4_approval','waiting_level_3_approval','waiting_level_2_approval','waiting_level_1_approval','rejected','cancel'] or  can_dipatch)"/>
+                    <button name="open_rfq_wizard"
+                        string="Fulfill by Purchase Order (RFQ)"
+                        type="object"
+                        invisible="(state_code in ['draft', 'submitted', 'fulfilled','waiting_stock_manager_approval','waiting_level_5_approval','waiting_level_4_approval','waiting_level_3_approval','waiting_level_2_approval','waiting_level_1_approval','rejected','cancel'] or  can_dipatch)"
+                        groups="material_requisition_and_approval.group_store_checker"/>
+                    <button name="action_check_availability_other_location"
+                        string="Product Availability"
+                        type="object"
+                        invisible="(state_code in ['draft', 'rfq_created', 'submitted', 'fulfilled','waiting_stock_manager_approval','waiting_level_5_approval','waiting_level_4_approval','waiting_level_3_approval','waiting_level_2_approval','waiting_level_1_approval','rejected','cancel'] or  can_dipatch)"
+                        class="btn-secondary"
+                        groups="material_requisition_and_approval.group_store_checker"/>
+                    <button name="action_mark_received"
+                        string="Mark as Received" 
+                        type="object"
+                        class="btn-primary"
+                        invisible="not can_mark_received"
+                        groups="base.group_user"/>    
+                           
+                <button string="Cancel"
+                    name="action_cancel"
+                    type="object"
+                    invisible="not can_cancel_button "
+            />
+                                       </header>
+                <sheet>      
+                    <div class="oe_button_box" name="button_box">
+                       <button class="oe_stat_button"
+                            type="object"
+                            name="action_get_internal_picking_info"
+                            icon="fa-truck" invisible="internal_picking_count == 0">
+                        <field name="internal_picking_count" 
+                            widget="statinfo" 
+                            string="Internal Pickings" />
+                        </button>
+                        <button class="oe_stat_button"
+                            type="object"
+                            name="action_get_rfq_info"
+                            icon="fa-shopping-cart"
+                            invisible="rfq_count == 0">
+                        <field name="rfq_count" 
+                            widget="statinfo" 
+                            string="Purchase Orders"/>
+                        </button>
+                    </div>        
+                    <div>
+                        <field name="state_id"
+                            title="Status"
+                            widget="straight_ribbon"
+                            bg_color="bg-success"
+                            invisible="state_code in ['draft','fulfilled','submitted']"
+                        />
+                    </div>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" readonly="1"/>   
+                        </h1>
+                    </div>
+                    <group name="Requisition_header" >  
+                        <group >
+                            <field name="employee_id" 
+                                readonly="state_code != 'draft'" 
+                                widget="contact"/>
+                            <field name="department_id" readonly="1"/>
+                            <field name="location_id" readonly="state_code != 'draft'"/>
+                            <field name="purpose"
+                                colspan="2" 
+                                readonly="state_code != 'draft'"/>
+                            <field name="remarks" 
+                                colspan="2" 
+                                readonly="state_code != 'draft'"
+                                invisible="not remarks"/>
+                        </group>
+                        <group>
+                            <field name="can_dipatch" invisible="1"/>
+                            <field name="designation_id" readonly="1"/>
+                            <field name="request_type_id" readonly="state_code != 'draft'"/>
+                      
+                            <field name="required_date" decoration-danger="required_date &lt; current_date and state_code != 'fulfilled'" readonly="state_code != 'draft'"/>
+                            <field name="can_current_user_approve" invisible="1" />
+                            <field name="state_manage" invisible="1" />
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Requested Products">
+                            <field name="requested_product_ids" 
+                                mode="list,form" 
+                                readonly="state_code != 'draft'">
+                                <list editable="bottom">
+                                    <field name="product_id" 
+                                        domain="[('type', '!=', 'service')]"
+                                        optional="show"   
+                                        decoration-success="state == 'fulfilled'" decoration-bf="state == 'partial_fulfilled'" decoration-danger="state == 'cancelled'"/>
+                                    <field name="quantity"/>
+                                   
+                                    <!-- <button type="object" name="action_product_forecast_report" title="Forecast Report" icon="fa-area-chart text-danger" invisible="not product_id or not parent.location_id or quantity &lt;= forecast_availability or parent.state_code == 'draft'"/>
+                                    <button type="object" name="action_product_forecast_report" title="Forecast Report" icon="fa-area-chart text-success" invisible="not product_id or not parent.location_id or forecast_availability == 0.0 or quantity &gt; forecast_availability or parent.state_code == 'draft'"/>                                                                      -->
+                                <field name="qty_remaining"   
+                                        decoration-info="1" 
+                                        decoration-bf="1" 
+                                        optional="hide"  
+                                        column_invisible="parent.state_code  in ['draft', 'submitted','waiting_stock_check','waiting_stock_manager_approval','waiting_level_5_approval','waiting_level_4_approval','waiting_level_3_approval','waiting_level_2_approval','waiting_level_1_approval','rejected']"
+                                        />          
+                                    <field name="qty_delivered" 
+                                        
+                                        decoration-danger="state == 'cancelled'"
+                                        decoration-warning="quantity > qty_delivered"
+                                        decoration-success="quantity == qty_delivered"
+                                        string="Delivered"  
+                                        optional="show" 
+                                        column_invisible="parent.state_code  in ['draft', 'submitted','waiting_stock_check','waiting_stock_manager_approval','waiting_level_5_approval','waiting_level_4_approval','waiting_level_3_approval','waiting_level_2_approval','waiting_level_1_approval','rejected']"/>
+                                    <field name="uom_id"/>
+                                     <field name="state" column_invisible=" parent.any_line_state_update" 
+                                     widget="badge"
+                                     decoration-success="state == 'fulfilled'" decoration-warning="state == 'partial_fulfilled'" decoration-danger="state == 'cancelled'" />
+                                     
+                                <!-- <field name="forecast_expected_date" column_invisible="True"/>
+                                <field name="forecast_availability" string="Forecast" optional="hide" column_invisible="1" />                                           -->
+                     </list>
+                            </field>
+                        </page>
+                        <page string="Approval Log" invisible="state_code == 'draft'">
+                            <field name="approval_ids" readonly="1">
+                                <list>
+                                    <field name="level"/>
+                                    <field name="approver_ids" widget="many2many_tags"/>
+                                    <field name="approved_by_id"/>
+                                    <field name="status"/>
+                                    <field name="date" />
+                                    <field name="remarks"/>
+                                    
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_material_requisition_list" model="ir.ui.view">
+        <field name="name">material.requisition.list</field>
+        <field name="model">material.requisition</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name" class="fw-bold"/>   
+                <field name="employee_id" widget="many2one_avatar_employee"/>      
+                <field name="department_id"/>
+                <field name="designation_id"/>
+                <field name="request_type_id"/>
+                <field name="state_id" widget="badge"
+                    decoration-success="state_code == 'fulfilled'" 
+                    decoration-info="state_code == 'submitted'"
+                    decoration-warning="state_code in ['waiting_stock_check','waiting_stock_manager_approval','waiting_level_5_approval','waiting_level_4_approval','waiting_level_3_approval','waiting_level_2_approval','waiting_level_1_approval']"
+                    decoration-muted="state_code == 'draft'"
+                    decoration-danger="state_code in ['rejected','cancel']"/>
+                <field name="purpose" optional="hide"/>
+                <field name="required_date"  widget="remaining_days" decoration-danger="required_date &lt; current_date and state_code != 'fulfilled'" optional="show"/>
+                <field name="requested_date" widget="date_ago"  optional="show"/>
+                <field name="remarks" optional="hide"/>
+                <field name="requester_id" optional="hide" />
+            </list>
+        </field>
+    </record>   
+
+    <record id="view_material_requisition_calendar" model="ir.ui.view">
+        <field name="name">material.requisition.calendar</field>
+        <field name="model">material.requisition</field>
+        <field name="arch" type="xml">
+            <calendar string="Material Requisitions" 
+                date_start="requested_date" 
+                date_stop="required_date"
+                color="state_id"
+                mode="month">
+                <field name="name"/>
+                <field name="employee_id"/>
+                <field name="department_id"/>
+                <field name="state_id"/>
+            </calendar>
+        </field>
+    </record>
+
+    <record id="view_material_requisition_kanban" model="ir.ui.view">
+        <field name="name">material.requisition.kanban</field>
+        <field name="model">material.requisition</field>
+        <field name="arch" type="xml">
+                <kanban class="o_kanban_mobile" sample="1" quick_create="false">   
+                <field name="state_id"/>
+                <field name="requested_date"/>
+                <field name="required_date"/>
+                <field name="employee_id"/>
+                <field name="department_id"/>
+                <field name="purpose"/>      
+                <templates>
+                    <t t-name="card">
+                        <div class="d-flex align-items-baseline mb-2">
+                            <field name="name" 
+                                class="fw-bolder fs-5 me-2"/>
+                            <field name="requested_date" 
+                                class="ms-auto flex-shrink-0"/>
+                        </div>
+                        <div class="mb-2 text-muted small">
+                            <span><field name="employee_id"/></span> • 
+                            <span><field name="department_id"/></span>
+                        </div>
+                        <div class="mb-2">
+                            <strong>Purpose:</strong>
+                            <div class="text-truncate"><field name="purpose"/></div>
+                        </div>
+                        <footer 
+                            class="d-flex flex-wrap justify-content-between align-items-end text-muted text-nowrap">
+                            <div class="d-flex flex-wrap gap-1">
+                               
+        <field name="required_date" decoration-danger="required_date &lt; current_date and state_code != 'fulfilled'" widget="date_ago"/>
+        </div>
+            <field  name="state_id" 
+                    widget="badge" 
+                    class="ms-auto"
+                    decoration-success="state_code == 'fulfilled'" 
+                    decoration-info="state_code == 'submitted'"
+                    decoration-warning="state_code in ['waiting_stock_check','waiting_stock_manager_approval','waiting_level_5_approval','waiting_level_4_approval','waiting_level_3_approval','waiting_level_2_approval','waiting_level_1_approval']"
+                    decoration-muted="state_code == 'draft'"
+                    decoration-danger="state_code in ['rejected','cancel']"/>            
+            </footer>
+                </t>
+            </templates>
+        </kanban>
+        </field>
+    </record>
+
+    <record model="ir.actions.report" id="action_material_requisition_summary_report">
+        <field name="name">Material Requisition Summary</field>
+        <field name="model">material.requisition</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">material_requisition_and_approval.report_material_requisition_summary</field>
+        <field name="report_file">material_requisition_and_approval.report_material_requisition_summary</field>
+        <field name="print_report_name">"Requisition - %s" % (object.name)</field>
+        <field name="attachment_use">False</field>
+        <field name="binding_model_id" ref="model_material_requisition"/>
+        <field name="binding_type">report</field>
+    </record>
+
+    <record model="ir.actions.report" id="action_approval_log_report">
+        <field name="name">Approval Log Report</field>
+        <field name="model">material.requisition</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">material_requisition_and_approval.report_approval_log</field>
+        <field name="report_file">material_requisition_and_approval.report_approval_log</field>
+        <field name="print_report_name">"Approval_Log_%s" % (object.name)</field>
+        <field name="attachment_use">False</field>
+        <field name="binding_model_id" ref="model_material_requisition"/>
+        <field name="binding_type">report</field>
+    </record>
+
+    <record model="ir.actions.report" id="action_stock_movement_report">
+        <field name="name">Stock Movement Report</field>
+        <field name="model">material.requisition</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">material_requisition_and_approval.report_stock_movement</field>
+        <field name="report_file">material_requisition_and_approval.report_stock_movement</field>
+        <field name="print_report_name">"Stock_Movement_%s" % (object.name)</field>
+        <field name="attachment_use">False</field>
+        <field name="binding_model_id" ref="model_material_requisition"/>
+        <field name="binding_type">report</field>
+    </record>
+
+    <record model="ir.actions.report" id="action_dispatch_log_report">
+        <field name="name">Dispatch Log Report</field>
+        <field name="model">material.requisition</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">material_requisition_and_approval.report_dispatch_log</field>
+        <field name="report_file">material_requisition_and_approval.report_dispatch_log</field>
+        <field name="print_report_name">"Dispatch_Log_%s" % (object.name)</field>
+        <field name="attachment_use">False</field>
+        <field name="binding_model_id" ref="model_material_requisition"/>
+        <field name="binding_type">report</field>
+    </record>
+
+    <record model="ir.actions.report" id="action_material_summary_report_csv">
+        <field name="name">Material Requisition Summary (CSV)</field>
+        <field name="model">material.requisition</field>
+        <field name="report_type">qweb-text</field>
+        <field name="report_name">material_requisition_and_approval.report_material_summary_csv</field>
+        <field name="report_file">material_requisition_and_approval.report_material_summary_csv</field>
+        <field name="print_report_name">"Material_Requisition_Summary_%s.csv" % (object.name)</field>
+        <field name="attachment_use">False</field>
+        <field name="binding_model_id" ref="model_material_requisition"/>
+        <field name="binding_type">report</field>
+    </record>
+
+    <record model="ir.actions.report" id="action_approval_log_report_csv">
+        <field name="name">Approval Log Report (CSV)</field>
+        <field name="model">material.requisition</field>
+        <field name="report_type">qweb-text</field>
+        <field name="report_name">material_requisition_and_approval.report_approval_log_csv</field>
+        <field name="report_file">material_requisition_and_approval.report_approval_log_csv</field>
+        <field name="print_report_name">"Approval_Log_%s.csv" % (object.name)</field>
+        <field name="attachment_use">False</field>
+        <field name="binding_model_id" ref="model_material_requisition"/>
+        <field name="binding_type">report</field>
+    </record>
+
+    <record model="ir.actions.report" id="action_dispatch_log_report_csv">
+        <field name="name">Dispatch Log Report (CSV)</field>
+        <field name="model">material.requisition</field>
+        <field name="report_type">qweb-text</field>
+        <field name="report_name">material_requisition_and_approval.report_dispatch_log_csv</field>
+        <field name="report_file">material_requisition_and_approval.report_dispatch_log_csv</field>
+        <field name="print_report_name">"Dispatch_Log_%s.csv" % (object.name)</field>
+        <field name="attachment_use">False</field>
+        <field name="binding_model_id" ref="model_material_requisition"/>
+        <field name="binding_type">report</field>
+    </record>
+   
+    <record model="ir.sequence" id="seq_requests">
+        <field name="name">Requests Sequence</field>
+        <field name="code">material.requisition.sequence</field>
+        <field name="prefix">REQ/%(year)s/</field>
+        <field name="padding">3</field>
+        <field name="company_id" eval="False"/>
+    </record>
+    <record id="action_my_requests" model="ir.actions.act_window">
+        <field name="name">My Requests</field>
+        <field name="res_model">material.requisition</field>
+        <field name="view_mode">list,kanban,calendar,form</field>
+        <field name="search_view_id" ref="material_requisition_and_approval.view_material_requisition_my_requests_search"/>
+        <field name="domain">['|', '|', ('employee_id.user_id', '=', uid), ('requester_id', '=', uid), ('approval_ids.approver_ids', 'in', uid)]</field>
+        <field name="context">{'search_default_my_requests':True}</field>
+    </record>
+
+    <record id="action_all_requests" model="ir.actions.act_window">
+        <field name="name">All Requests</field>
+        <field name="res_model">material.requisition</field>
+        <field name="view_mode">list,kanban,calendar,form</field>
+        <field name="domain">[('state_code','!=','draft')]</field>
+        <field name="context">{}</field>
+    </record>
+
+
+</odoo>

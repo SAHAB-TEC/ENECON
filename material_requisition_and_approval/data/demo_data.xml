@@ -1,0 +1,1446 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) 2016-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<!-- License URL : <https://store.webkul.com/license.html/> -->
+
+<odoo>
+    <data>
+        <record id="demo_vendor_tech" model="res.partner">
+            <field name="name">Tech Vendor</field>
+            <field name="supplier_rank">1</field>
+        </record>
+
+        <record id="demo_department_it" model="hr.department">
+            <field name="name">IT Department</field>
+        </record>
+
+        <record id="demo_department_hr" model="hr.department">
+            <field name="name">HR Department</field>
+        </record>
+        <record id="demo_user_requisition" model="res.users">
+            <field name="name">Demo Requisition User</field>
+            <field name="login">demo user</field>
+            <field name="email">demo</field>
+            <field name="groups_id" eval="[(6, 0, [ref('base.group_user')])]"/>
+        </record>
+      
+        
+        <record id="demo_location_main" model="stock.location">
+            <field name="name">Main Warehouse</field>
+            <field name="usage">internal</field>
+            <field name="location_id" ref="stock.stock_location_stock"/>
+        </record>
+<!-- 
+        <record id="location_gate_b" model="stock.location">
+            <field name="name">Gate B</field>
+            <field name="usage">internal</field>
+            <field name="location_id" ref="stock.location_dispatch_zone"/>
+        </record> -->
+
+
+        <record id="demo_location_secondary" model="stock.location">
+            <field name="name">Secondary Store</field>
+            <field name="usage">internal</field>
+            <field name="location_id" ref="stock.stock_location_stock"/>
+        </record>
+
+        
+        <record id="demo_category_office" model="product.category">
+            <field name="name">Office Supplies</field>
+        </record>
+
+        <record id="demo_category_electronics" model="product.category">
+            <field name="name">Electronics</field>
+        </record>
+
+
+
+
+        <record id="demo_product_template_laptop" model="product.template">
+            <field name="name">Laptop Computer</field>
+            <field name="categ_id" ref="demo_category_electronics"/>
+            <field name="type">consu</field>
+            <field name="list_price">1200.00</field>
+            <field name="standard_price">1000.00</field>
+            <field name="uom_id" ref="uom.product_uom_unit"/>
+            <field name="uom_po_id" ref="uom.product_uom_unit"/>
+            <field name="default_code">LAPTOP001</field>
+            <field name="is_storable" >True</field>
+        </record>
+
+        <record id="demo_product_template_mouse" model="product.template">
+            <field name="name">Wireless Mouse</field>
+            <field name="categ_id" ref="demo_category_electronics"/>
+            <field name="type">consu</field>
+            <field name="list_price">25.00</field>
+            <field name="standard_price">20.00</field>
+            <field name="uom_id" ref="uom.product_uom_unit"/>
+            <field name="uom_po_id" ref="uom.product_uom_unit"/>
+            <field name="default_code">MOUSE001</field>
+            <field name="is_storable" >True</field>
+
+        </record>
+
+        <record id="demo_product_template_paper" model="product.template">
+            <field name="name">A4 Paper</field>
+            <field name="categ_id" ref="demo_category_office"/>
+            <field name="type">consu</field>
+            <field name="list_price">5.00</field>
+            <field name="standard_price">4.00</field>
+            <field name="uom_id" ref="uom.product_uom_unit"/>
+            <field name="uom_po_id" ref="uom.product_uom_unit"/>
+            <field name="default_code">PAPER001</field>
+            <field name="is_storable" >True</field>
+
+        </record>
+
+        <record id="demo_product_template_keyboard" model="product.template">
+            <field name="name">Wireless Keyboard</field>
+            <field name="categ_id" ref="demo_category_electronics"/>
+            <field name="type">consu</field>
+            <field name="list_price">45.00</field>
+            <field name="standard_price">35.00</field>
+            <field name="uom_id" ref="uom.product_uom_unit"/>
+            <field name="uom_po_id" ref="uom.product_uom_unit"/>
+            <field name="default_code">KEYB001</field>
+            <field name="is_storable" >True</field>
+
+        </record>
+
+        <record id="demo_product_template_monitor" model="product.template">
+            <field name="name">LCD Monitor 24 inch</field>
+            <field name="categ_id" ref="demo_category_electronics"/>
+            <field name="type">consu</field>
+            <field name="list_price">250.00</field>
+            <field name="standard_price">200.00</field>
+            <field name="uom_id" ref="uom.product_uom_unit"/>
+            <field name="uom_po_id" ref="uom.product_uom_unit"/>
+            <field name="default_code">MON001</field>
+            <field name="is_storable" >True</field>
+
+        </record>
+
+        <record id="demo_product_template_printer" model="product.template">
+            <field name="name">Laser Printer</field>
+            <field name="categ_id" ref="demo_category_electronics"/>
+            <field name="type">consu</field>
+            <field name="list_price">300.00</field>
+            <field name="standard_price">250.00</field>
+            <field name="uom_id" ref="uom.product_uom_unit"/>
+            <field name="uom_po_id" ref="uom.product_uom_unit"/>
+            <field name="default_code">PRINT001</field>
+            <field name="is_storable" >True</field>
+
+        </record>
+
+         <record id="demo_product_template_projector" model="product.template">
+            <field name="name">HD Projector</field>
+            <field name="categ_id" ref="demo_category_electronics"/>
+            <field name="type">consu</field>
+            <field name="list_price">500.00</field>
+            <field name="standard_price">400.00</field>
+            <field name="uom_id" ref="uom.product_uom_unit"/>
+            <field name="uom_po_id" ref="uom.product_uom_unit"/>
+            <field name="default_code">PROJ001</field>
+            <field name="is_storable">True</field>
+        </record>
+
+        <record id="demo_product_template_whiteboard" model="product.template">
+            <field name="name">Whiteboard</field>
+            <field name="categ_id" ref="demo_category_office"/>
+            <field name="type">consu</field>
+            <field name="list_price">120.00</field>
+            <field name="standard_price">80.00</field>
+            <field name="uom_id" ref="uom.product_uom_unit"/>
+            <field name="uom_po_id" ref="uom.product_uom_unit"/>
+            <field name="default_code">WB001</field>
+            <field name="is_storable">True</field>
+        </record>
+
+        <record id="demo_product_template_desk" model="product.template">
+            <field name="name">Office Desk</field>
+            <field name="categ_id" ref="demo_category_office"/>
+            <field name="type">consu</field>
+            <field name="list_price">300.00</field>
+            <field name="standard_price">200.00</field>
+            <field name="uom_id" ref="uom.product_uom_unit"/>
+            <field name="uom_po_id" ref="uom.product_uom_unit"/>
+            <field name="default_code">DESK001</field>
+            <field name="is_storable">True</field>
+        </record>
+
+        <record id="demo_product_template_chair" model="product.template">
+            <field name="name">Ergonomic Chair</field>
+            <field name="categ_id" ref="demo_category_office"/>
+            <field name="type">consu</field>
+            <field name="list_price">250.00</field>
+            <field name="standard_price">180.00</field>
+            <field name="uom_id" ref="uom.product_uom_unit"/>
+            <field name="uom_po_id" ref="uom.product_uom_unit"/>
+            <field name="default_code">CHAIR001</field>
+            <field name="is_storable">True</field>
+        </record>
+
+        <record id="demo_vendor_office" model="res.partner">
+            <field name="name">Office Supplies Co.</field>
+            <field name="is_company">True</field>
+            <field name="supplier_rank">1</field>
+            <field name="email">office@supplier.com</field>
+        </record>
+
+        <record id="demo_supplier_info_laptop" model="product.supplierinfo">
+            <field name="product_tmpl_id" ref="demo_product_template_laptop"/>
+            <field name="partner_id" ref="demo_vendor_tech"/>
+            <field name="price">1000.00</field>
+            <field name="min_qty">1</field>
+        </record>
+
+        <record id="demo_supplier_info_mouse" model="product.supplierinfo">
+            <field name="product_tmpl_id" ref="demo_product_template_mouse"/>
+            <field name="partner_id" ref="demo_vendor_tech"/>
+            <field name="price">20.00</field>
+            <field name="min_qty">1</field>
+        </record>
+
+        <record id="demo_supplier_info_paper" model="product.supplierinfo">
+            <field name="product_tmpl_id" ref="demo_product_template_paper"/>
+            <field name="partner_id" ref="demo_vendor_office"/>
+            <field name="price">4.00</field>
+            <field name="min_qty">10</field>
+        </record>
+
+        <record id="demo_supplier_info_keyboard" model="product.supplierinfo">
+            <field name="product_tmpl_id" ref="demo_product_template_keyboard"/>
+            <field name="partner_id" ref="demo_vendor_tech"/>
+            <field name="price">35.00</field>
+            <field name="min_qty">1</field>
+        </record>
+
+        <record id="demo_supplier_info_monitor" model="product.supplierinfo">
+            <field name="product_tmpl_id" ref="demo_product_template_monitor"/>
+            <field name="partner_id" ref="demo_vendor_tech"/>
+            <field name="price">200.00</field>
+            <field name="min_qty">1</field>
+        </record>
+
+        <record id="demo_supplier_info_printer" model="product.supplierinfo">
+            <field name="product_tmpl_id" ref="demo_product_template_printer"/>
+            <field name="partner_id" ref="demo_vendor_tech"/>
+            <field name="price">250.00</field>
+            <field name="min_qty">1</field>
+        </record>
+
+
+
+        <record id="demo_request_type_urgent" model="requisition.request.type">
+            <field name="name">Urgent Request</field>
+        </record>
+
+        <record id="demo_request_type_normal" model="requisition.request.type">
+            <field name="name">Normal Request</field>
+        </record>
+
+        <record id="demo_request_type_maintenance" model="requisition.request.type">
+            <field name="name">Maintenance Request</field>
+        </record>
+
+
+        <record id="demo_request_type_emergency" model="requisition.request.type">
+            <field name="name">Emergency Request</field>
+        </record>
+
+        <record id="demo_request_type_project" model="requisition.request.type">
+            <field name="name">Project Request</field>
+        </record>
+
+        <record id="demo_request_type_new_employee" model="requisition.request.type">
+            <field name="name">New Employee Setup</field>
+        </record>
+
+        <record id="demo_request_type_replacement" model="requisition.request.type">
+            <field name="name">Equipment Replacement</field>
+        </record>
+
+        <record id="demo_request_type_seasonal" model="requisition.request.type">
+            <field name="name">Seasonal Request</field>
+        </record>
+
+        <record id="demo_request_type_bulk_order" model="requisition.request.type">
+            <field name="name">Bulk Order</field>
+        </record>
+
+        <record id="demo_request_type_capital_expenditure" model="requisition.request.type">
+            <field name="name">Capital Expenditure</field>
+        </record>
+
+        <record id="demo_request_type_consumables" model="requisition.request.type">
+            <field name="name">Consumables Replenishment</field>
+        </record>
+
+        <record id="demo_request_type_safety_equipment" model="requisition.request.type">
+            <field name="name">Safety Equipment</field>
+        </record>
+
+        <record id="demo_request_type_training_materials" model="requisition.request.type">
+            <field name="name">Training Materials</field>
+        </record>
+
+        <record id="demo_request_type_event_supplies" model="requisition.request.type">
+            <field name="name">Event Supplies</field>
+        </record>
+
+
+        <record id="demo_location_config_main" model="stock.location.role.config">
+            <field name="location_id" ref="demo_location_main"/>
+            <field name="store_checker_ids" eval="[(6, 0, [ref('base.user_admin')])]"/>
+            <field name="stock_manager_ids" eval="[(6, 0, [ref('base.user_admin')])]"/>
+            <field name="replenishment_user_id" ref="base.user_admin"/>
+            <field name="remarks_required">True</field>
+        </record>
+
+        <record id="demo_location_config_secondary" model="stock.location.role.config">
+            <field name="location_id" ref="demo_location_secondary"/>
+            <field name="store_checker_ids" eval="[(6, 0, [ref('base.user_admin')])]"/>
+            <field name="stock_manager_ids" eval="[(6, 0, [ref('base.user_admin')])]"/>
+            <field name="replenishment_user_id" ref="base.user_admin"/>
+            <field name="remarks_required">False</field>
+        </record>
+
+      
+        <record id="demo_approval_rule_maintenance_line_level1" model="material.requisition.approver.line">
+            <field name="level">1</field>
+            <field name="user_ids" eval="[(6, 0, [ref('base.user_admin')])]"/>
+            <field name="required">True</field>
+        </record>
+
+        <record id="demo_approval_rule_maintenance_line_level2" model="material.requisition.approver.line">
+            <field name="level">2</field>
+            <field name="user_ids" eval="[(6, 0, [ref('base.user_admin')])]"/>
+            <field name="required">True</field>
+        </record>
+
+        <record id="demo_approval_rule_maintenance" model="material.requisition.approver.rule">
+            <field name="name">Maintenance Request Approval</field>
+            <field name="approval_rule_type">request_type</field>
+            <field name="request_type_id" ref="demo_request_type_maintenance"/>
+            <field name="approver_type">manually_approved</field>
+            <field name="store_check_required">True</field>
+            <field name="store_checker_ids" eval="[(6, 0, [ref('base.user_admin')])]"/>
+            <field name="stock_manager_required">False</field>
+            <field name="auto_create_dispatch">True</field>
+            <field name="approval_lines" eval="[
+                (6, 0, [
+                    ref('demo_approval_rule_maintenance_line_level1'),
+                    ref('demo_approval_rule_maintenance_line_level2')
+                ])
+            ]"/>
+        </record>
+
+
+        <record id="demo_approval_rule_emergency_line_level1" model="material.requisition.approver.line">
+            <field name="level">1</field>
+            <field name="user_ids" eval="[(6, 0, [ref('base.user_admin')])]"/>
+            <field name="required">True</field>
+        </record>
+
+        <record id="demo_approval_rule_emergency" model="material.requisition.approver.rule">
+            <field name="name">Emergency Request Approval</field>
+            <field name="approval_rule_type">request_type</field>
+            <field name="request_type_id" ref="demo_request_type_emergency"/>
+            <field name="approver_type">manually_approved</field>
+            <field name="store_check_required">True</field>
+                 <field name="store_checker_ids" eval="[(6, 0, [ref('base.user_admin')])]"/>
+            <field name="stock_manager_required">True</field>
+            <field name="stock_manager_ids" eval="[(6, 0, [ref('base.user_admin')])]"/>
+            <field name="auto_create_dispatch">True</field>
+            <field name="approval_lines" eval="[
+                (6, 0, [ref('demo_approval_rule_emergency_line_level1')])
+            ]"/>
+        </record>
+
+
+        <record id="demo_approval_rule_capex_line_level1" model="material.requisition.approver.line">
+            
+            <field name="level">1</field>
+            <field name="user_ids" eval="[(6, 0, [ref('base.user_admin')])]"/>
+            <field name="required">True</field>
+        </record>
+
+        <record id="demo_approval_rule_capex_line_level2" model="material.requisition.approver.line">
+        
+            <field name="level">2</field>
+            <field name="user_ids" eval="[(6, 0, [ref('base.user_admin')])]"/>
+            <field name="required">True</field>
+        </record>
+
+        <record id="demo_approval_rule_capex_line_level3" model="material.requisition.approver.line">
+
+            <field name="level">3</field>
+            <field name="user_ids" eval="[(6, 0, [ref('base.user_admin')])]"/>
+            <field name="required">True</field>
+        </record>
+
+        <record id="demo_approval_rule_capex" model="material.requisition.approver.rule">
+                <field name="name">Capital Expenditure Approval</field>
+                <field name="approval_rule_type">request_type</field>
+                <field name="request_type_id" ref="demo_request_type_capital_expenditure"/>
+                <field name="approver_type">manually_approved</field>
+                <field name="store_check_required">True</field>
+                <field name="store_checker_ids" eval="[(6, 0, [ref('base.user_admin')])]"/>
+                <field name="stock_manager_required">True</field>
+                <field name="stock_manager_ids" eval="[(6, 0, [ref('base.user_admin')])]"/>
+                <field name="auto_create_dispatch">False</field>
+                <field name="require_stock_manager_dispatch">True</field>
+                <field name="approval_lines" eval="[
+                    (6, 0, [
+                        ref('demo_approval_rule_capex_line_level1'),
+                        ref('demo_approval_rule_capex_line_level2'),
+                        ref('demo_approval_rule_capex_line_level3')
+                    ])
+                ]"/>
+            </record>
+
+        <record id="demo_approval_rule_new_employee" model="material.requisition.approver.rule">
+            <field name="name">New Employee Setup Approval</field>
+            <field name="approval_rule_type">request_type</field>
+            <field name="request_type_id" ref="demo_request_type_new_employee"/>
+            <field name="approver_type">by_employee_manager</field>
+            <field name="store_check_required">True</field>
+            <field name="store_checker_ids" eval="[(6, 0, [ref('base.user_admin')])]"/>
+            <field name="stock_manager_required">False</field>
+            <field name="auto_create_dispatch">True</field>
+        </record>
+
+        <record id="demo_approval_rule_bulk_line_level1" model="material.requisition.approver.line">
+ 
+            <field name="level">1</field>
+            <field name="user_ids" eval="[(6, 0, [ref('base.user_admin')])]"/>
+            <field name="required">True</field>
+        </record>
+
+        <record id="demo_approval_rule_bulk_line_level2" model="material.requisition.approver.line">
+         
+            <field name="level">2</field>
+            <field name="user_ids" eval="[(6, 0, [ref('base.user_admin')])]"/>
+            <field name="required">True</field>
+        </record>
+
+        <record id="demo_approval_rule_bulk_line_level3" model="material.requisition.approver.line">
+           
+            <field name="level">3</field>
+            <field name="user_ids" eval="[(6, 0, [ref('base.user_admin')])]"/>
+            <field name="required">True</field>
+        </record>
+
+        <record id="demo_approval_rule_bulk" model="material.requisition.approver.rule">
+            <field name="name">Bulk Order Approval</field>
+            <field name="approval_rule_type">request_type</field>
+            <field name="request_type_id" ref="demo_request_type_bulk_order"/>
+            <field name="approver_type">manually_approved</field>
+            <field name="store_check_required">True</field>
+            <field name="store_checker_ids" eval="[(6, 0, [ref('base.user_admin')])]"/>
+            <field name="stock_manager_required">True</field>
+            <field name="stock_manager_ids" eval="[(6, 0, [ref('base.user_admin')])]"/>
+            <field name="auto_create_dispatch">False</field>
+            <field name="require_stock_manager_dispatch">True</field>
+            <field name="approval_lines" eval="[
+            (6, 0, [ref('demo_approval_rule_bulk_line_level1')]),
+            (6, 0, [ref('demo_approval_rule_bulk_line_level2')]),
+            (6, 0, [ref('demo_approval_rule_bulk_line_level3')]),            
+            ]"  />
+        </record>
+
+        <record id="demo_approval_rule_department_line_level1" model="material.requisition.approver.line">
+            
+                    <field name="level">1</field>
+                    <field name="user_ids" eval="[(6, 0, [ref('base.user_admin')])]"/>
+                    <field name="required">True</field>
+        </record>
+
+        <record id="demo_approval_rule_department_line_level2" model="material.requisition.approver.line">
+            
+            <field name="level">2</field>
+            <field name="user_ids" eval="[(6, 0, [ref('base.user_admin')])]"/>
+            <field name="required">True</field>
+        </record>
+
+        <record id="demo_approval_rule_department_line_level3" model="material.requisition.approver.line">
+          
+            <field name="level">3</field>
+            <field name="user_ids" eval="[(6, 0, [ref('base.user_admin')])]"/>
+            <field name="required">True</field>
+        </record>
+
+        <record id="demo_approval_rule_department_line_level4" model="material.requisition.approver.line">
+            
+            <field name="level">4</field>
+            <field name="user_ids" eval="[(6, 0, [ref('base.user_admin')])]"/>
+            <field name="required">True</field>
+        </record>
+
+        <record id="demo_approval_rule_department_line_level5" model="material.requisition.approver.line">
+           
+            <field name="level">5</field>
+            <field name="user_ids" eval="[(6, 0, [ref('base.user_admin')])]"/>
+            <field name="required">True</field>
+        </record>
+
+
+        <record id="demo_approval_rule_department" model="material.requisition.approver.rule">
+            <field name="name">Department Based Approval</field>
+            <field name="approval_rule_type">department</field>
+            <field name="department_ids" eval="[(6, 0, [ref('demo_department_hr'), ref('demo_department_it')])]"/>
+            <field name="approver_type">manually_approved</field>
+            <field name="store_check_required">True</field>
+            <field name="store_checker_ids" eval="[(6, 0, [ref('base.user_admin')])]"/>
+            <field name="stock_manager_required">True</field>
+            <field name="stock_manager_ids" eval="[(6, 0, [ref('base.user_admin')])]"/>
+            <field name="auto_create_dispatch">False</field>
+            <field name="require_stock_manager_dispatch">True</field>
+            <field name="approval_lines" eval="[
+            (6,0,[ref('demo_approval_rule_department_line_level1')]),
+            (6,0,[ref('demo_approval_rule_department_line_level2')]),
+            (6,0,[ref('demo_approval_rule_department_line_level3')]),
+            (6,0,[ref('demo_approval_rule_department_line_level4')]),
+            (6,0,[ref('demo_approval_rule_department_line_level5')]),
+            ]"  />
+        </record>
+
+      
+
+        <record id="demo_approval_rule_employee" model="material.requisition.approver.rule">
+            <field name="name">Employee Based Approval</field>
+            <field name="approval_rule_type">employee</field>
+            <field name="employee_ids" eval="[(6, 0, [ref('base.user_demo')])]"/>
+
+            <field name="approver_type">by_employee_manager</field>
+            <field name="store_check_required">True</field>
+            <field name="store_checker_ids" eval="[(6, 0, [ref('base.user_admin')])]"/>
+            <field name="stock_manager_required">False</field>
+            <field name="auto_create_dispatch">True</field>
+        </record>
+
+
+
+
+
+        <record id="demo_approval_rule_urgent_line_level1" model="material.requisition.approver.line">
+
+            <field name="level">1</field>
+            <field name="user_ids" eval="[(6, 0, [ref('base.user_admin')])]"/>
+            <field name="required">True</field>
+        </record>
+
+        <record id="demo_approval_rule_urgent_line_level2" model="material.requisition.approver.line">
+         
+            <field name="level">2</field>
+            <field name="user_ids" eval="[(6, 0, [ref('base.user_admin')])]"/>
+            <field name="required">True</field>
+        </record>
+
+        <record id="demo_approval_rule_urgent_line_level3" model="material.requisition.approver.line">
+       
+            <field name="level">3</field>
+            <field name="user_ids" eval="[(6, 0, [ref('base.user_admin')])]"/>
+            <field name="required">True</field>
+        </record>
+
+        <record id="demo_approval_rule_urgent_line_level4" model="material.requisition.approver.line">
+      
+            <field name="level">4</field>
+            <field name="user_ids" eval="[(6, 0, [ref('base.user_admin')])]"/>
+            <field name="required">True</field>
+        </record>
+
+        <record id="demo_approval_rule_urgent_line_level5" model="material.requisition.approver.line">
+            <field name="level">5</field>
+            <field name="user_ids" eval="[(6, 0, [ref('base.user_admin')])]"/>
+            <field name="required">True</field>
+        </record>
+
+
+
+ 
+        <record id="demo_approval_rule_urgent" model="material.requisition.approver.rule">
+            <field name="name">Urgent Request Approval</field>
+            <field name="approval_rule_type">request_type</field>
+            <field name="request_type_id" ref="demo_request_type_urgent"/>
+            <field name="approver_type">manually_approved</field>
+            <field name="store_check_required">True</field>
+            <field name="store_checker_ids" eval="[(6, 0, [ref('base.user_admin')])]"/>
+            <field name="stock_manager_required">True</field>
+            <field name="stock_manager_ids" eval="[(6, 0, [ref('base.user_admin')])]"/>
+            <field name="auto_create_dispatch">False</field>
+            <field name="require_stock_manager_dispatch">True</field>
+                 <field name="approval_lines" eval="[
+                 (6, 0, [ref('demo_approval_rule_urgent_line_level1')]),
+                 (6, 0, [ref('demo_approval_rule_urgent_line_level2')]),
+                 (6, 0, [ref('demo_approval_rule_urgent_line_level3')]),
+                 (6, 0, [ref('demo_approval_rule_urgent_line_level4')]),
+                 (6, 0, [ref('demo_approval_rule_urgent_line_level5')]),
+                 ]"  />
+        </record>
+
+
+
+        <record id="demo_approval_line_level1" model="material.requisition.approver.line">
+  
+            <field name="level">1</field>
+            <field name="user_ids" eval="[(6, 0, [ref('base.user_admin')])]"/>
+            <field name="required">True</field>
+        </record>
+
+        <record id="demo_approval_line_level2" model="material.requisition.approver.line">
+      
+            <field name="level">2</field>
+            <field name="user_ids" eval="[(6, 0, [ref('base.user_admin')])]"/>
+            <field name="required">True</field>
+        </record>
+
+        <record id="demo_approval_line_level3" model="material.requisition.approver.line">
+      
+            <field name="level">3</field>
+            <field name="user_ids" eval="[(6, 0, [ref('base.user_admin')])]"/>
+            <field name="required">True</field>
+        </record>
+
+        <record id="demo_approval_line_level4" model="material.requisition.approver.line">
+
+            <field name="level">4</field>
+            <field name="user_ids" eval="[(6, 0, [ref('base.user_admin')])]"/>
+            <field name="required">True</field>
+        </record>
+
+        <record id="demo_approval_line_level5" model="material.requisition.approver.line">
+
+            <field name="level">5</field>
+            <field name="user_ids" eval="[(6, 0, [ref('base.user_admin')])]"/>
+            <field name="required">True</field>
+        </record>
+
+       
+        <record id="demo_approval_rule_location" model="material.requisition.approver.rule">
+            <field name="name">Location Based Approval</field>
+            <field name="approval_rule_type">location</field>
+            <field name="location_ids" eval="[(6, 0, [ref('demo_location_main')])]"/>
+            <field name="approver_type">manually_approved</field>
+            <field name="store_check_required">True</field>
+                 <field name="store_checker_ids" eval="[(6, 0, [ref('base.user_admin')])]"/>
+            <field name="stock_manager_required">True</field>
+            <field name="stock_manager_ids" eval="[(6, 0, [ref('base.user_admin')])]"/>
+            <field name="auto_create_dispatch">True</field>
+                 <field name="approval_lines" eval="[
+                 (6, 0, [ref('demo_approval_line_level1')]),
+                 (6, 0, [ref('demo_approval_line_level2')]),
+                 (6, 0, [ref('demo_approval_line_level3')]),
+                 (6, 0, [ref('demo_approval_line_level4')]),
+                 (6, 0, [ref('demo_approval_line_level5')]),                 
+                 ]"  />
+        </record>
+
+
+
+       
+
+  <record id="demo_approval_line_consumable_level1" model="material.requisition.approver.line">
+  
+            <field name="level">1</field>
+            <field name="user_ids" eval="[(6, 0, [ref('base.user_admin')])]"/>
+            <field name="required">True</field>
+        </record>
+
+        <record id="demo_approval_line_consumable_level2" model="material.requisition.approver.line">
+      
+            <field name="level">2</field>
+            <field name="user_ids" eval="[(6, 0, [ref('base.user_admin')])]"/>
+            <field name="required">True</field>
+        </record>
+
+        <record id="demo_approval_line_consumable_level3" model="material.requisition.approver.line">
+      
+            <field name="level">3</field>
+            <field name="user_ids" eval="[(6, 0, [ref('base.user_admin')])]"/>
+            <field name="required">True</field>
+        </record>
+
+        <record id="demo_approval_line_consumable_level4" model="material.requisition.approver.line">
+
+            <field name="level">4</field>
+            <field name="user_ids" eval="[(6, 0, [ref('base.user_admin')])]"/>
+            <field name="required">True</field>
+        </record>
+
+        <record id="demo_approval_line_consumable_level5" model="material.requisition.approver.line">
+
+            <field name="level">5</field>
+            <field name="user_ids" eval="[(6, 0, [ref('base.user_admin')])]"/>
+            <field name="required">True</field>
+        </record>
+
+    <record id="demo_approval_rule_consumables" model="material.requisition.approver.rule">
+            <field name="name">Approval For Consumables Requests</field>
+            <field name="approval_rule_type">request_type</field>
+
+            <field name="request_type_id" ref="demo_request_type_consumables"/>
+            <field name="approver_type">manually_approved</field>
+            <field name="store_check_required">True</field>
+                 <field name="store_checker_ids" eval="[(6, 0, [ref('base.user_admin')])]"/>
+            <field name="stock_manager_required">True</field>
+            <field name="stock_manager_ids" eval="[(6, 0, [ref('base.user_admin')])]"/>
+            <field name="auto_create_dispatch">True</field>
+                 <field name="approval_lines" eval="[
+                 (6, 0, [ref('demo_approval_line_consumable_level1')]),
+                 (6, 0, [ref('demo_approval_line_consumable_level2')]),
+                 (6, 0, [ref('demo_approval_line_consumable_level3')]),
+                 (6, 0, [ref('demo_approval_line_consumable_level4')]),
+                 (6, 0, [ref('demo_approval_line_consumable_level5')]),                 
+                 ]"  />
+        </record>
+
+       
+        <record id="demo_department_admin" model="hr.department">
+            <field name="name">Administration</field>
+        </record>
+
+        <record id="demo_department_operations" model="hr.department">
+            <field name="name">Operations</field>
+        </record>
+
+        <record id="demo_employee_john" model="hr.employee">
+            <field name="name">John Smith</field>
+            <field name="department_id" ref="demo_department_it"/>
+        </record>
+
+        <record id="demo_employee_sarah" model="hr.employee">
+            <field name="name">Sarah Johnson</field>
+            <field name="department_id" ref="demo_department_admin"/>
+        </record>
+
+        <record id="demo_employee_mike" model="hr.employee">
+            <field name="name">Mike Davis</field>
+            <field name="department_id" ref="demo_department_hr"/>
+        </record>
+
+        <record id="demo_employee_emma" model="hr.employee">
+            <field name="name">Emma Wilson</field>
+            <field name="department_id" ref="demo_department_operations"/>
+        </record>
+
+      
+        <record id="demo_approval_rule_standard" model="material.requisition.approver.rule">
+            <field name="name">Standard Approval Rule</field>
+            <field name="approval_rule_type">request_type</field>
+            <field name="request_type_id" ref="demo_request_type_normal"/>
+            <field name="approver_type">by_employee_manager</field>
+            <field name="store_check_required">True</field>
+            <field name="store_checker_ids" eval="[(6, 0, [ref('base.user_admin')])]"/>
+            <field name="stock_manager_required">False</field>
+            <field name="auto_create_dispatch">True</field>
+        </record>
+
+
+        <record id="demo_approval_rule_emergency" model="material.requisition.approver.rule">
+            <field name="name">Emergency Approval Rule</field>
+            <field name="approval_rule_type">request_type</field>
+            <field name="request_type_id" ref="demo_request_type_emergency"/>
+            <field name="approver_type">by_employee_manager</field>
+            <field name="store_check_required">True</field>
+            <field name="store_checker_ids" eval="[(6, 0, [ref('base.user_admin')])]"/>
+            <field name="stock_manager_required">True</field>
+            <field name="stock_manager_ids" eval="[(6, 0, [ref('base.user_admin')])]"/>
+            <field name="auto_create_dispatch">True</field>
+        </record>
+
+        <record id="demo_requisition_draft" model="material.requisition">
+            <field name="requester_id" ref="base.user_admin"/>
+            <field name="employee_id" search="[('user_id', '=', ref('base.user_demo'))]"/>
+            <field name="request_type_id" ref="demo_request_type_normal"/>
+            <field name="requested_date" eval="(DateTime.now()).strftime('%Y-%m-%d')"/>
+            <field name="required_date" eval="(DateTime.now() + timedelta(days=7)).strftime('%Y-%m-%d')"/>
+            <field name="purpose">Office supplies for HR department</field>
+            <field name="location_id" ref="demo_location_main"/>
+        </record>
+
+     
+        <record id="demo_requisition_emergency" model="material.requisition">
+            <field name="requester_id" ref="base.user_admin"/>
+            <field name="employee_id" search="[('user_id', '=', ref('base.user_demo'))]"/>
+
+            <field name="request_type_id" ref="demo_request_type_emergency"/>
+            <field name="requested_date" eval="(DateTime.now()).strftime('%Y-%m-%d')"/>
+            <field name="required_date" eval="(DateTime.now() + timedelta(days=1)).strftime('%Y-%m-%d')"/>
+            <field name="purpose">Critical system failure - immediate replacement needed</field>
+            <field name="location_id" ref="demo_location_main"/>
+        </record>
+
+        <record id="demo_line_emergency_laptop" model="material.requisition.line">
+            <field name="requisition_id" ref="base.user_admin"/>
+            <field name="product_id" search="[('product_tmpl_id', '=', ref('demo_product_template_laptop'))]"/>
+            <field name="quantity">1</field>
+            <field name="uom_id" ref="uom.product_uom_unit"/>
+        </record>
+
+        <record id="demo_requisition_new_employee" model="material.requisition">
+            <field name="requester_id" ref="base.user_admin"/>
+            <field name="employee_id" search="[('user_id', '=', ref('base.user_demo'))]"/>
+
+            <field name="request_type_id" ref="demo_request_type_new_employee"/>
+            <field name="requested_date" eval="(DateTime.now()).strftime('%Y-%m-%d')"/>
+            <field name="required_date" eval="(DateTime.now() + timedelta(days=5)).strftime('%Y-%m-%d')"/>
+            <field name="purpose">Complete workstation setup for new IT team member</field>
+            <field name="location_id" ref="demo_location_main"/>
+        </record>
+
+        <record id="demo_line_new_employee_laptop" model="material.requisition.line">
+            <field name="requisition_id" ref="demo_requisition_new_employee"/>
+            <field name="product_id" search="[('product_tmpl_id', '=', ref('demo_product_template_laptop'))]"/>
+            <field name="quantity">1</field>
+            <field name="uom_id" ref="uom.product_uom_unit"/>
+        </record>
+
+        <record id="demo_line_new_employee_mouse" model="material.requisition.line">
+            <field name="requisition_id" ref="demo_requisition_new_employee"/>
+            <field name="product_id" search="[('product_tmpl_id', '=', ref('demo_product_template_mouse'))]"/>
+            <field name="quantity">1</field>
+            <field name="uom_id" ref="uom.product_uom_unit"/>
+        </record>
+
+      
+        <record id="demo_requisition_bulk" model="material.requisition">
+            <field name="requester_id" ref="base.user_admin"/>
+            <field name="employee_id" search="[('user_id', '=', ref('base.user_demo'))]"/>
+
+            <field name="request_type_id" ref="demo_request_type_bulk_order"/>
+            <field name="requested_date" eval="(DateTime.now()).strftime('%Y-%m-%d')"/>
+            <field name="required_date" eval="(DateTime.now() + timedelta(days=14)).strftime('%Y-%m-%d')"/>
+            <field name="purpose">Quarterly office supplies bulk purchase</field>
+            <field name="location_id" ref="demo_location_main"/>
+        </record>
+
+        <record id="demo_line_bulk_paper" model="material.requisition.line">
+            <field name="requisition_id" ref="demo_requisition_bulk"/>
+            <field name="product_id" search="[('product_tmpl_id', '=', ref('demo_product_template_paper'))]"/>
+            <field name="quantity">500</field>
+            <field name="uom_id" ref="uom.product_uom_unit"/>
+        </record>
+
+        <record id="demo_line_bulk_mouse" model="material.requisition.line">
+            <field name="requisition_id" ref="demo_requisition_bulk"/>
+            <field name="product_id" search="[('product_tmpl_id', '=', ref('demo_product_template_mouse'))]"/>
+            <field name="quantity">25</field>
+            <field name="uom_id" ref="uom.product_uom_unit"/>
+        </record>
+
+        <record id="demo_line_draft_laptop" model="material.requisition.line">
+            <field name="requisition_id" ref="demo_requisition_draft"/>
+            <field name="product_id" search="[('product_tmpl_id', '=', ref('demo_product_template_laptop'))]"/>
+            <field name="quantity">1</field>
+            <field name="uom_id" ref="uom.product_uom_unit"/>
+        </record>
+
+
+        <record id="demo_line_bulk_mouse" model="material.requisition.line">
+            <field name="requisition_id" ref="demo_requisition_bulk"/>
+            <field name="product_id" search="[('product_tmpl_id', '=', ref('demo_product_template_mouse'))]"/>
+            <field name="quantity">25</field>
+            <field name="uom_id" ref="uom.product_uom_unit"/>
+        </record>
+
+        <record id="demo_line_draft_laptop" model="material.requisition.line">
+            <field name="requisition_id" ref="demo_requisition_draft"/>
+            <field name="product_id" search="[('product_tmpl_id', '=', ref('demo_product_template_laptop'))]"/>
+            <field name="quantity">1</field>
+            <field name="uom_id" ref="uom.product_uom_unit"/>
+        </record> 
+
+
+        <record id="demo_requisition_submitted" model="material.requisition">
+            <field name="requester_id" ref="base.user_admin"/>
+            <field name="employee_id" search="[('user_id', '=', ref('base.user_demo'))]"/>
+
+            <field name="request_type_id" ref="demo_request_type_urgent"/>
+            <field name="requested_date" eval="(DateTime.now()).strftime('%Y-%m-%d')"/>
+            <field name="required_date" eval="(DateTime.now() + timedelta(days=3)).strftime('%Y-%m-%d')"/>
+            <field name="purpose">Urgent equipment replacement</field>
+            <field name="location_id" ref="demo_location_main"/>
+        </record>
+
+
+
+
+
+
+
+
+        <record id="demo_line_submitted_mouse" model="material.requisition.line">
+            <field name="requisition_id" ref="demo_requisition_submitted"/>
+            <field name="product_id" search="[('product_tmpl_id', '=', ref('demo_product_template_mouse'))]"/>
+            <field name="quantity">10</field>
+            <field name="uom_id" ref="uom.product_uom_unit"/>
+        </record>
+
+        <record id="demo_requisition_approved" model="material.requisition">
+            <field name="requester_id" ref="base.user_admin"/>
+            <field name="employee_id" search="[('user_id', '=', ref('base.user_demo'))]"/>
+
+            <field name="request_type_id" ref="demo_request_type_normal"/>
+            <field name="requested_date" eval="(DateTime.now() - timedelta(days=2)).strftime('%Y-%m-%d')"/>
+            <field name="required_date" eval="(DateTime.now() + timedelta(days=5)).strftime('%Y-%m-%d')"/>
+            <field name="purpose">Monthly office supplies</field>
+            <field name="location_id" ref="demo_location_main"/>
+        </record>
+
+        <record id="demo_line_approved_paper" model="material.requisition.line">
+            <field name="requisition_id" ref="demo_requisition_approved"/>
+            <field name="product_id" search="[('product_tmpl_id', '=', ref('demo_product_template_paper'))]"/>
+            <field name="quantity">100</field>
+            <field name="uom_id" ref="uom.product_uom_unit"/>
+        </record>
+
+
+        <record id="demo_requisition_fulfilled" model="material.requisition">
+            <field name="requester_id" ref="base.user_demo"/>
+            <field name="employee_id" search="[('user_id', '=', ref('base.user_demo'))]"/>
+
+            <field name="request_type_id" ref="demo_request_type_replacement"/>
+            <field name="requested_date" eval="(DateTime.now() - timedelta(days=10)).strftime('%Y-%m-%d')"/>
+            <field name="required_date" eval="(DateTime.now() + timedelta(days=3)).strftime('%Y-%m-%d')"/>
+            <field name="purpose">Equipment replacement due to hardware failure</field>
+            <field name="location_id" ref="demo_location_main"/>
+        </record>
+
+        <record id="demo_line_fulfilled_laptop" model="material.requisition.line">
+            <field name="requisition_id" ref="demo_requisition_fulfilled"/>
+            <field name="product_id" search="[('product_tmpl_id', '=', ref('demo_product_template_laptop'))]"/>
+            <field name="quantity">1</field>
+            <field name="uom_id" ref="uom.product_uom_unit"/>
+            <field name="state">fulfilled</field>
+            <field name="qty_delivered">1</field>
+        </record>
+
+        <record id="demo_line_fulfilled_mouse" model="material.requisition.line">
+            <field name="requisition_id" ref="demo_requisition_fulfilled"/>
+            <field name="product_id" search="[('product_tmpl_id', '=', ref('demo_product_template_mouse'))]"/>
+            <field name="quantity">1</field>
+            <field name="uom_id" ref="uom.product_uom_unit"/>
+            <field name="state">fulfilled</field>
+            <field name="qty_delivered">1</field>
+        </record>
+
+
+
+     
+        <record id="demo_requisition_cancelled" model="material.requisition">
+            <field name="requester_id" ref="base.user_admin"/>
+            <field name="employee_id" search="[('user_id', '=', ref('base.user_demo'))]"/>
+
+            <field name="request_type_id" ref="demo_request_type_normal"/>
+            <field name="requested_date" eval="(DateTime.now() - timedelta(days=5)).strftime('%Y-%m-%d')"/>
+            <field name="required_date" eval="(DateTime.now() + timedelta(days=2)).strftime('%Y-%m-%d')"/>
+            <field name="purpose">For printing documents</field>
+            <field name="location_id" ref="demo_location_main"/>
+        </record>
+
+        <record id="demo_line_cancelled_paper" model="material.requisition.line">
+            <field name="requisition_id" ref="demo_requisition_cancelled"/>
+            <field name="product_id" search="[('product_tmpl_id', '=', ref('demo_product_template_paper'))]"/>
+            <field name="quantity">200</field>
+            <field name="uom_id" ref="uom.product_uom_unit"/>
+            <field name="state">cancelled</field>
+            <field name="qty_cancel">200</field>
+        </record>
+
+        
+
+
+
+
+
+
+        <record id="demo_requisition_rejected" model="material.requisition">
+            <field name="requester_id" ref="base.user_admin"/>
+            <field name="employee_id" search="[('user_id', '=', ref('base.user_demo'))]"/>
+
+            <field name="request_type_id" ref="demo_request_type_capital_expenditure"/>
+            <field name="requested_date" eval="(DateTime.now() - timedelta(days=3)).strftime('%Y-%m-%d')"/>
+            <field name="required_date" eval="(DateTime.now() + timedelta(days=1)).strftime('%Y-%m-%d')"/>
+            <field name="purpose">High-value capital equipment purchase - budget exceeded</field>
+            <field name="location_id" ref="demo_location_main"/>
+        </record>
+
+        <record id="demo_line_rejected_laptop" model="material.requisition.line">
+            <field name="requisition_id" ref="demo_requisition_rejected"/>
+            <field name="product_id" search="[('product_tmpl_id', '=', ref('demo_product_template_laptop'))]"/>
+            <field name="quantity">5</field>
+            <field name="uom_id" ref="uom.product_uom_unit"/>
+        </record>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        <!-- 7. Partially Fulfilled Requisition -->
+        <record id="demo_requisition_partial" model="material.requisition">
+            <field name="requester_id" ref="base.user_admin"/>
+            <field name="employee_id" search="[('user_id', '=', ref('base.user_demo'))]"/>
+            <field name="request_type_id" ref="demo_request_type_consumables"/>
+            <field name="requested_date" eval="(DateTime.now() - timedelta(days=7)).strftime('%Y-%m-%d')"/>
+            <field name="required_date" eval="DateTime.now() + timedelta(days=2)"/>
+            <field name="purpose">Monthly replenishment of office supplies and consumables for department operations</field>
+            <field name="location_id" ref="demo_location_main"/>
+        </record>
+
+
+
+
+        <record id="demo_line_partial_mouse" model="material.requisition.line">
+            <field name="requisition_id" ref="demo_requisition_partial"/>
+            <field name="product_id" search="[('product_tmpl_id', '=', ref('demo_product_template_mouse'))]"/>
+            <field name="quantity">10</field>
+            <field name="uom_id" ref="uom.product_uom_unit"/>
+        </record>
+
+
+
+        <record id="demo_line_partial_paper" model="material.requisition.line">
+            <field name="requisition_id" ref="demo_requisition_partial"/>
+            <field name="product_id" search="[('product_tmpl_id', '=', ref('demo_product_template_paper'))]"/>
+            <field name="quantity">50</field>
+            <field name="uom_id" ref="uom.product_uom_unit"/>
+        </record>
+
+        <function model="material.requisition" name="action_submit">
+            <value eval="ref('demo_requisition_partial')"/>
+        </function>
+
+        <!-- Mixed Fulfillment Requisition -->
+        <record id="demo_requisition_mixed" model="material.requisition">
+            <field name="requester_id" ref="base.user_admin"/>
+            <field name="employee_id" search="[('user_id', '=', ref('base.user_demo'))]"/>
+            <field name="request_type_id" ref="demo_request_type_project"/>
+            <field name="requested_date" eval="(DateTime.now() - timedelta(days=5)).strftime('%Y-%m-%d')"/>
+            <field name="required_date" eval="(DateTime.now() + timedelta(days=10)).strftime('%Y-%m-%d')"/>
+            <field name="purpose">New project setup requiring both internal stock and purchases</field>
+            <field name="location_id" ref="demo_location_main"/>
+        </record>
+
+        <record id="demo_line_mixed_keyboard" model="material.requisition.line">
+            <field name="requisition_id" ref="demo_requisition_mixed"/>
+            <field name="product_id" search="[('product_tmpl_id', '=', ref('demo_product_template_keyboard'))]"/>
+            <field name="quantity">5</field>
+            <field name="uom_id" ref="uom.product_uom_unit"/>
+        </record>
+
+        <record id="demo_line_mixed_monitor" model="material.requisition.line">
+            <field name="requisition_id" ref="demo_requisition_mixed"/>
+            <field name="product_id" search="[('product_tmpl_id', '=', ref('demo_product_template_monitor'))]"/>
+            <field name="quantity">3</field>
+            <field name="uom_id" ref="uom.product_uom_unit"/>
+        </record>
+
+        <!-- Training Materials Requisition -->
+        <record id="demo_requisition_training" model="material.requisition">
+            <field name="requester_id" ref="base.user_demo"/>
+            <field name="employee_id" search="[('user_id', '=', ref('base.user_demo'))]"/>
+            <field name="request_type_id" ref="demo_request_type_training_materials"/>
+            <field name="requested_date" eval="(DateTime.now() - timedelta(days=1)).strftime('%Y-%m-%d')"/>
+            <field name="required_date" eval="(DateTime.now() + timedelta(days=15)).strftime('%Y-%m-%d')"/>
+            <field name="purpose">Training materials for new employee orientation program</field>
+            <field name="location_id" ref="demo_location_main"/>
+        </record>
+
+        <record id="demo_line_training_laptop" model="material.requisition.line">
+            <field name="requisition_id" ref="demo_requisition_training"/>
+            <field name="product_id" search="[('product_tmpl_id', '=', ref('demo_product_template_laptop'))]"/>
+            <field name="quantity">2</field>
+            <field name="uom_id" ref="uom.product_uom_unit"/>
+        </record>
+
+        <record id="demo_line_training_printer" model="material.requisition.line">
+            <field name="requisition_id" ref="demo_requisition_training"/>
+            <field name="product_id" search="[('product_tmpl_id', '=', ref('demo_product_template_printer'))]"/>
+            <field name="quantity">1</field>
+            <field name="uom_id" ref="uom.product_uom_unit"/>
+        </record>
+
+        <!-- Safety Equipment Requisition -->
+        <record id="demo_requisition_safety" model="material.requisition">
+            <field name="requester_id" ref="base.user_admin"/>
+            <field name="employee_id" search="[('user_id', '=', ref('base.user_demo'))]"/>
+            <field name="request_type_id" ref="demo_request_type_safety_equipment"/>
+            <field name="requested_date" eval="(DateTime.now() - timedelta(days=3)).strftime('%Y-%m-%d')"/>
+            <field name="required_date" eval="(DateTime.now() + timedelta(days=7)).strftime('%Y-%m-%d')"/>
+            <field name="purpose">Safety equipment for workplace compliance</field>
+            <field name="location_id" ref="demo_location_main"/>
+        </record>
+
+        <record id="demo_line_safety_mouse" model="material.requisition.line">
+            <field name="requisition_id" ref="demo_requisition_safety"/>
+            <field name="product_id" search="[('product_tmpl_id', '=', ref('demo_product_template_mouse'))]"/>
+            <field name="quantity">15</field>
+            <field name="uom_id" ref="uom.product_uom_unit"/>
+        </record>
+
+        <!-- Additional Requisitions for Dashboard Demo -->
+        <record id="demo_req_01" model="material.requisition">
+            <field name="requester_id" ref="base.user_admin"/>
+            <field name="employee_id" search="[('user_id', '=', ref('base.user_demo'))]"/>
+            <field name="request_type_id" ref="demo_request_type_normal"/>
+            <field name="requested_date" eval="(DateTime.now() - timedelta(days=15)).strftime('%Y-%m-%d')"/>
+            <field name="required_date" eval="(DateTime.now() + timedelta(days=5)).strftime('%Y-%m-%d')"/>
+            <field name="purpose">Office equipment request</field>
+            <field name="location_id" ref="demo_location_main"/>
+        </record>
+        <record id="demo_line_req_01" model="material.requisition.line">
+            <field name="requisition_id" ref="demo_req_01"/>
+            <field name="product_id" search="[('product_tmpl_id', '=', ref('demo_product_template_laptop'))]"/>
+            <field name="quantity">1</field>
+            <field name="uom_id" ref="uom.product_uom_unit"/>
+        </record>
+
+        <record id="demo_req_02" model="material.requisition">
+            <field name="requester_id" ref="base.user_demo"/>
+            <field name="employee_id" search="[('user_id', '=', ref('base.user_demo'))]"/>
+            <field name="request_type_id" ref="demo_request_type_urgent"/>
+            <field name="requested_date" eval="(DateTime.now() - timedelta(days=12)).strftime('%Y-%m-%d')"/>
+            <field name="required_date" eval="(DateTime.now() + timedelta(days=3)).strftime('%Y-%m-%d')"/>
+            <field name="purpose">Urgent supplies needed</field>
+            <field name="location_id" ref="demo_location_main"/>
+        </record>
+        <record id="demo_line_req_02" model="material.requisition.line">
+            <field name="requisition_id" ref="demo_req_02"/>
+            <field name="product_id" search="[('product_tmpl_id', '=', ref('demo_product_template_mouse'))]"/>
+            <field name="quantity">5</field>
+            <field name="uom_id" ref="uom.product_uom_unit"/>
+        </record>
+
+        <record id="demo_req_03" model="material.requisition">
+            <field name="requester_id" ref="base.user_admin"/>
+            <field name="employee_id" search="[('user_id', '=', ref('base.user_demo'))]"/>
+            <field name="request_type_id" ref="demo_request_type_maintenance"/>
+            <field name="requested_date" eval="(DateTime.now() - timedelta(days=8)).strftime('%Y-%m-%d')"/>
+            <field name="required_date" eval="(DateTime.now() + timedelta(days=7)).strftime('%Y-%m-%d')"/>
+            <field name="purpose">Maintenance equipment</field>
+            <field name="location_id" ref="demo_location_main"/>
+        </record>
+        <record id="demo_line_req_03" model="material.requisition.line">
+            <field name="requisition_id" ref="demo_req_03"/>
+            <field name="product_id" search="[('product_tmpl_id', '=', ref('demo_product_template_keyboard'))]"/>
+            <field name="quantity">3</field>
+            <field name="uom_id" ref="uom.product_uom_unit"/>
+        </record>
+
+        <record id="demo_req_04" model="material.requisition">
+            <field name="requester_id" ref="base.user_demo"/>
+            <field name="employee_id" search="[('user_id', '=', ref('base.user_demo'))]"/>
+            <field name="request_type_id" ref="demo_request_type_project"/>
+            <field name="requested_date" eval="(DateTime.now() - timedelta(days=6)).strftime('%Y-%m-%d')"/>
+            <field name="required_date" eval="(DateTime.now() + timedelta(days=12)).strftime('%Y-%m-%d')"/>
+            <field name="purpose">Project materials</field>
+            <field name="location_id" ref="demo_location_main"/>
+        </record>
+        <record id="demo_line_req_04" model="material.requisition.line">
+            <field name="requisition_id" ref="demo_req_04"/>
+            <field name="product_id" search="[('product_tmpl_id', '=', ref('demo_product_template_monitor'))]"/>
+            <field name="quantity">2</field>
+            <field name="uom_id" ref="uom.product_uom_unit"/>
+        </record>
+
+        <record id="demo_req_05" model="material.requisition">
+            <field name="requester_id" ref="base.user_admin"/>
+            <field name="employee_id" search="[('user_id', '=', ref('base.user_demo'))]"/>
+            <field name="request_type_id" ref="demo_request_type_emergency"/>
+            <field name="requested_date" eval="(DateTime.now() - timedelta(days=4)).strftime('%Y-%m-%d')"/>
+            <field name="required_date" eval="(DateTime.now() + timedelta(days=1)).strftime('%Y-%m-%d')"/>
+            <field name="purpose">Emergency replacement</field>
+            <field name="location_id" ref="demo_location_main"/>
+        </record>
+        <record id="demo_line_req_05" model="material.requisition.line">
+            <field name="requisition_id" ref="demo_req_05"/>
+            <field name="product_id" search="[('product_tmpl_id', '=', ref('demo_product_template_printer'))]"/>
+            <field name="quantity">1</field>
+            <field name="uom_id" ref="uom.product_uom_unit"/>
+        </record>
+
+        <!-- Bulk Requisitions for 30+ Count -->
+        <record id="demo_req_06" model="material.requisition">
+            <field name="requester_id" ref="base.user_admin"/>
+            <field name="employee_id" search="[('user_id', '=', ref('base.user_admin'))]"/>
+            <field name="request_type_id" ref="demo_request_type_normal"/>
+            <field name="requested_date" eval="(DateTime.now() - timedelta(days=20)).strftime('%Y-%m-%d')"/>
+            <field name="required_date" eval="(DateTime.now() + timedelta(days=8)).strftime('%Y-%m-%d')"/>
+            <field name="purpose">Monthly supplies batch 1</field>
+            <field name="location_id" ref="demo_location_main"/>
+        </record>
+        <record id="demo_line_req_06" model="material.requisition.line">
+            <field name="requisition_id" ref="demo_req_06"/>
+            <field name="product_id" search="[('product_tmpl_id', '=', ref('demo_product_template_paper'))]"/>
+            <field name="quantity">100</field>
+            <field name="uom_id" ref="uom.product_uom_unit"/>
+        </record>
+
+        <record id="demo_req_07" model="material.requisition">
+            <field name="requester_id" ref="base.user_demo"/>
+            <field name="employee_id" search="[('user_id', '=', ref('base.user_admin'))]"/>
+            <field name="request_type_id" ref="demo_request_type_bulk_order"/>
+            <field name="requested_date" eval="(DateTime.now() - timedelta(days=18)).strftime('%Y-%m-%d')"/>
+            <field name="required_date" eval="(DateTime.now() + timedelta(days=10)).strftime('%Y-%m-%d')"/>
+            <field name="purpose">Bulk order for Q1</field>
+            <field name="location_id" ref="demo_location_main"/>
+        </record>
+        <record id="demo_line_req_07" model="material.requisition.line">
+            <field name="requisition_id" ref="demo_req_07"/>
+            <field name="product_id" search="[('product_tmpl_id', '=', ref('demo_product_template_mouse'))]"/>
+            <field name="quantity">20</field>
+            <field name="uom_id" ref="uom.product_uom_unit"/>
+        </record>
+
+        <record id="demo_req_08" model="material.requisition">
+            <field name="requester_id" ref="base.user_admin"/>
+            <field name="employee_id"  search="[('user_id', '=', ref('base.user_admin'))]"/>
+            <field name="request_type_id" ref="demo_request_type_consumables"/>
+            <field name="requested_date" eval="(DateTime.now() - timedelta(days=16)).strftime('%Y-%m-%d')"/>
+            <field name="required_date" eval="(DateTime.now() + timedelta(days=6)).strftime('%Y-%m-%d')"/>
+            <field name="purpose">Consumables replenishment</field>
+            <field name="location_id" ref="demo_location_main"/>
+        </record>
+        <record id="demo_line_req_08" model="material.requisition.line">
+            <field name="requisition_id" ref="demo_req_08"/>
+            <field name="product_id" search="[('product_tmpl_id', '=', ref('demo_product_template_keyboard'))]"/>
+            <field name="quantity">8</field>
+            <field name="uom_id" ref="uom.product_uom_unit"/>
+        </record>
+
+        <record id="demo_req_09" model="material.requisition">
+            <field name="requester_id" ref="base.user_demo"/>
+            <field name="employee_id" search="[('user_id', '=', ref('base.user_demo'))]"/>
+            <field name="request_type_id" ref="demo_request_type_replacement"/>
+            <field name="requested_date" eval="(DateTime.now() - timedelta(days=14)).strftime('%Y-%m-%d')"/>
+            <field name="required_date" eval="(DateTime.now() + timedelta(days=4)).strftime('%Y-%m-%d')"/>
+            <field name="purpose">Equipment replacement</field>
+            <field name="location_id" ref="demo_location_main"/>
+        </record>
+        <record id="demo_line_req_09" model="material.requisition.line">
+            <field name="requisition_id" ref="demo_req_09"/>
+            <field name="product_id" search="[('product_tmpl_id', '=', ref('demo_product_template_monitor'))]"/>
+            <field name="quantity">1</field>
+            <field name="uom_id" ref="uom.product_uom_unit"/>
+        </record>
+
+        <record id="demo_req_10" model="material.requisition">
+            <field name="requester_id" ref="base.user_admin"/>
+            <field name="employee_id" search="[('user_id', '=', ref('base.user_demo'))]"/>
+            <field name="request_type_id" ref="demo_request_type_seasonal"/>
+            <field name="requested_date" eval="(DateTime.now() - timedelta(days=11)).strftime('%Y-%m-%d')"/>
+            <field name="required_date" eval="(DateTime.now() + timedelta(days=9)).strftime('%Y-%m-%d')"/>
+            <field name="purpose">Seasonal equipment</field>
+            <field name="location_id" ref="demo_location_main"/>
+        </record>
+        <record id="demo_line_req_10" model="material.requisition.line">
+            <field name="requisition_id" ref="demo_req_10"/>
+            <field name="product_id" search="[('product_tmpl_id', '=', ref('demo_product_template_laptop'))]"/>
+            <field name="quantity">1</field>
+            <field name="uom_id" ref="uom.product_uom_unit"/>
+        </record>
+
+
+        <record id="demo_dashboard_top_products" model="material.requisition.dashboard">
+            <field name="name">Most Requested Products</field>
+            <field name="operation_type">top_requested_products</field>
+            <field name="chart_type">doughnut</field>
+        </record>
+
+        <record id="demo_dashboard_department_analysis" model="material.requisition.dashboard">
+            <field name="name">Requests by Department</field>
+            <field name="operation_type">requisition_by_department</field>
+            <field name="chart_type">pie</field>
+        </record>
+
+        <!-- Dashboard Demo Records -->
+        <record id="demo_dashboard_state_overview" model="material.requisition.dashboard">
+            <field name="name">Requisition Status Overview</field>
+            <field name="operation_type">requisition_by_state</field>
+            <field name="state_selections">more_than_one</field>
+            <field name="state_ids" eval="[(6, 0, [ref('material_requisition_and_approval.draft'), ref('material_requisition_and_approval.submitted'), ref('material_requisition_and_approval.fulfilled'), ref('material_requisition_and_approval.rejected'), ref('material_requisition_and_approval.cancel')])]"/>
+            <field name="chart_type">pie</field>
+        </record>
+
+        <record id="demo_dashboard_approval_status" model="material.requisition.dashboard">
+            <field name="name">Approval Status Distribution</field>
+            <field name="operation_type">requisition_by_state</field>
+            <field name="state_selections">more_than_one</field>
+            <field name="state_ids" eval="[(6, 0, [ref('material_requisition_and_approval.waiting_level_1_approval'), ref('material_requisition_and_approval.waiting_level_2_approval'), ref('material_requisition_and_approval.waiting_stock_check'), ref('material_requisition_and_approval.waiting_stock_manager_approval')])]"/>
+            <field name="chart_type">bar</field>
+        </record>
+ 
+
+         
+     
+
+        <record id="demo_stock_quant_laptop" model="stock.quant">
+            <field name="product_id" search="[('product_tmpl_id', '=', ref('demo_product_template_laptop'))]"/>
+            <field name="location_id" ref="demo_location_main"/>
+            <field name="quantity">5</field>
+        </record>
+
+        <record id="demo_stock_quant_mouse" model="stock.quant">
+            <field name="product_id" search="[('product_tmpl_id', '=', ref('demo_product_template_mouse'))]"/>
+            <field name="location_id" ref="demo_location_main"/>
+            <field name="quantity">50</field>
+        </record>
+
+        <record id="demo_stock_quant_paper" model="stock.quant">
+            <field name="product_id" search="[('product_tmpl_id', '=', ref('demo_product_template_paper'))]"/>
+            <field name="location_id" ref="demo_location_main"/>
+            <field name="quantity">1000</field>
+        </record>
+
+        <record id="demo_stock_quant_keyboard" model="stock.quant">
+            <field name="product_id" search="[('product_tmpl_id', '=', ref('demo_product_template_keyboard'))]"/>
+            <field name="location_id" ref="demo_location_main"/>
+            <field name="quantity">20</field>
+        </record>
+
+        <record id="demo_stock_quant_monitor" model="stock.quant">
+            <field name="product_id" search="[('product_tmpl_id', '=', ref('demo_product_template_monitor'))]"/>
+            <field name="location_id" ref="demo_location_main"/>
+            <field name="quantity">8</field>
+        </record>
+
+        <record id="demo_stock_quant_printer" model="stock.quant">
+            <field name="product_id" search="[('product_tmpl_id', '=', ref('demo_product_template_printer'))]"/>
+            <field name="location_id" ref="demo_location_main"/>
+            <field name="quantity">3</field>
+        </record>
+
+        <!-- Submit requisitions using function calls -->
+        <function model="material.requisition" name="action_submit">
+            <value eval="ref('demo_requisition_rejected')"/>
+        </function>
+
+        <function model="material.requisition" name="action_submit">
+            <value eval="ref('demo_requisition_cancelled')"/>
+        </function>
+
+        <function model="material.requisition" name="action_submit">
+            <value eval="ref('demo_requisition_fulfilled')"/>
+        </function>
+
+        <function model="material.requisition" name="action_submit">
+            <value eval="ref('demo_requisition_mixed')"/>
+        </function>
+
+        <function model="material.requisition" name="action_submit">
+            <value eval="ref('demo_req_01')"/>
+        </function>
+
+        <function model="material.requisition" name="action_submit">
+            <value eval="ref('demo_req_02')"/>
+        </function>
+
+        <function model="material.requisition" name="action_submit">
+            <value eval="ref('demo_req_03')"/>
+        </function>
+
+        <function model="material.requisition" name="action_submit">
+            <value eval="ref('demo_req_04')"/>
+        </function>
+
+        <function model="material.requisition" name="action_submit">
+            <value eval="ref('demo_req_05')"/>
+        </function>
+
+        <function model="material.requisition" name="action_submit">
+            <value eval="ref('demo_requisition_training')"/>
+        </function>
+
+        <function model="material.requisition" name="action_submit">
+            <value eval="ref('demo_requisition_safety')"/>
+        </function>
+
+        <function model="material.requisition" name="action_submit">
+            <value eval="ref('demo_req_07')"/>
+        </function>
+
+        <function model="material.requisition" name="action_submit">
+            <value eval="ref('demo_req_08')"/>
+        </function>
+
+        <function model="material.requisition" name="action_submit">
+            <value eval="ref('demo_req_09')"/>
+        </function>
+
+        <function model="material.requisition" name="action_submit">
+            <value eval="ref('demo_req_10')"/>
+        </function>
+
+        <function model="material.requisition" name="action_submit">
+            <value eval="ref('demo_requisition_emergency')"/>
+        </function>
+
+        <function model="material.requisition" name="action_submit">
+            <value eval="ref('demo_requisition_new_employee')"/>
+        </function>
+
+        <function model="material.requisition" name="action_submit">
+            <value eval="ref('demo_requisition_submitted')"/>
+        </function>
+
+        <!-- Demo Approval Records for Rejected Requisition -->
+        <record id="demo_approval_rejected_1" model="material.requisition.approval">
+            <field name="requisition_id" ref="demo_requisition_rejected"/>
+            <field name="level">1</field>
+            <field name="approver_ids" eval="[(6, 0, [ref('base.user_admin')])]"/>
+            <field name="status">rejected</field>
+            <field name="approved_by_id" ref="base.user_admin"/>
+            <field name="date" eval="datetime.now()"/>
+            <field name="remarks">not currently available</field>
+            <field name="approver_type">approvers</field>
+        </record>
+
+        <!-- Demo Approval Records for Rejected req_05 -->
+        <record id="demo_approval_req_05_rejected" model="material.requisition.approval">
+            <field name="requisition_id" ref="demo_req_05"/>
+            <field name="level">1</field>
+            <field name="approver_ids" eval="[(6, 0, [ref('base.user_admin')])]"/>
+            <field name="status">rejected</field>
+            <field name="approved_by_id" ref="base.user_admin"/>
+            <field name="date" eval="datetime.now()"/>
+            <field name="remarks">Emergency budget not available</field>
+            <field name="approver_type">approvers</field>
+        </record>
+
+        <!-- Set states for rejected requisitions -->
+        <function model="material.requisition" name="_set_state_by_code">
+            <value eval="ref('demo_requisition_rejected')"/>
+            <value>rejected</value>
+        </function>
+
+        <function model="material.requisition" name="_set_state_by_code">
+            <value eval="ref('demo_req_05')"/>
+            <value>rejected</value>
+        </function>
+
+    </data>
+</odoo>
