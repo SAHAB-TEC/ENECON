@@ -1,0 +1,115 @@
+<section style="max-width:920px;margin:0 auto;padding:24px 16px;font-family:Tahoma,Arial,sans-serif;color:#1f2937;line-height:1.75;direction:rtl;text-align:right;">
+
+  <div style="background:#0f766e;color:#fff;padding:28px 24px;border-radius:8px;margin-bottom:28px;">
+    <h1 style="margin:0 0 8px;font-size:28px;font-weight:700;">إدارة العقود — RGB Contract Management</h1>
+    <p style="margin:0;font-size:15px;opacity:0.95;">دليل تشغيل واستخدام الموديول من داخل Odoo Apps — مشروع ENECON</p>
+  </div>
+
+  <h2 style="border-bottom:2px solid #0f766e;padding-bottom:6px;font-size:20px;">ما الذي يفعله الموديول؟</h2>
+  <p>
+    يدير دورة حياة عقود المصروفات (مقاول) وعقود الإيرادات (عميل): من المسودة حتى الإقفال،
+    مع موافقات، تأمينات، ضمانات بنكية، شروط دفع، غرامات تأخير، وإنشاء فواتير محاسبية مرتبطة بالعقد والتوزيع التحليلي.
+  </p>
+
+  <h2 style="border-bottom:2px solid #0f766e;padding-bottom:6px;font-size:20px;">التثبيت والتشغيل</h2>
+  <ol>
+    <li>تأكد أن مسار الإضافات <code>addons_path</code> يتضمن مجلد المشروع <b>ENECON</b>.</li>
+    <li>من <b>Apps</b> حدّث قائمة التطبيقات ثم ابحث عن <b>RGB Contract Management</b>.</li>
+    <li>ثبّت الموديول. بعد التثبيت يظهر تطبيق رئيسي باسم <b>Contracts</b> في القائمة العليا.</li>
+    <li>امنح المستخدمين المجموعات الأمنية المناسبة من: الإعدادات ← المستخدمون ← صلاحيات ← <b>Contract Management</b>.</li>
+  </ol>
+
+  <h2 style="border-bottom:2px solid #0f766e;padding-bottom:6px;font-size:20px;">المتطلبات (Dependencies)</h2>
+  <p><code>base</code> · <code>mail</code> · <code>account</code> · <code>analytic</code> · <code>purchase</code> · <code>sale_management</code></p>
+
+  <h2 style="border-bottom:2px solid #0f766e;padding-bottom:6px;font-size:20px;">الصلاحيات (مجموعات الأمان)</h2>
+  <table style="width:100%;border-collapse:collapse;margin:12px 0 24px;font-size:14px;">
+    <thead>
+      <tr style="background:#ecfdf5;">
+        <th style="border:1px solid #d1d5db;padding:8px;text-align:right;">المجموعة</th>
+        <th style="border:1px solid #d1d5db;padding:8px;text-align:right;">ما تسمح به</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td style="border:1px solid #d1d5db;padding:8px;"><b>Contract User</b></td>
+        <td style="border:1px solid #d1d5db;padding:8px;">إنشاء/تعديل العقود + تأكيد المسودة (Confirm)</td>
+      </tr>
+      <tr>
+        <td style="border:1px solid #d1d5db;padding:8px;"><b>Contract Approver</b></td>
+        <td style="border:1px solid #d1d5db;padding:8px;">اعتماد العقد (Approve)</td>
+      </tr>
+      <tr>
+        <td style="border:1px solid #d1d5db;padding:8px;"><b>Contract Manager</b></td>
+        <td style="border:1px solid #d1d5db;padding:8px;">كامل دورة الحياة + الإعدادات (بدء، إنهاء، قفل/فتح، إلغاء، انتهاء، أنواع الأعمال…)</td>
+      </tr>
+      <tr>
+        <td style="border:1px solid #d1d5db;padding:8px;"><b>Business Type Editor</b></td>
+        <td style="border:1px solid #d1d5db;padding:8px;">إدارة أنواع الأعمال (Business Types)</td>
+      </tr>
+      <tr>
+        <td style="border:1px solid #d1d5db;padding:8px;"><b>Contract Expiry Notification</b></td>
+        <td style="border:1px solid #d1d5db;padding:8px;">استلام تذكيرات انتهاء العقد/الضمان قبل 10 أيام</td>
+      </tr>
+      <tr>
+        <td style="border:1px solid #d1d5db;padding:8px;">مجموعات Stage:*</td>
+        <td style="border:1px solid #d1d5db;padding:8px;">صلاحيات دقيقة لكل انتقال حالة (Confirm / Approve / Start / Done / Lock …)</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2 style="border-bottom:2px solid #0f766e;padding-bottom:6px;font-size:20px;">القوائم والشاشات</h2>
+  <ul>
+    <li><b>Contracts ← Contracts</b>: قائمة العقود ونموذج العقد الرئيسي.</li>
+    <li><b>Contracts ← Business Types</b>: أنواع الأعمال (لمن لديه صلاحية المحرر).</li>
+    <li><b>Contracts ← Configuration ← Insurance Types</b>: أنواع التأمينات (للمدير).</li>
+  </ul>
+
+  <h2 style="border-bottom:2px solid #0f766e;padding-bottom:6px;font-size:20px;">سير العمل (Workflow)</h2>
+  <p style="background:#f0fdfa;border:1px solid #99f6e4;padding:12px 14px;border-radius:6px;font-size:14px;">
+    Draft → Under Approval → Approved → In Progress → Done Unlocked → Done Locked
+    <br/>حالات إضافية: Cancelled · Expired
+  </p>
+  <ol>
+    <li><b>Draft</b>: أنشئ عقداً، حدّد النوع (Expenses / Income)، الشريك، القيم، التواريخ، والحساب التحليلي إن لزم.</li>
+    <li>عيّن <b>Approval Responsible</b> ثم اضغط <b>Confirm</b> → ينتقل إلى Under Approval ويُرسل طلب اعتماد (بريد/نشاط).</li>
+    <li>المعتمد يضغط <b>Approve</b> → Approved.</li>
+    <li>ارفع مستند تأمين PDF واحداً على الأقل، ثم <b>Start</b> → In Progress. بدون PDF لن يُسمح بالبدء أو إنشاء فاتورة.</li>
+    <li>من العقد استخدم <b>Create Invoice</b> لإنشاء فاتورة محاسبية مرتبطة بالعقد.</li>
+    <li><b>Done Unlocked</b> ثم اختياريًا <b>Lock</b> لإقفال العقد (Done Locked). يمكن فتحه لاحقاً بصلاحية Unlock.</li>
+  </ol>
+
+  <h2 style="border-bottom:2px solid #0f766e;padding-bottom:6px;font-size:20px;">خطوات الاستخدام العملية</h2>
+  <h3 style="font-size:16px;color:#0f766e;">1) تجهيز الشريك والمنتج</h3>
+  <ul>
+    <li>لعقود المصروفات: فعّل علامة المقاول على الشريك عند الحاجة (Is Contractor).</li>
+    <li>جهّز المنتجات/الخدمات التي ستُستخدم في بنود العقد والفواتير.</li>
+  </ul>
+  <h3 style="font-size:16px;color:#0f766e;">2) إنشاء العقد</h3>
+  <ul>
+    <li>أدخل رقم العقد المرجعي (Contract No) والاسم والنوع وقيمة العقد والعملة وسعر الصرف إلى الدينار إن لزم.</li>
+    <li>حدد شروط الدفع، التأمينات، الضمانات، غرامة التأخير، وتقسيم عملات الدفع إن وُجد.</li>
+    <li>أضف بنود العقد (Contract Lines) حسب الحاجة.</li>
+  </ul>
+  <h3 style="font-size:16px;color:#0f766e;">3) الفوترة وحد القيمة</h3>
+  <ul>
+    <li>افتراضياً لا يُسمح بتجاوز قيمة العقد بالفواتير المرحلة، إلا إذا فعّلت <b>Allow Invoicing Over Contract Value</b>.</li>
+    <li>يمكن ضبط نسبة تعديل العقد (Contract Amendment %) لرفع سقف الفوترة.</li>
+    <li>التوزيع التحليلي من الحساب المرتبط بالعقد يُطبَّق على بنود الفاتورة.</li>
+  </ul>
+  <h3 style="font-size:16px;color:#0f766e;">4) التذكيرات الآلية</h3>
+  <ul>
+    <li>توجد إجراءات مجدولة للتذكير بانتهاء الضمان والعقد (حوالي 10 أيام مسبقاً) لمن لديهم مجموعة الإشعارات.</li>
+  </ul>
+
+  <h2 style="border-bottom:2px solid #0f766e;padding-bottom:6px;font-size:20px;">نصائح سريعة</h2>
+  <ul>
+    <li>لا يمكن بدء العقد أو إنشاء فاتورة دون مرفق تأمين PDF.</li>
+    <li>العقد المقفل (Done Locked) يحتاج Unlock قبل أي تعديل/إلغاء.</li>
+    <li>اطبع تقرير العقد وتقرير الفاتورة المرتبطة من أزرار الطباعة في الشاشة.</li>
+  </ul>
+
+  <div style="margin-top:28px;padding:14px 16px;background:#f8fafc;border:1px solid #e2e8f0;border-radius:6px;font-size:13px;color:#64748b;">
+    الاسم التقني: <code>rgb_contract_management</code> · النموذج الرئيسي: <code>rgb.contract</code> · المشروع: ENECON · المؤلف: RGB
+  </div>
+</section>

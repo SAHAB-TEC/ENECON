@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_location_form_allowed_users" model="ir.ui.view">
+        <field name="name">stock.location.form.allowed.users</field>
+        <field name="model">stock.location</field>
+        <field name="inherit_id" ref="stock.view_location_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//group[@name='additional_info']/field[@name='usage']" position="after">
+                <field name="allowed_user_ids"
+                    widget="many2many_tags"
+                    options="{'no_create': True}"
+                    placeholder="All users"/>
+                <field name="analytic_account_id"
+                    options="{'no_create': True}"
+                    groups="analytic.group_analytic_accounting"/>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

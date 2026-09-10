@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_accommodation_guest_list" model="ir.ui.view">
+        <field name="name">accommodation.guest.list</field>
+        <field name="model">accommodation.guest</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="employee_id"/>
+                <field name="unit_id"/>
+                <field name="work_phone"/>
+                <field name="project_id"/>
+                <field name="check_in_date"/>
+                <field name="check_out_date"/>
+                <field name="state" widget="badge"
+                       decoration-success="state == 'checked_in'"
+                       decoration-muted="state == 'checked_out'"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_accommodation_guest_form" model="ir.ui.view">
+        <field name="name">accommodation.guest.form</field>
+        <field name="model">accommodation.guest</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_check_out" type="object" string="Check Out"
+                            class="btn-primary" invisible="state == 'checked_out'"/>
+                    <field name="state" widget="statusbar" statusbar_visible="checked_in,checked_out"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <label for="employee_id"/>
+                        <h1><field name="employee_id"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="unit_id"/>
+                            <field name="job_title" readonly="1"/>
+                            <field name="work_phone" readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="location"/>
+                            <field name="project_id"/>
+                            <field name="check_in_date"/>
+                            <field name="check_out_date"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Belongings" name="belongings">
+                            <field name="belonging_ids">
+                                <list editable="bottom">
+                                    <field name="name"/>
+                                    <field name="quantity"/>
+                                    <field name="notes"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_accommodation_guest_search" model="ir.ui.view">
+        <field name="name">accommodation.guest.search</field>
+        <field name="model">accommodation.guest</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="employee_id" string="Guest Name"/>
+                <field name="unit_id" string="Unit Name"/>
+                <field name="work_phone" string="Guest Phone"/>
+                <field name="project_id"/>
+                <filter string="Checked In" name="filter_checked_in" domain="[('state','=','checked_in')]"/>
+                <filter string="Checked Out" name="filter_checked_out" domain="[('state','=','checked_out')]"/>
+                <separator/>
+                <filter string="Vacant Units" name="filter_unit_vacant" domain="[('unit_id.status','=','vacant')]"/>
+                <filter string="Reserved Units" name="filter_unit_reserved" domain="[('unit_id.status','=','reserved')]"/>
+                <filter string="Occupied Units" name="filter_unit_occupied" domain="[('unit_id.status','=','occupied')]"/>
+                <group expand="0" string="Group By">
+                    <filter string="Housing Unit" name="group_unit" context="{'group_by': 'unit_id'}"/>
+                    <filter string="Project" name="group_project" context="{'group_by': 'project_id'}"/>
+                    <filter string="Status" name="group_state" context="{'group_by': 'state'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_accommodation_guest" model="ir.actions.act_window">
+        <field name="name">Guests</field>
+        <field name="res_model">accommodation.guest</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="view_accommodation_guest_search"/>
+        <field name="context">{'search_default_filter_checked_in': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smart_action">
+                Check in your first guest
+            </p>
+        </field>
+    </record>
+</odoo>

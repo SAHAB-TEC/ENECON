@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="module_category_rgb_contract" model="ir.module.category">
+        <field name="name">Contract Management</field>
+        <field name="sequence">25</field>
+    </record>
+
+    <!-- Stage / workflow permissions (one group per transition) -->
+    <record id="group_contract_stage_confirm" model="res.groups">
+        <field name="name">Stage: Confirm</field>
+        <field name="category_id" ref="module_category_rgb_contract"/>
+        <field name="comment">Can move contract from Draft to Under Approval.</field>
+        <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+    </record>
+
+    <record id="group_contract_stage_approve" model="res.groups">
+        <field name="name">Stage: Approve</field>
+        <field name="category_id" ref="module_category_rgb_contract"/>
+        <field name="comment">Can move contract from Under Approval to Approved.</field>
+        <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+    </record>
+
+    <record id="group_contract_stage_start" model="res.groups">
+        <field name="name">Stage: Start</field>
+        <field name="category_id" ref="module_category_rgb_contract"/>
+        <field name="comment">Can move contract from Approved to In Progress.</field>
+        <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+    </record>
+
+    <record id="group_contract_stage_done" model="res.groups">
+        <field name="name">Stage: Done Unlocked</field>
+        <field name="category_id" ref="module_category_rgb_contract"/>
+        <field name="comment">Can move contract from In Progress to Done Unlocked.</field>
+        <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+    </record>
+
+    <record id="group_contract_stage_lock" model="res.groups">
+        <field name="name">Stage: Done Locked</field>
+        <field name="category_id" ref="module_category_rgb_contract"/>
+        <field name="comment">Can lock a Done Unlocked contract (Done Locked).</field>
+        <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+    </record>
+
+    <record id="group_contract_stage_unlock" model="res.groups">
+        <field name="name">Stage: Unlock Done</field>
+        <field name="category_id" ref="module_category_rgb_contract"/>
+        <field name="comment">Can unlock a Done Locked contract back to Done Unlocked.</field>
+        <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+    </record>
+
+    <record id="group_contract_stage_cancel" model="res.groups">
+        <field name="name">Stage: Cancel</field>
+        <field name="category_id" ref="module_category_rgb_contract"/>
+        <field name="comment">Can cancel a contract.</field>
+        <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+    </record>
+
+    <record id="group_contract_stage_reset" model="res.groups">
+        <field name="name">Stage: Reset to Draft</field>
+        <field name="category_id" ref="module_category_rgb_contract"/>
+        <field name="comment">Can reset a contract to Draft.</field>
+        <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+    </record>
+
+    <record id="group_contract_stage_expire" model="res.groups">
+        <field name="name">Stage: Mark Expired</field>
+        <field name="category_id" ref="module_category_rgb_contract"/>
+        <field name="comment">Can mark a contract as Expired.</field>
+        <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+    </record>
+
+    <record id="group_contract_user" model="res.groups">
+        <field name="name">Contract User</field>
+        <field name="category_id" ref="module_category_rgb_contract"/>
+        <field name="implied_ids" eval="[(4, ref('base.group_user')), (4, ref('group_contract_stage_confirm'))]"/>
+    </record>
+
+    <record id="group_contract_approver" model="res.groups">
+        <field name="name">Contract Approver</field>
+        <field name="category_id" ref="module_category_rgb_contract"/>
+        <field name="implied_ids" eval="[(4, ref('group_contract_user')), (4, ref('group_contract_stage_approve'))]"/>
+    </record>
+
+    <record id="group_contract_business_type_editor" model="res.groups">
+        <field name="name">Business Type Editor</field>
+        <field name="category_id" ref="module_category_rgb_contract"/>
+        <field name="comment">Can create and manage contract business types.</field>
+        <field name="implied_ids" eval="[(4, ref('group_contract_user'))]"/>
+    </record>
+
+    <record id="group_contract_manager" model="res.groups">
+        <field name="name">Contract Manager</field>
+        <field name="category_id" ref="module_category_rgb_contract"/>
+        <field name="implied_ids" eval="[
+            (4, ref('group_contract_approver')),
+            (4, ref('group_contract_business_type_editor')),
+            (4, ref('group_contract_stage_start')),
+            (4, ref('group_contract_stage_done')),
+            (4, ref('group_contract_stage_lock')),
+            (4, ref('group_contract_stage_unlock')),
+            (4, ref('group_contract_stage_cancel')),
+            (4, ref('group_contract_stage_reset')),
+            (4, ref('group_contract_stage_expire')),
+        ]"/>
+    </record>
+
+    <record id="group_contract_expiry_notification" model="res.groups">
+        <field name="name">Contract Expiry Notification</field>
+        <field name="category_id" ref="module_category_rgb_contract"/>
+        <field name="comment">Users in this group receive contract and performance guarantee expiry reminders 10 days before the end date.</field>
+        <field name="implied_ids" eval="[(4, ref('group_contract_user'))]"/>
+    </record>
+</odoo>

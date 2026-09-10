@@ -1,0 +1,17 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_rgb_contract_user,rgb.contract.user,model_rgb_contract,group_contract_user,1,1,1,0
+access_rgb_contract_approver,rgb.contract.approver,model_rgb_contract,group_contract_approver,1,1,1,0
+access_rgb_contract_manager,rgb.contract.manager,model_rgb_contract,group_contract_manager,1,1,1,1
+access_rgb_contract_payment_user,rgb.contract.payment.condition.user,model_rgb_contract_payment_condition,group_contract_user,1,1,1,1
+access_rgb_contract_payment_manager,rgb.contract.payment.condition.manager,model_rgb_contract_payment_condition,group_contract_manager,1,1,1,1
+access_rgb_contract_insurance_type_user,rgb.contract.insurance.type.user,model_rgb_contract_insurance_type,group_contract_user,1,0,0,0
+access_rgb_contract_insurance_type_manager,rgb.contract.insurance.type.manager,model_rgb_contract_insurance_type,group_contract_manager,1,1,1,1
+access_rgb_contract_business_type_user,rgb.contract.business.type.user,model_rgb_contract_business_type,group_contract_user,1,0,0,0
+access_rgb_contract_business_type_editor,rgb.contract.business.type.editor,model_rgb_contract_business_type,group_contract_business_type_editor,1,1,1,1
+access_rgb_contract_currency_split_user,rgb.contract.currency.split.user,model_rgb_contract_currency_split,group_contract_user,1,1,1,1
+access_rgb_contract_currency_split_manager,rgb.contract.currency.split.manager,model_rgb_contract_currency_split,group_contract_manager,1,1,1,1
+access_rgb_contract_line_user,rgb.contract.line.user,model_rgb_contract_line,group_contract_user,1,1,1,1
+access_rgb_contract_line_manager,rgb.contract.line.manager,model_rgb_contract_line,group_contract_manager,1,1,1,1
+access_rgb_account_move_currency_split_user,rgb.account.move.currency.split.user,model_rgb_account_move_currency_split,group_contract_user,1,1,1,1
+access_rgb_account_move_currency_split_manager,rgb.account.move.currency.split.manager,model_rgb_account_move_currency_split,group_contract_manager,1,1,1,1
+access_rgb_account_move_currency_split_invoice,rgb.account.move.currency.split.invoice,model_rgb_account_move_currency_split,account.group_account_invoice,1,1,1,1

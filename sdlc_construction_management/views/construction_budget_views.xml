@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Tree View -->
+    <record id="view_construction_budget_list" model="ir.ui.view">
+        <field name="name">construction.budget.list</field>
+        <field name="model">construction.budget</field>
+        <field name="arch" type="xml">
+            <list string="Budgets" decoration-info="state == 'draft'"
+                  decoration-success="state == 'approved'">
+                <field name="name"/>
+                <field name="project_id"/>
+                <field name="sub_project_id"/>
+                <field name="date"/>
+                <field name="total_planned" sum="Planned"/>
+                <field name="total_actual" sum="Actual"/>
+                <field name="total_variance" sum="Variance"/>
+                <field name="state" widget="badge"
+                       decoration-info="state == 'draft'"
+                       decoration-warning="state == 'confirmed'"
+                       decoration-success="state == 'approved'"
+                       decoration-primary="state == 'done'"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Form View -->
+    <record id="view_construction_budget_form" model="ir.ui.view">
+        <field name="name">construction.budget.form</field>
+        <field name="model">construction.budget</field>
+        <field name="arch" type="xml">
+            <form string="Budget">
+                <header>
+                    <button name="action_confirm" string="Confirm" type="object"
+                            class="oe_highlight" invisible="state != 'draft'"/>
+                    <button name="action_approve" string="Approve" type="object"
+                            class="oe_highlight" invisible="state != 'confirmed'"/>
+                    <button name="action_done" string="Done" type="object"
+                            class="oe_highlight" invisible="state != 'approved'"/>
+                    <button name="action_cancel" string="Cancel" type="object"
+                            invisible="state in ('done', 'cancelled')"/>
+                    <button name="action_reset_draft" string="Reset to Draft" type="object"
+                            invisible="state not in ('confirmed', 'cancelled')"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,confirmed,approved,done"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="name" readonly="1"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="project_id"/>
+                            <field name="sub_project_id"/>
+                        </group>
+                        <group>
+                            <field name="date"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Budget Lines">
+                            <field name="line_ids">
+                                <list editable="bottom">
+                                    <field name="work_type_id"/>
+                                    <field name="product_id"/>
+                                    <field name="description"/>
+                                    <field name="planned_amount" sum="Planned Total"/>
+                                    <field name="actual_amount" sum="Actual Total"/>
+                                    <field name="variance" sum="Variance Total"/>
+                                    <field name="progress" widget="progressbar"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Notes">
+                            <field name="notes"/>
+                        </page>
+                    </notebook>
+                    <group class="oe_subtotal_footer oe_right">
+                        <field name="total_planned"/>
+                        <field name="total_actual"/>
+                        <field name="total_variance" class="oe_subtotal_footer_separator"/>
+                    </group>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <!-- Search View -->
+    <record id="view_construction_budget_search" model="ir.ui.view">
+        <field name="name">construction.budget.search</field>
+        <field name="model">construction.budget</field>
+        <field name="arch" type="xml">
+            <search string="Budgets">
+                <field name="name"/>
+                <field name="project_id"/>
+                <field name="sub_project_id"/>
+                <filter name="draft" string="Draft" domain="[('state', '=', 'draft')]"/>
+                <filter name="approved" string="Approved" domain="[('state', '=', 'approved')]"/>
+                <group>
+                    <filter name="group_project" string="Project" context="{'group_by': 'project_id'}"/>
+                    <filter name="group_state" string="Status" context="{'group_by': 'state'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="action_construction_budget" model="ir.actions.act_window">
+        <field name="name">Budgets</field>
+        <field name="res_model">construction.budget</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create a new Budget
+            </p>
+        </field>
+    </record>
+</odoo>

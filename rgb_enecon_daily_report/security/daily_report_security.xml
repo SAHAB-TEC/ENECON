@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="group_rgb_enecon_daily_report_approver" model="res.groups">
+        <field name="name">Daily Report Approver</field>
+        <field name="category_id" ref="sdlc_construction_management.module_category_construction"/>
+        <field name="implied_ids" eval="[(4, ref('sdlc_construction_management.group_construction_user'))]"/>
+    </record>
+</odoo>

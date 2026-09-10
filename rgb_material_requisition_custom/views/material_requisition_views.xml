@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_material_requisition_search_well_rig" model="ir.ui.view">
+        <field name="name">material.requisition.search.well.rig</field>
+        <field name="model">material.requisition</field>
+        <field name="inherit_id" ref="material_requisition_and_approval.view_material_requisition_my_requests_search"/>
+        <field name="arch" type="xml">
+            <field name="request_type_id" position="after">
+                <field name="partner_id"/>
+                <field name="project_id"/>
+                <field name="analytic_account_id"/>
+                <field name="well_id"/>
+                <field name="rig_id"/>
+                <field name="location_id"/>
+                <field name="final_dispatch_ids"/>
+            </field>
+            <filter name="my_requests" position="after">
+                <separator/>
+                <filter name="filter_with_project"
+                    string="With Project"
+                    domain="[('project_id', '!=', False)]"/>
+                <filter name="filter_with_transfers"
+                    string="With Transfers"
+                    domain="[('final_dispatch_ids', '!=', False)]"/>
+                <filter name="filter_with_rig"
+                    string="With Rig"
+                    domain="[('rig_id', '!=', False)]"/>
+            </filter>
+            <filter name="group_by_request_type_id" position="after">
+                <filter name="group_by_partner" string="Customer" context="{'group_by': 'partner_id'}"/>
+                <filter name="group_by_project" string="Project" context="{'group_by': 'project_id'}"/>
+                <filter name="group_by_well" string="Well" context="{'group_by': 'well_id'}"/>
+                <filter name="group_by_rig" string="Rig" context="{'group_by': 'rig_id'}"/>
+            </filter>
+        </field>
+    </record>
+
+    <record id="view_material_requisition_form_well_rig" model="ir.ui.view">
+        <field name="name">material.requisition.form.well.rig</field>
+        <field name="model">material.requisition</field>
+        <field name="inherit_id" ref="material_requisition_and_approval.view_material_requisition_form"/>
+        <field name="arch" type="xml">
+            <field name="location_id" position="after">
+                <field name="partner_id" required="not id" readonly="state_code != 'draft'"/>
+                <field name="project_id" options="{'no_create': True}"/>
+                <field name="analytic_account_id" options="{'no_create': True}"/>
+                <field name="well_id"/>
+                <field name="rig_id"/>
+            </field>
+        </field>
+    </record>
+
+    <record id="view_material_requisition_list_well_rig" model="ir.ui.view">
+        <field name="name">material.requisition.list.well.rig</field>
+        <field name="model">material.requisition</field>
+        <field name="inherit_id" ref="material_requisition_and_approval.view_material_requisition_list"/>
+        <field name="arch" type="xml">
+            <field name="request_type_id" position="after">
+                <field name="partner_id" optional="show"/>
+                <field name="project_id" optional="show"/>
+                <field name="location_src_display" optional="show" string="From"/>
+                <field name="location_dest_display" optional="show" string="To"/>
+                <field name="well_id" optional="show"/>
+                <field name="rig_id" optional="show"/>
+            </field>
+        </field>
+    </record>
+
+</odoo>

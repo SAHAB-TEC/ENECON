@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<templates xml:space="preserve">
+    <t t-name="material_requisition_and_approval.MaterialRequisitionDashboardScreen">
+        <main class="mrdc_screen">
+            <div t-if="state.tooltip.visible" class="mrdc_hover_tooltip" t-att-style="getTooltipStyle()">
+                <t t-esc="state.tooltip.text"/>
+            </div>
+
+            <div class="mrdc_shell">
+               
+
+                <section class="mrdc_summary_grid">
+                    <t t-foreach="getSummaryItems()" t-as="item" t-key="item.key">
+                        <article t-attf-class="mrdc_stat mrdc_stat_#{item.key}">
+                            <div>
+                                <span class="mrdc_stat_label" t-esc="item.label"/>
+                                <strong class="mrdc_stat_value" t-esc="item.value"/>
+                            </div>
+                            <span class="mrdc_stat_icon">
+                                <i t-attf-class="fa #{item.icon}" aria-hidden="true"/>
+                            </span>
+                        </article>
+                    </t>
+                </section>
+
+                <section t-if="state.loading" class="mrdc_empty_state">
+                    <h3>Loading dashboard...</h3>
+                </section>
+
+                <section t-elif="!state.cards.length" class="mrdc_empty_state">
+                    <h3>No dashboard widgets configured yet</h3>
+                    <p>Create dashboard records in Dashboard Setup to populate this screen.</p>
+                </section>
+
+                <section t-else="" class="mrdc_grid">
+                    <t t-foreach="state.cards" t-as="card" t-key="card.id">
+                        <article t-att-class="getCardClass(card)">
+                            <div class="mrdc_card_toolbar">
+                                <h2 class="mrdc_card_title" t-esc="card.name"/>
+                                <div class="mrdc_chart_type_group">
+                                    <t t-foreach="getChartTypeOptions(card)" t-as="option" t-key="option.type">
+                                        <button type="button"
+                                                t-att-class="getChartButtonClass(card, option.type)"
+                                                t-on-click="() => setCardChartType(card, option.type)">
+                                            <t t-esc="option.label"/>
+                                        </button>
+                                    </t>
+                                </div>
+                            </div>
+
+                            <div t-if="getChartKind(card) === 'table'" class="mrdc_card_table_wrap">
+                                <table class="mrdc_card_table">
+                                    <thead>
+                                        <tr>
+                                            <th>Label</th>
+                                            <th>Value</th>
+                                            <th/>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr t-if="!getChartValues(card).length">
+                                            <td colspan="3" class="mrdc_card_table_empty">No data yet.</td>
+                                        </tr>
+                                        <tr t-foreach="getChartValues(card)" t-as="point" t-key="point.label">
+                                            <td>
+                                                <span class="mrdc_table_point">
+                                                    <span class="mrdc_table_point_dot" t-att-style="`background:${point.color || '#714B67'}`"/>
+                                                    <span t-esc="point.label"/>
+                                                </span>
+                                            </td>
+                                            <td t-esc="point.value"/>
+                                            <td class="mrdc_text_right">
+                                                <button type="button" class="mrdc_card_table_btn" t-on-click="() => openPoint(card, point.index)">
+                                                    Open
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <div t-elif="getChartKind(card) === 'bar'" class="mrdc_chart_bars">
+                                <t t-set="maxValue" t-value="getMaxValue(card)"/>
+                                <t t-foreach="getChartValues(card)" t-as="point" t-key="point.label">
+                                    <button type="button"
+                                            class="mrdc_bar_item"
+                                            t-att-title="getPointTooltip(point)"
+                                            t-on-click="() => openPoint(card, point.index)"
+                                            t-on-mouseenter="(ev) => showTooltip(ev, point)"
+                                            t-on-mousemove="moveTooltip"
+                                            t-on-mouseleave="hideTooltip">
+                                        <div class="mrdc_bar_track">
+                                            <div class="mrdc_bar_fill"
+                                                 t-att-style="`${getBarHeight(point.value, maxValue)}; background:${point.color || '#714B67'}; --mrdc-bar-delay:${point_index * 60}ms`"/>
+                                        </div>
+                                    </button>
+                                </t>
+                            </div>
+
+                            <div t-elif="getChartKind(card) === 'line'" class="mrdc_line_section">
+                                <svg class="mrdc_line_svg" viewBox="0 0 320 180">
+                                    <path class="mrdc_line_path" t-att-d="getLinePath(card)" t-att-style="`--mrdc-path-length:${getLinePathLength(card)}`"/>
+                                    <t t-foreach="getLinePoints(card)" t-as="point" t-key="point.label">
+                                        <circle class="mrdc_line_point"
+                                                t-att-cx="point.x"
+                                                t-att-cy="point.y"
+                                                t-att-fill="point.color || '#714B67'"
+                                                r="5"
+                                                t-att-style="`--mrdc-point-delay:${1400 + point_index * 100}ms`"
+                                                t-on-click="() => openPoint(card, point.index)"
+                                                t-on-mouseenter="(ev) => showTooltip(ev, point)"
+                                                t-on-mousemove="moveTooltip"
+                                                t-on-mouseleave="hideTooltip"/>
+                                    </t>
+                                </svg>
+                            </div>
+
+                            <div t-else="" t-attf-class="mrdc_ring_section mrdc_ring_section_#{getChartKind(card)}">
+                                <div class="mrdc_ring_chart">
+                                    <svg class="mrdc_ring_svg" viewBox="0 0 200 200" aria-hidden="true">
+                                        <t t-foreach="getChartSegments(card)" t-as="segment" t-key="segment.label">
+                                            <path class="mrdc_ring_slice"
+                                                  t-att-d="segment.path"
+                                                  t-att-fill="segment.color || '#714B67'"
+                                                  t-att-style="`--mrdc-slice-delay:${segment_index * 80}ms`"
+                                                  t-on-click="() => openPoint(card, segment.index)"
+                                                  t-on-mouseover="(ev) => showTooltip(ev, segment)"
+                                                  t-on-mousemove="moveTooltip"
+                                                  t-on-mouseout="hideTooltip"
+                                                  t-on-pointerover="(ev) => showTooltip(ev, segment)"
+                                                  t-on-pointermove="moveTooltip"
+                                                  t-on-pointerout="hideTooltip"/>
+                                        </t>
+                                    </svg>
+                                    <div class="mrdc_ring_center">
+                                        <span class="mrdc_ring_center_value" t-esc="getRingCenterValue(card)"/>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div t-if="getChartKind(card) !== 'table'" class="mrdc_chart_legend_min">
+                                <t t-foreach="getChartValues(card)" t-as="point" t-key="`${point.label}_legend`">
+                                    <button type="button"
+                                            class="mrdc_chart_legend_item"
+                                            t-on-click="() => openPoint(card, point.index)">
+                                        <span class="mrdc_chart_legend_dot" t-att-style="`background:${point.color || '#714B67'}`"/>
+                                        <span t-esc="point.label"/>
+                                    </button>
+                                </t>
+                            </div>
+
+                            <div class="mrdc_card_preview">
+                                <span class="mrdc_preview_text" />
+                                <button type="button" class="mrdc_card_preview_btn" t-on-click="() => openCard(card)">
+                                    Details
+                                </button>
+                            </div>
+                        </article>
+                    </t>
+                </section>
+
+                <section class="mrdc_material_table">
+                    <div class="mrdc_table_header">
+                        <div>
+                            <h2>Recent Requests</h2>
+                           
+                        </div>
+                        <div class="mrdc_table_actions">
+                           
+                        </div>
+                    </div>
+
+                    <div class="mrdc_table_wrap">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Material</th>
+                                    <th>User</th>
+                                    <th>Status</th>
+                                    <th>Date</th>
+                                    <th class="mrdc_text_right">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr t-if="!state.materialRows.length">
+                                    <td colspan="5" class="mrdc_table_empty">No material requests yet.</td>
+                                </tr>
+                                <tr t-foreach="state.materialRows" t-as="row" t-key="row.id">
+                                    <td class="mrdc_material_name" t-esc="row.material"/>
+                                    <td>
+                                        <span class="mrdc_user_cell">
+                                            <img t-if="row.user_avatar"
+                                                 class="mrdc_user_avatar"
+                                                 t-att-src="row.user_avatar"
+                                                 t-att-alt="row.user"
+                                                 t-on-error="(ev) => { ev.target.style.display='none'; ev.target.nextElementSibling.style.display='inline-flex'; }"/>
+                                            <span class="mrdc_user_avatar mrdc_user_avatar_fallback"
+                                                  t-att-style="row.user_avatar ? 'display:none' : ''">
+                                                <t t-esc="row.user ? row.user[0].toUpperCase() : '?'"/>
+                                            </span>
+                                            <span t-esc="row.user"/>
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <span t-att-class="getStatusClass(row)" t-esc="row.status"/>
+                                    </td>
+                                    <td class="mrdc_muted" t-esc="formatDate(row.date)"/>
+                                    <td class="mrdc_text_right">
+                                        <button type="button" class="mrdc_outline_btn" t-on-click="() => openMaterialRow(row)">
+                                            View Details
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </t>
+</templates>

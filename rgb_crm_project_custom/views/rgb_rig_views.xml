@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_rgb_rig_tree" model="ir.ui.view">
+        <field name="name">rgb.rig.tree</field>
+        <field name="model">rgb.rig</field>
+        <field name="arch" type="xml">
+            <list string="Rigs" editable="bottom">
+                <field name="name"/>
+                <field name="code" optional="show"/>
+                <field name="well_id" optional="show"/>
+                <field name="partner_id" optional="show"/>
+                <field name="active" widget="boolean_toggle"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_rgb_rig_form" model="ir.ui.view">
+        <field name="name">rgb.rig.form</field>
+        <field name="model">rgb.rig</field>
+        <field name="arch" type="xml">
+            <form string="Rig">
+                <sheet>
+                    <widget name="web_ribbon" title="Archived" bg_color="text-bg-danger" invisible="active"/>
+                    <group>
+                        <field name="name"/>
+                        <field name="code"/>
+                        <field name="well_id"/>
+                        <field name="partner_id"/>
+                        <field name="active"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_rgb_rig" model="ir.actions.act_window">
+        <field name="name">Rigs</field>
+        <field name="res_model">rgb.rig</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <menuitem id="menu_rgb_rig_root"
+              name="Rigs"
+              parent="crm.crm_menu_config"
+              action="action_rgb_rig"
+              sequence="36"
+              groups="sales_team.group_sale_manager"/>
+</odoo>

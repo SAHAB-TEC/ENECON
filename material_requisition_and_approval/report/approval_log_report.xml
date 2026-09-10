@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) 2016-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<!-- License URL : <https://store.webkul.com/license.html/> -->
+
+    <odoo>
+
+        <template id="report_approval_log">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="doc">
+                    <t t-call="material_requisition_and_approval.report_approval_log_detail" t-lang="user_id.lang"/>
+                </t>
+            </t>
+        </template>
+
+        <template id="report_approval_log_detail">
+            <t t-call="web.basic_layout">
+                <div class="page">
+                    <h2>Approval Log</h2>
+
+                    <p><strong>Requisition:</strong> <t t-esc="doc.name"/></p>
+                    <p><strong>Requested by:</strong> <t t-esc="doc.employee_id.name"/></p>
+                    <p><strong>Department:</strong> <t t-esc="doc.department_id.name"/></p>
+                    <p><strong>Request Date:</strong> <t t-esc="doc.required_date"/></p>
+
+                    <h4>Approvals</h4>
+                    <table class="table table-sm">
+                        <thead>
+                            <tr>
+                                <!-- <th>Level</th>
+                                <th>Type</th> -->
+                                <th>Approver(s)</th>
+                                <th>Status</th>
+                                <th>Remarks</th>
+                                <th>Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr t-foreach="doc.approval_ids" t-as="ap">
+                                <!-- <td><t t-esc="ap.level"/></td>
+                                <td><t t-esc="ap.approver_type or '-'"/></td> -->
+                                <td>
+                                    <t t-esc="', '.join([u.name for u in ap.approver_ids]) if ap.approver_ids else '-'"/>
+                                </td>
+                                <td><t t-esc="ap.status"/></td>
+                                <td><t t-esc="ap.remarks or '-'"/></td>
+                                <td><t t-esc="ap.date or '-'"/></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </t>
+        </template>
+</odoo>

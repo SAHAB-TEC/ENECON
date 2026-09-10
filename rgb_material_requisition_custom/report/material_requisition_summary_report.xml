@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="report_material_requisition_summary_detail_well_rig"
+        inherit_id="material_requisition_and_approval.report_material_requisition_summary_detail">
+        <xpath expr="//p[strong='Date:']" position="before">
+            <p><strong>Customer:</strong> <t t-esc="doc.partner_id.display_name or '-'"/></p>
+            <p><strong>Project:</strong> <t t-esc="doc.project_id.display_name or '-'"/></p>
+            <p><strong>Analytic Account:</strong> <t t-esc="doc.analytic_account_id.display_name or '-'"/></p>
+            <p><strong>Well:</strong> <t t-esc="doc.well_id.name or '-'"/></p>
+            <p><strong>Rig:</strong> <t t-esc="doc.rig_id.name or '-'"/></p>
+        </xpath>
+    </template>
+
+</odoo>

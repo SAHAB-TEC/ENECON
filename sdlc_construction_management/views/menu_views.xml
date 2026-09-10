@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Main Menu -->
+    <menuitem id="menu_construction_root"
+              name="Projects"
+              sequence="50"/>
+
+    <!-- Dashboard -->
+    <menuitem id="menu_construction_dashboard"
+              name="Dashboard"
+              parent="menu_construction_root"
+              action="action_construction_dashboard"
+              sequence="1"/>
+
+    <!-- Projects -->
+    <menuitem id="menu_construction_projects"
+              name="Projects"
+              parent="menu_construction_root"
+              sequence="5"/>
+
+    <menuitem id="menu_construction_project_list"
+              name="Projects"
+              parent="menu_construction_projects"
+              action="action_construction_project"
+              sequence="1"/>
+
+    <!-- Sub Projects -->
+    <menuitem id="menu_construction_sub_projects"
+              name="Sub Projects"
+              parent="menu_construction_root"
+              action="action_construction_sub_project"
+              sequence="10"/>
+
+    <!-- Budgets -->
+    <menuitem id="menu_construction_budgets"
+              name="Budgets"
+              parent="menu_construction_root"
+              sequence="15"/>
+
+    <menuitem id="menu_construction_boq"
+              name="Bill of Quantities"
+              parent="menu_construction_budgets"
+              action="action_construction_boq"
+              sequence="1"/>
+
+    <menuitem id="menu_construction_budget_list"
+              name="Budgets"
+              parent="menu_construction_budgets"
+              action="action_construction_budget"
+              sequence="5"/>
+
+    <!-- Rate Analysis -->
+    <menuitem id="menu_construction_rate_analysis"
+              name="Rate Analysis"
+              parent="menu_construction_root"
+              action="action_construction_rate_analysis"
+              sequence="20"/>
+
+    <!-- Executions -->
+    <menuitem id="menu_construction_executions"
+              name="Executions"
+              parent="menu_construction_root"
+              sequence="25"/>
+
+    <menuitem id="menu_construction_phases"
+              name="Phases (WBS)"
+              parent="menu_construction_executions"
+              action="action_construction_phase"
+              sequence="1"/>
+
+    <menuitem id="menu_construction_work_orders"
+              name="Work Orders"
+              parent="menu_construction_executions"
+              action="action_construction_work_order"
+              sequence="5"/>
+
+    <!-- Tasks -->
+    <menuitem id="menu_construction_tasks"
+              name="Tasks"
+              parent="menu_construction_root"
+              action="action_construction_task"
+              sequence="30"/>
+
+    <!-- Operations -->
+    <menuitem id="menu_construction_operations"
+              name="Operations"
+              parent="menu_construction_root"
+              sequence="35"/>
+
+    <menuitem id="menu_construction_mreq"
+              name="Material Requisitions"
+              parent="menu_construction_operations"
+              action="action_construction_material_requisition"
+              sequence="1"/>
+
+    <menuitem id="menu_construction_extra_expense"
+              name="Extra Expenses"
+              parent="menu_construction_operations"
+              action="action_construction_extra_expense"
+              sequence="5"/>
+
+    <menuitem id="menu_construction_progress_billing"
+              name="Progress Billing"
+              parent="menu_construction_operations"
+              action="action_construction_progress_billing"
+              sequence="10"/>
+
+    <!-- Contracts -->
+    <menuitem id="menu_construction_contracts"
+              name="Contracts"
+              parent="menu_construction_root"
+              sequence="40"/>
+
+    <menuitem id="menu_construction_subcontract"
+              name="Subcontracting"
+              parent="menu_construction_contracts"
+              action="action_construction_subcontract"
+              sequence="1"/>
+
+    <menuitem id="menu_construction_consume_order"
+              name="Consume Orders"
+              parent="menu_construction_contracts"
+              action="action_construction_consume_order"
+              sequence="5"/>
+
+    <menuitem id="menu_construction_ra_billing"
+              name="RA Billings"
+              parent="menu_construction_contracts"
+              action="action_construction_ra_billing"
+              sequence="10"/>
+
+    <!-- Quality Checks -->
+    <menuitem id="menu_construction_quality_checks"
+              name="Quality Checks"
+              parent="menu_construction_root"
+              action="action_construction_quality_check"
+              sequence="45"/>
+
+    <!-- Configurations -->
+    <menuitem id="menu_construction_configuration"
+              name="Configuration"
+              parent="menu_construction_root"
+              sequence="99"/>
+
+    <menuitem id="menu_construction_project_stages"
+              name="Project Stages"
+              parent="menu_construction_configuration"
+              action="action_construction_project_stage"
+              sequence="0"/>
+
+    <menuitem id="menu_construction_work_types"
+              name="Work Types"
+              parent="menu_construction_configuration"
+              action="action_construction_work_type"
+              sequence="1"/>
+
+    <menuitem id="menu_construction_work_sub_types"
+              name="Work Sub Types"
+              parent="menu_construction_configuration"
+              action="action_construction_work_sub_type"
+              sequence="5"/>
+</odoo>

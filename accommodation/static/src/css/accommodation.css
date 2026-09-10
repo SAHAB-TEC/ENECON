@@ -1,0 +1,24 @@
+.acc_unit_card {
+    border-left: 4px solid #cccccc;
+}
+.acc_unit_card.acc_status_vacant {
+    border-left-color: #28a745;
+}
+.acc_unit_card.acc_status_reserved {
+    border-left-color: #ffc107;
+}
+.acc_unit_card.acc_status_occupied {
+    border-left-color: #dc3545;
+}
+.acc_status_badge.acc_badge_vacant {
+    background-color: #28a745 !important;
+    color: #fff !important;
+}
+.acc_status_badge.acc_badge_reserved {
+    background-color: #ffc107 !important;
+    color: #212529 !important;
+}
+.acc_status_badge.acc_badge_occupied {
+    background-color: #dc3545 !important;
+    color: #fff !important;
+}

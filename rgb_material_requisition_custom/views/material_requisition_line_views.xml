@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_material_requisition_line_search_well_rig" model="ir.ui.view">
+        <field name="name">material.requisition.line.search.well.rig</field>
+        <field name="model">material.requisition.line</field>
+        <field name="inherit_id" ref="material_requisition_and_approval.view_material_requisition_line_search"/>
+        <field name="arch" type="xml">
+            <field name="requisition_id" position="after">
+                <field name="project_id"/>
+                <field name="analytic_account_id"/>
+                <field name="well_id"/>
+                <field name="rig_id"/>
+            </field>
+        </field>
+    </record>
+
+    <record id="view_material_requisition_line_list_well_rig" model="ir.ui.view">
+        <field name="name">material.requisition.line.list.well.rig</field>
+        <field name="model">material.requisition.line</field>
+        <field name="inherit_id" ref="material_requisition_and_approval.view_material_requisition_line_list"/>
+        <field name="arch" type="xml">
+            <field name="requisition_id" position="after">
+                <field name="project_id" optional="show"/>
+                <field name="analytic_account_id" optional="show"/>
+                <field name="well_id" optional="show"/>
+                <field name="rig_id" optional="show"/>
+            </field>
+        </field>
+    </record>
+
+    <record id="view_material_requisition_line_form_well_rig" model="ir.ui.view">
+        <field name="name">material.requisition.line.form.well.rig</field>
+        <field name="model">material.requisition.line</field>
+        <field name="inherit_id" ref="material_requisition_and_approval.view_material_requisition_line_form"/>
+        <field name="arch" type="xml">
+            <field name="requisition_id" position="after">
+                <field name="project_id"/>
+                <field name="analytic_account_id"/>
+                <field name="well_id"/>
+                <field name="rig_id"/>
+            </field>
+        </field>
+    </record>
+
+    <!-- Columns on Requested Products list inside MR form -->
+    <record id="view_material_requisition_form_line_project_analytic" model="ir.ui.view">
+        <field name="name">material.requisition.form.line.project.analytic</field>
+        <field name="model">material.requisition</field>
+        <field name="inherit_id" ref="material_requisition_and_approval.view_material_requisition_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='requested_product_ids']/list/field[@name='product_id']" position="after">
+                <field name="project_id" optional="show"/>
+                <field name="analytic_account_id" optional="show"/>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

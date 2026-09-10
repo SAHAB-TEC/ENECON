@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) 2016-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<!-- License URL : <https://store.webkul.com/license.html/> -->
+
+<odoo>
+    <record id="view_material_requisition_cancel_wizard_form" model="ir.ui.view">
+        <field name="name">material.requisition.cancel.wizard.form</field>
+        <field name="model">material.requisition.cancel.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Cancel Material Requisition">
+                <header>
+                   <div class="alert alert-info" role="alert">
+                        <i class="fa fa-info-circle" title="Requisition Info" aria-hidden="true"/> 
+                        <strong>Requisition:</strong> 
+                        <field name="requisition_id" readonly="1" class="oe_inline"/>
+                    </div>
+
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>Cancel Material Requisition</h1>
+                        <p class="text-muted">Choose how you want to cancel this requisition and provide a reason.</p>
+                    </div>
+                    
+                    <group>
+                        <group>
+                            <field name="cancel_type" widget="radio" options="{'horizontal': true}"/>
+                            <field name="cancel_related_documents" 
+                                   invisible="not has_related_documents"
+                                   help="This will also cancel related internal transfers and purchase orders"/>
+                            <field name="send_notification" 
+                                   help="Send email notification to requester and approvers"/>
+                        </group>
+                        <group>
+                            <field name="has_related_documents" invisible="1"/>
+                            <field name="related_pickings_count" invisible="1"/>
+                            <field name="related_pos_count" invisible="1"/>
+                            <div invisible="not has_related_documents" class="alert alert-warning">
+                                <strong>Related Documents Found:</strong><br/>
+                                <span invisible="related_pickings_count == 0">
+                                    <i class="fa fa-truck"/> <field name="related_pickings_count" class="oe_inline"/> Internal Transfer(s)<br/>
+                                </span>
+                                <span invisible="related_pos_count == 0">
+                                    <i class="fa fa-shopping-cart"/> <field name="related_pos_count" class="oe_inline"/> Purchase Order(s)
+                                </span>
+                            </div>
+                        </group>
+                    </group>
+                    
+                    <notebook invisible="cancel_type != 'lines'">
+                        <page string="Lines to Cancel">
+                            <field name="line_ids" nolabel="1" domain="[('requisition_id','=',requisition_id),('state','in',['partially_fulfilled','draft'])]">
+                                <list editable="bottom" decoration-danger="picking_id and picking_id.state == 'done'" 
+                                      decoration-warning="rfq_id and rfq_id.state in ['done', 'purchase']">
+                                    <field name="product_id" readonly="1"/>
+                                    <field name="quantity" readonly="1"/>
+                                    <field name="uom_id" readonly="1"/>
+                                    <field name="state" readonly="1" widget="badge" 
+                                           decoration-success="state == 'fulfilled'"
+                                           decoration-info="state == 'draft'"
+                                           decoration-warning="state == 'partially_fulfilled'"
+                                           decoration-danger="state == 'cancelled'"/>
+                                </list>
+                            </field>
+                          
+                        </page>
+                    </notebook>
+                    
+                    <group>
+                        <field name="reason" placeholder="Please provide a detailed reason for cancellation..." 
+                               help="This reason will be logged and included in notifications"/>
+                    </group>
+                    
+                    <!-- Impact Summary -->
+                    <field name="impact_summary" readonly="1" nolabel="1" 
+                           invisible="not requisition_id"/>
+                </sheet>
+                <footer>
+                    <button name="action_preview_cancellation" string="Preview Cancellation" 
+                            type="object" class="btn-primary"
+                            help="Review what will be cancelled before confirming"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+    
+    <!-- Confirmation Dialog -->
+    <record id="view_material_requisition_cancel_confirm_form" model="ir.ui.view">
+        <field name="name">material.requisition.cancel.confirm.form</field>
+        <field name="model">material.requisition.cancel.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Confirm Cancellation">
+                <header>
+                    <div class="alert alert-danger" role="alert">
+                        <i class="fa fa-exclamation-triangle"/> 
+                        <strong>Warning:</strong> This action cannot be undone!
+                    </div>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>Confirm Cancellation</h1>
+                        <p class="text-muted">Please review the impact before proceeding with cancellation.</p>
+                    </div>
+                    
+                    <group>
+                        <group>
+                            <field name="requisition_id" readonly="1"/>
+                            <field name="cancel_type" readonly="1"/>
+                            <field name="cancel_related_documents" readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="send_notification" readonly="1"/>
+                        </group>
+                    </group>
+                    
+                    <group>
+                        <field name="reason"  />
+                    <field name="impact_summary" readonly="1" nolabel="1"/>
+                    </group>
+                    
+                </sheet>
+                <footer>
+                    <button name="action_cancel" string="Confirm Cancellation" 
+                            type="object" class="btn-danger"
+                            confirm="Are you sure you want to cancel this requisition? This action cannot be undone."/>
+                    <button string="Back" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_material_requisition_cancel_wizard" model="ir.actions.act_window">
+        <field name="name">Cancel Material Requisition</field>
+        <field name="res_model">material.requisition.cancel.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="view_material_requisition_cancel_wizard_form"/>
+        <field name="target">new</field>
+        <field name="binding_model_id" ref="model_material_requisition"/>
+        <field name="binding_view_types">form</field>
+    </record>
+</odoo>

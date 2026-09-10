@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Tree View -->
+    <record id="view_construction_work_order_list" model="ir.ui.view">
+        <field name="name">construction.work.order.list</field>
+        <field name="model">construction.work.order</field>
+        <field name="arch" type="xml">
+            <list string="Work Orders" decoration-info="state == 'draft'"
+                  decoration-success="state == 'done'">
+                <field name="name"/>
+                <field name="project_id"/>
+                <field name="sub_project_id"/>
+                <field name="phase_id"/>
+                <field name="date"/>
+                <field name="responsible_id"/>
+                <field name="total_amount" sum="Total"/>
+                <field name="state" widget="badge"
+                       decoration-info="state == 'draft'"
+                       decoration-warning="state == 'confirmed'"
+                       decoration-primary="state == 'in_progress'"
+                       decoration-success="state == 'done'"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Form View -->
+    <record id="view_construction_work_order_form" model="ir.ui.view">
+        <field name="name">construction.work.order.form</field>
+        <field name="model">construction.work.order</field>
+        <field name="arch" type="xml">
+            <form string="Work Order">
+                <header>
+                    <button name="action_confirm" string="Confirm" type="object"
+                            class="oe_highlight" invisible="state != 'draft'"/>
+                    <button name="action_start" string="Start" type="object"
+                            class="oe_highlight" invisible="state != 'confirmed'"/>
+                    <button name="action_done" string="Done" type="object"
+                            class="oe_highlight" invisible="state != 'in_progress'"/>
+                    <button name="action_cancel" string="Cancel" type="object"
+                            invisible="state in ('done', 'cancelled')"/>
+                    <button name="action_reset_draft" string="Reset to Draft" type="object"
+                            invisible="state in ('draft', 'done')"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,confirmed,in_progress,done"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="name" readonly="1"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="project_id"/>
+                            <field name="sub_project_id"/>
+                            <field name="phase_id"/>
+                            <field name="responsible_id"/>
+                        </group>
+                        <group>
+                            <field name="date"/>
+                            <field name="date_start"/>
+                            <field name="date_end"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Materials">
+                            <field name="material_line_ids" context="{'default_line_type': 'material'}">
+                                <list editable="bottom">
+                                    <field name="line_type" column_invisible="1"/>
+                                    <field name="product_id"/>
+                                    <field name="description"/>
+                                    <field name="quantity"/>
+                                    <field name="uom_id"/>
+                                    <field name="unit_price"/>
+                                    <field name="amount" sum="Total"/>
+                                </list>
+                            </field>
+                            <group class="oe_subtotal_footer oe_right">
+                                <field name="material_total"/>
+                            </group>
+                        </page>
+                        <page string="Equipment">
+                            <field name="equipment_line_ids" context="{'default_line_type': 'equipment'}">
+                                <list editable="bottom">
+                                    <field name="line_type" column_invisible="1"/>
+                                    <field name="product_id"/>
+                                    <field name="description"/>
+                                    <field name="quantity"/>
+                                    <field name="uom_id"/>
+                                    <field name="unit_price"/>
+                                    <field name="amount" sum="Total"/>
+                                </list>
+                            </field>
+                            <group class="oe_subtotal_footer oe_right">
+                                <field name="equipment_total"/>
+                            </group>
+                        </page>
+                        <page string="Labour">
+                            <field name="labour_line_ids" context="{'default_line_type': 'labour'}">
+                                <list editable="bottom">
+                                    <field name="line_type" column_invisible="1"/>
+                                    <field name="product_id"/>
+                                    <field name="description"/>
+                                    <field name="quantity"/>
+                                    <field name="uom_id"/>
+                                    <field name="unit_price"/>
+                                    <field name="amount" sum="Total"/>
+                                </list>
+                            </field>
+                            <group class="oe_subtotal_footer oe_right">
+                                <field name="labour_total"/>
+                            </group>
+                        </page>
+                        <page string="Overhead">
+                            <field name="overhead_line_ids" context="{'default_line_type': 'overhead'}">
+                                <list editable="bottom">
+                                    <field name="line_type" column_invisible="1"/>
+                                    <field name="product_id"/>
+                                    <field name="description"/>
+                                    <field name="quantity"/>
+                                    <field name="uom_id"/>
+                                    <field name="unit_price"/>
+                                    <field name="amount" sum="Total"/>
+                                </list>
+                            </field>
+                            <group class="oe_subtotal_footer oe_right">
+                                <field name="overhead_total"/>
+                            </group>
+                        </page>
+                        <page string="Description">
+                            <field name="description"/>
+                        </page>
+                    </notebook>
+                    <group class="oe_subtotal_footer oe_right">
+                        <field name="total_amount" class="oe_subtotal_footer_separator"/>
+                    </group>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <!-- Search View -->
+    <record id="view_construction_work_order_search" model="ir.ui.view">
+        <field name="name">construction.work.order.search</field>
+        <field name="model">construction.work.order</field>
+        <field name="arch" type="xml">
+            <search string="Work Orders">
+                <field name="name"/>
+                <field name="project_id"/>
+                <field name="sub_project_id"/>
+                <field name="phase_id"/>
+                <field name="responsible_id"/>
+                <filter name="draft" string="Draft" domain="[('state', '=', 'draft')]"/>
+                <filter name="in_progress" string="In Progress" domain="[('state', '=', 'in_progress')]"/>
+                <filter name="done" string="Done" domain="[('state', '=', 'done')]"/>
+                <group>
+                    <filter name="group_project" string="Project" context="{'group_by': 'project_id'}"/>
+                    <filter name="group_phase" string="Phase" context="{'group_by': 'phase_id'}"/>
+                    <filter name="group_state" string="Status" context="{'group_by': 'state'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="action_construction_work_order" model="ir.actions.act_window">
+        <field name="name">Work Orders</field>
+        <field name="res_model">construction.work.order</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create a new Work Order
+            </p>
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,14 @@
+<odoo>
+    <record id="view_payslip_form_inherit_unpaid_days" model="ir.ui.view">
+        <field name="name">hr.payslip.form.inherit.unpaid</field>
+        <field name="model">hr.payslip</field>
+        <field name="inherit_id" ref="rm_hr_attendance_sheet.hr_payslip_view_form"/>
+        <field name="arch" type="xml">
+        <xpath expr="//notebook/page[4]" position="inside">  
+            <group string="Unpaid leave">      
+                <field name="unpaid_leave_days" readonly="1"/>
+            </group>
+            </xpath>
+        </field>
+    </record>
+</odoo>

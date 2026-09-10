@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) 2016-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<!-- License URL : <https://store.webkul.com/license.html/> -->
+
+<odoo>
+
+    <template id="report_material_requisition_summary">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <t t-call="material_requisition_and_approval.report_material_requisition_summary_detail" t-lang="user_id.lang"/>
+            </t>
+        </t>
+    </template>
+
+        <template id="report_material_requisition_summary_detail">
+        <t t-set="doc" t-value="doc.with_context(lang=user_id.lang)" />
+        <t t-call="web.basic_layout">
+            <div class="page">
+                <h2>Material Requisition Summary</h2>
+                <p><strong>Requisition:</strong> <t t-esc="doc.name"/></p>
+                <p><strong>Requested by:</strong> <t t-esc="doc.employee_id.name"/></p>
+                <p><strong>Department:</strong> <t t-esc="doc.department_id.name"/></p>
+                <p><strong>Request Type:</strong> <t t-esc="doc.request_type_id.name"/></p>
+                <p><strong>Date:</strong> <t t-esc="doc.required_date"/></p>
+                <p><strong>Remarks:</strong> <t t-esc="doc.remarks"/></p>
+
+                <h4>Requested Products</h4>
+                <table class="table table-sm">
+                    <thead>
+                        <tr>
+                            <th>Product</th>
+                            <th>Qty</th>
+                            <th>UoM</th>
+                            <th>Vendor</th>
+                            <th>Action</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr t-foreach="doc.requested_product_ids" t-as="line">
+                            <td><t t-esc="line.product_id.name"/></td>
+                            <td><t t-esc="line.quantity"/></td>
+                            <td><t t-esc="line.product_id.uom_id.name"/></td>
+                            <td><t t-esc="line.vendor_id.name or '-'"/></td>
+                            <td><t t-esc="line.requisition_action or '-'"/></td>
+                            <td><t t-esc="line.state or '-'"/></td>
+
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h4>Approvals</h4>
+                <table class="table table-sm">
+                    <thead>
+                        <tr>
+                            <!-- <th>Level</th> -->
+                            <th>Approver</th>
+                            <th>Status</th>
+                            <th>Date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr t-foreach="doc.approval_ids" t-as="ap">
+                            <!-- <td><t t-esc="ap.level"/></td> -->
+                            <td>
+                                <t t-esc="' ,'.join([u.name for u in ap.approver_ids]) if ap.approver_ids else '-'"/>
+                            </td>
+                            <td><t t-esc="ap.status"/></td>
+                            <td><t t-esc="ap.date or '-'"/></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </t>
+    </template>
+
+
+</odoo>

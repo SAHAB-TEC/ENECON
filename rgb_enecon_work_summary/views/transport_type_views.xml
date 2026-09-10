@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_rgb_enecon_transport_type_list" model="ir.ui.view">
+        <field name="name">rgb.enecon.transport.type.list</field>
+        <field name="model">rgb.enecon.transport.type</field>
+        <field name="arch" type="xml">
+            <list string="Transportation / Equipment Types">
+                <field name="name"/>
+                <field name="company_id" groups="base.group_multi_company"/>
+                <field name="active" optional="hide"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_rgb_enecon_transport_type_form" model="ir.ui.view">
+        <field name="name">rgb.enecon.transport.type.form</field>
+        <field name="model">rgb.enecon.transport.type</field>
+        <field name="arch" type="xml">
+            <form string="Transportation / Equipment Type">
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="company_id" groups="base.group_multi_company"/>
+                        <field name="active"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_rgb_enecon_transport_type" model="ir.actions.act_window">
+        <field name="name">Transportation / Equipment Types</field>
+        <field name="res_model">rgb.enecon.transport.type</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <menuitem id="menu_rgb_enecon_transport_type"
+        name="Transportation / Equipment Types"
+        parent="sdlc_construction_management.menu_construction_configuration"
+        action="action_rgb_enecon_transport_type" sequence="30"
+        groups="sdlc_construction_management.group_construction_user"/>
+</odoo>

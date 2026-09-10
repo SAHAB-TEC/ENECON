@@ -1,0 +1,91 @@
+<section style="max-width:920px;margin:0 auto;padding:24px 16px;font-family:Tahoma,Arial,sans-serif;color:#1f2937;line-height:1.75;direction:rtl;text-align:right;">
+
+  <div style="background:#1d4ed8;color:#fff;padding:28px 24px;border-radius:8px;margin-bottom:28px;">
+    <h1 style="margin:0 0 8px;font-size:28px;font-weight:700;">CRM ومشروع الإنشاء — RGB CRM Construction Project</h1>
+    <p style="margin:0;font-size:15px;opacity:0.95;">دليل تشغيل واستخدام الموديول من داخل Odoo Apps — مشروع ENECON</p>
+  </div>
+
+  <h2 style="border-bottom:2px solid #1d4ed8;padding-bottom:6px;font-size:20px;">ما الذي يفعله الموديول؟</h2>
+  <p>
+    يربط فرص CRM بمشاريع الإنشاء (<code>construction.project</code>) من موديول
+    <b>SDLC Construction Management</b>، ويضيف بيانات أساسية للآبار (Wells) والحفارات (Rigs)
+    تحت إعدادات CRM.
+  </p>
+
+  <h2 style="border-bottom:2px solid #1d4ed8;padding-bottom:6px;font-size:20px;">التثبيت والتشغيل</h2>
+  <ol>
+    <li>تأكد أن <code>addons_path</code> يتضمن مجلد المشروع <b>ENECON</b>.</li>
+    <li>ثبّت أولاً التبعيات: <b>CRM</b> و <b>SDLC Construction Management</b> (وموديول البريد <code>mail</code>).</li>
+    <li>من <b>Apps</b> حدّث القائمة ثم ثبّت <b>RGB CRM Construction Project</b>.</li>
+    <li>امنح المستخدمين مجموعة: <b>Create Construction Project from CRM</b>
+      (تصنيف: RGB CRM Construction) من إعدادات المستخدم.</li>
+    <li>هذه المجموعة تتضمن تلقائياً صلاحية مستخدم الإنشاء من SDLC (<code>Construction User</code>).</li>
+  </ol>
+
+  <h2 style="border-bottom:2px solid #1d4ed8;padding-bottom:6px;font-size:20px;">المتطلبات (Dependencies)</h2>
+  <p><code>crm</code> · <code>mail</code> · <code>sdlc_construction_management</code></p>
+
+  <h2 style="border-bottom:2px solid #1d4ed8;padding-bottom:6px;font-size:20px;">الصلاحيات</h2>
+  <table style="width:100%;border-collapse:collapse;margin:12px 0 24px;font-size:14px;">
+    <thead>
+      <tr style="background:#eff6ff;">
+        <th style="border:1px solid #d1d5db;padding:8px;text-align:right;">المجموعة</th>
+        <th style="border:1px solid #d1d5db;padding:8px;text-align:right;">ما تسمح به</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td style="border:1px solid #d1d5db;padding:8px;"><b>Create Construction Project from CRM</b></td>
+        <td style="border:1px solid #d1d5db;padding:8px;">زر إنشاء مشروع الإنشاء من الفرصة + رؤية الحقول والزر الإحصائي</td>
+      </tr>
+      <tr>
+        <td style="border:1px solid #d1d5db;padding:8px;"><b>Sales / Administrator</b> (مدير المبيعات)</td>
+        <td style="border:1px solid #d1d5db;padding:8px;">إدارة قوائم الآبار والحفارات من إعدادات CRM</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2 style="border-bottom:2px solid #1d4ed8;padding-bottom:6px;font-size:20px;">إنشاء مشروع إنشاء من فرصة CRM</h2>
+  <ol>
+    <li>افتح <b>CRM ← Pipeline</b> وحوّل الليد إلى <b>Opportunity</b> إن لم يكن كذلك.</li>
+    <li>تأكد من تعبئة اسم الفرصة والعميل وبيانات الاتصال/العنوان قدر الإمكان (تُنسخ للمشروع).</li>
+    <li>اضغط الزر <b>Create Construction Project</b> في رأس نموذج الفرصة.</li>
+    <li>يُنشأ سجل <code>construction.project</code> ويُربط بالفرصة، ثم تُفتح شاشة المشروع مباشرة.</li>
+    <li>يُسجَّل رسالة في Chatter الفرصة تؤكد إنشاء المشروع.</li>
+  </ol>
+
+  <div style="background:#fff7ed;border:1px solid #fdba74;padding:12px 14px;border-radius:6px;margin:16px 0;">
+    <b>ملاحظة مهمة:</b> الزر يعمل فقط على سجل من نوع Opportunity ونشط (غير مؤرشف).
+    إذا كان هناك مشروع مرتبط مسبقاً، فعّل خيار
+    <b>Allow Another Construction Project</b> قبل إنشاء مشروع إضافي؛ وإلا ستظهر رسالة خطأ.
+  </div>
+
+  <h2 style="border-bottom:2px solid #1d4ed8;padding-bottom:6px;font-size:20px;">الربط بين الفرصة والمشروع</h2>
+  <ul>
+    <li>في الفرصة: حقل <b>Construction Project</b> + زر إحصائي <b>Construction</b> للانتقال للمشروع.</li>
+    <li>في المشروع: حقل <b>Source Opportunity</b> + زر <b>Opportunity</b> للعودة للفرصة.</li>
+    <li>يُنسخ أيضاً العميل <b>Customer (partner_id)</b> وبيانات العنوان والبريد والهاتف عند الإنشاء.</li>
+  </ul>
+
+  <h2 style="border-bottom:2px solid #1d4ed8;padding-bottom:6px;font-size:20px;">بيانات الآبار والحفارات (Master Data)</h2>
+  <p>لمديري المبيعات من قائمة CRM:</p>
+  <ul>
+    <li><b>CRM ← Configuration ← Wells</b>: اسم البئر، كود، شريك، أرشفة.</li>
+    <li><b>CRM ← Configuration ← Rigs</b>: اسم الحفارة، كود، البئر المرتبط، شريك، أرشفة.</li>
+  </ul>
+  <p style="font-size:14px;color:#4b5563;">
+    هذه السجلات بيانات أساسية يمكن استخدامها لاحقاً في عمليات أخرى؛ تُدار كقوائم بسيطة قابلة للتحرير السريع.
+  </p>
+
+  <h2 style="border-bottom:2px solid #1d4ed8;padding-bottom:6px;font-size:20px;">سيناريو استخدام مختصر</h2>
+  <ol>
+    <li>فريق المبيعات يفتح فرصة ويؤهلها.</li>
+    <li>مستخدم بصلاحية الإنشاء يضغط Create Construction Project.</li>
+    <li>فريق المشاريع يكمل بيانات المشروع داخل SDLC Construction (BOQ، أوامر عمل، …).</li>
+    <li>يمكن الرجوع في أي وقت من المشروع إلى فرصة المصدر عبر الزر Opportunity.</li>
+  </ol>
+
+  <div style="margin-top:28px;padding:14px 16px;background:#f8fafc;border:1px solid #e2e8f0;border-radius:6px;font-size:13px;color:#64748b;">
+    الاسم التقني: <code>rgb_crm_project_custom</code> · المشروع: ENECON · المؤلف: RGB
+  </div>
+</section>

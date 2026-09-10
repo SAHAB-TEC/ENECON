@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) 2016-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<!-- License URL : <https://store.webkul.com/license.html/> -->
+
+<odoo>
+    <record id="view_material_requisition_approval_tree" model="ir.ui.view">
+        <field name="name">material.requisition.approval.tree</field>
+        <field name="model">material.requisition.approval</field>
+        <field name="arch" type="xml">
+            <list string="Approval">
+                <field name="level"/>
+                <field name="requisition_id"/>
+                <field name="approver_ids" widget="many2many_tags"/>
+                <field name="approved_by_id"/>
+                <field name="status"/>
+            </list>
+        </field>
+    </record>
+        <record id="view_material_requisition_approval_form" model="ir.ui.view">
+        <field name="name">material.requisition.approval.form</field>
+        <field name="model">material.requisition.approval</field>
+        <field name="arch" type="xml">
+            <form string="Approval">
+                <header>
+                    <field name="status" 
+                        widget="statusbar" 
+                        statusbar_visible="pending,approved,rejected"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group string="Approval Info" col="2">
+                            <field name="level" readonly="1"/>
+                            <field name="date" readonly="1"/>
+                            <field name="status" readonly="1"/>
+                        </group>
+
+                        <group string="Requisition Details" col="2">
+                            <field name="requisition_id" readonly="1"/>
+                            <field name="approved_by_id" readonly="1" options='{"no_create": True, "no_open": False}'/>
+                            <field name="approver_ids" 
+                                widget="many2many_tags" 
+                                readonly="1"
+                                options='{"no_create": True, "no_open": False}'/>
+                        </group>
+                    </group>
+
+                    <notebook>
+                        <page string="Remarks">
+                            <field name="remarks" 
+                            readonly="1" 
+                            nolabel="1" 
+                            placeholder="Any remarks or notes from the approver..." />
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+</odoo>

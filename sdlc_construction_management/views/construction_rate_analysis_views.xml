@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Tree View -->
+    <record id="view_construction_rate_analysis_list" model="ir.ui.view">
+        <field name="name">construction.rate.analysis.list</field>
+        <field name="model">construction.rate.analysis</field>
+        <field name="arch" type="xml">
+            <list string="Rate Analysis">
+                <field name="name"/>
+                <field name="title"/>
+                <field name="project_id"/>
+                <field name="sub_project_id"/>
+                <field name="date"/>
+                <field name="work_type_id"/>
+                <field name="work_sub_type_id"/>
+                <field name="uom_id"/>
+                <field name="total_amount" sum="Total"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Form View -->
+    <record id="view_construction_rate_analysis_form" model="ir.ui.view">
+        <field name="name">construction.rate.analysis.form</field>
+        <field name="model">construction.rate.analysis</field>
+        <field name="arch" type="xml">
+            <form string="Rate Analysis">
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="name" readonly="1"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="title"/>
+                            <field name="project_id"/>
+                            <field name="sub_project_id"/>
+                            <field name="date"/>
+                        </group>
+                        <group>
+                            <field name="work_type_id"/>
+                            <field name="work_sub_type_id"/>
+                            <field name="uom_id"/>
+                            <field name="per_unit"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Materials">
+                            <field name="material_line_ids" context="{'default_line_type': 'material'}">
+                                <list editable="bottom">
+                                    <field name="line_type" column_invisible="1"/>
+                                    <field name="product_id"/>
+                                    <field name="description"/>
+                                    <field name="quantity"/>
+                                    <field name="uom_id"/>
+                                    <field name="unit_price"/>
+                                    <field name="amount" sum="Total"/>
+                                </list>
+                            </field>
+                            <group class="oe_subtotal_footer oe_right">
+                                <field name="material_total"/>
+                            </group>
+                        </page>
+                        <page string="Equipment">
+                            <field name="equipment_line_ids" context="{'default_line_type': 'equipment'}">
+                                <list editable="bottom">
+                                    <field name="line_type" column_invisible="1"/>
+                                    <field name="product_id"/>
+                                    <field name="description"/>
+                                    <field name="quantity"/>
+                                    <field name="uom_id"/>
+                                    <field name="unit_price"/>
+                                    <field name="amount" sum="Total"/>
+                                </list>
+                            </field>
+                            <group class="oe_subtotal_footer oe_right">
+                                <field name="equipment_total"/>
+                            </group>
+                        </page>
+                        <page string="Labour">
+                            <field name="labour_line_ids" context="{'default_line_type': 'labour'}">
+                                <list editable="bottom">
+                                    <field name="line_type" column_invisible="1"/>
+                                    <field name="product_id"/>
+                                    <field name="description"/>
+                                    <field name="quantity"/>
+                                    <field name="uom_id"/>
+                                    <field name="unit_price"/>
+                                    <field name="amount" sum="Total"/>
+                                </list>
+                            </field>
+                            <group class="oe_subtotal_footer oe_right">
+                                <field name="labour_total"/>
+                            </group>
+                        </page>
+                        <page string="Overhead">
+                            <field name="overhead_line_ids" context="{'default_line_type': 'overhead'}">
+                                <list editable="bottom">
+                                    <field name="line_type" column_invisible="1"/>
+                                    <field name="product_id"/>
+                                    <field name="description"/>
+                                    <field name="quantity"/>
+                                    <field name="uom_id"/>
+                                    <field name="unit_price"/>
+                                    <field name="amount" sum="Total"/>
+                                </list>
+                            </field>
+                            <group class="oe_subtotal_footer oe_right">
+                                <field name="overhead_total"/>
+                            </group>
+                        </page>
+                        <page string="Others">
+                            <field name="other_line_ids" context="{'default_line_type': 'other'}">
+                                <list editable="bottom">
+                                    <field name="line_type" column_invisible="1"/>
+                                    <field name="product_id"/>
+                                    <field name="description"/>
+                                    <field name="quantity"/>
+                                    <field name="uom_id"/>
+                                    <field name="unit_price"/>
+                                    <field name="amount" sum="Total"/>
+                                </list>
+                            </field>
+                            <group class="oe_subtotal_footer oe_right">
+                                <field name="other_total"/>
+                            </group>
+                        </page>
+                    </notebook>
+                    <group class="oe_subtotal_footer oe_right">
+                        <field name="total_amount" class="oe_subtotal_footer_separator"/>
+                    </group>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <!-- Search View -->
+    <record id="view_construction_rate_analysis_search" model="ir.ui.view">
+        <field name="name">construction.rate.analysis.search</field>
+        <field name="model">construction.rate.analysis</field>
+        <field name="arch" type="xml">
+            <search string="Rate Analysis">
+                <field name="name"/>
+                <field name="title"/>
+                <field name="project_id"/>
+                <field name="work_type_id"/>
+                <group>
+                    <filter name="group_project" string="Project" context="{'group_by': 'project_id'}"/>
+                    <filter name="group_work_type" string="Work Type" context="{'group_by': 'work_type_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="action_construction_rate_analysis" model="ir.actions.act_window">
+        <field name="name">Rate Analysis</field>
+        <field name="res_model">construction.rate.analysis</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create a new Rate Analysis
+            </p>
+        </field>
+    </record>
+</odoo>

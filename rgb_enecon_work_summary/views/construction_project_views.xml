@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_construction_project_form_enecon_work_summary" model="ir.ui.view">
+        <field name="name">construction.project.form.enecon.work.summary</field>
+        <field name="model">construction.project</field>
+        <field name="inherit_id" ref="sdlc_construction_management.view_construction_project_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[@name='button_box']" position="inside">
+                <button name="action_rgb_view_work_summary_entries" type="object"
+                    class="oe_stat_button" icon="fa-list-alt">
+                    <field name="rgb_work_summary_entry_count"
+                        widget="statinfo" string="Work Summary"/>
+                </button>
+            </xpath>
+        </field>
+    </record>
+</odoo>

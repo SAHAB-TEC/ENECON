@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) 2016-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<!-- License URL : <https://store.webkul.com/license.html/> -->
+<odoo>
+    <data noupdate="1">
+        <record id="email_template_material_requisition_cancellation" model="mail.template">
+            <field name="name">Material Requisition Cancellation</field>
+            <field name="model_id" ref="material_requisition_and_approval.model_material_requisition"/>
+            <field name="subject">Material Requisition Cancelled - {{ object.name }}</field>
+               <field name="email_from"> {{ object.env.user.company_id.email_formatted }}</field>
+            <field name="email_to"> {{ object.requester_id.email }}</field>
+            <field name="body_html" type="html">
+              
+<div style="font-family: Arial, sans-serif; margin: 0; padding: 20px; background-color: #f5f5f5;">
+  <div style="background: white; padding: 20px; border-radius: 5px; max-width: 600px; margin: auto;">
+    <h2 style="color: #e74c3c; text-align: center;">Material Requisition Cancelled</h2>
+
+    <p>Dear <t t-esc="object.requester_id.name"/>,</p>
+
+    <p>Your material requisition <strong><t t-esc="object.name"/></strong> has been cancelled.</p>
+
+    <table style="width: 100%; border-collapse: collapse; margin: 20px 0;">
+      <tr>
+        <td style="padding: 8px; border: 1px solid #ddd; font-weight: bold;">Requisition Number:</td>
+        <td style="padding: 8px; border: 1px solid #ddd;"><t t-esc="object.name"/></td>
+      </tr>
+      <tr>
+        <td style="padding: 8px; border: 1px solid #ddd; font-weight: bold;">Requested By:</td>
+        <td style="padding: 8px; border: 1px solid #ddd;"><t t-esc="object.employee_id.name"/></td>
+      </tr>
+      <tr>
+        <td style="padding: 8px; border: 1px solid #ddd; font-weight: bold;">Department:</td>
+        <td style="padding: 8px; border: 1px solid #ddd;"><t t-esc="object.department_id.name or 'N/A'"/></td>
+      </tr>
+      <tr>
+        <td style="padding: 8px; border: 1px solid #ddd; font-weight: bold;">Cancellation Date:</td>
+        <td style="padding: 8px; border: 1px solid #ddd;"><t t-esc="ctx.get('today', '')"/></td>
+      </tr>
+      <tr>
+        <td style="padding: 8px; border: 1px solid #ddd; font-weight: bold;">Cancellation Reason:</td>
+        <td style="padding: 8px; border: 1px solid #ddd;"><t t-esc="ctx.get('reason', 'No reason provided')"/></td>
+      </tr>
+    </table>
+
+    <t t-if="ctx.get('cancelled_items')">
+      <h4 style="color: #e74c3c;">Cancelled Items/Documents:</h4>
+      <ul style="background-color: #fff5f5; padding: 15px; border-left: 4px solid #e74c3c;">
+        <t t-foreach="ctx.get('cancelled_items', [])" t-as="item">
+          <li><t t-esc="item"/></li>
+        </t>
+      </ul>
+    </t>
+
+    <div style="background-color: #fff3cd; border: 1px solid #ffeaa7; padding: 15px; border-radius: 5px; margin-top: 20px;">
+      <p style="margin: 0; color: #856404;"><strong>Note:</strong> If you need these materials, please submit a new requisition.</p>
+    </div>
+
+    <p>Best regards,<br/>
+      <strong><t t-esc="user.company_id.name"/></strong><br/>
+      Material Requisition System</p>
+  </div>
+</div>
+            
+            </field>
+        </record>
+    </data>
+</odoo>

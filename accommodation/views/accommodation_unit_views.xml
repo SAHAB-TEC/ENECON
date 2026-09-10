@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_accommodation_unit_kanban" model="ir.ui.view">
+        <field name="name">accommodation.unit.kanban</field>
+        <field name="model">accommodation.unit</field>
+        <field name="arch" type="xml">
+            <kanban class="o_accommodation_unit_kanban" records_draggable="false">
+                <field name="name"/>
+                <field name="unit_number"/>
+                <field name="status"/>
+                <field name="type_id"/>
+                <field name="current_guest_count"/>
+                <field name="max_capacity"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div t-attf-class="oe_kanban_global_click o_kanban_card acc_unit_card acc_status_#{record.status.raw_value}">
+                            <div class="o_kanban_card_header">
+                                <div class="o_kanban_card_header_title">
+                                    <strong><field name="name"/></strong>
+                                </div>
+                                <span class="badge acc_status_badge" t-attf-class="acc_badge_#{record.status.raw_value}">
+                                    <field name="status"/>
+                                </span>
+                            </div>
+                            <div class="o_kanban_card_content">
+                                <div t-if="record.unit_number.raw_value">
+                                    <i class="fa fa-hashtag me-1"/><field name="unit_number"/>
+                                </div>
+                                <div t-if="record.type_id.raw_value">
+                                    <i class="fa fa-home me-1"/><field name="type_id"/>
+                                </div>
+                                <div>
+                                    <i class="fa fa-users me-1"/>
+                                    <field name="current_guest_count"/> / <field name="max_capacity"/> guests
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <record id="view_accommodation_unit_list" model="ir.ui.view">
+        <field name="name">accommodation.unit.list</field>
+        <field name="model">accommodation.unit</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="unit_number"/>
+                <field name="type_id"/>
+                <field name="structure_type"/>
+                <field name="current_guest_count"/>
+                <field name="max_capacity"/>
+                <field name="status" widget="badge"
+                       decoration-danger="status == 'occupied'"
+                       decoration-warning="status == 'reserved'"
+                       decoration-success="status == 'vacant'"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_accommodation_unit_form" model="ir.ui.view">
+        <field name="name">accommodation.unit.form</field>
+        <field name="model">accommodation.unit</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <field name="status" widget="statusbar" statusbar_visible="vacant,reserved,occupied"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_current_guests" type="object" class="oe_stat_button" icon="fa-users">
+                            <field name="current_guest_count" widget="statinfo" string="Guests"/>
+                        </button>
+                        <button name="action_view_history" type="object" class="oe_stat_button" icon="fa-history">
+                            <field name="history_count" widget="statinfo" string="History"/>
+                        </button>
+                        <button name="action_view_belongings" type="object" class="oe_stat_button" icon="fa-suitcase">
+                            <field name="belonging_count" widget="statinfo" string="Belongings"/>
+                        </button>
+                    </div>
+                    <div class="oe_title">
+                        <label for="name"/>
+                        <h1><field name="name" placeholder="e.g. Building A - Unit 12"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="unit_number"/>
+                            <field name="structure_type"/>
+                            <field name="type_id"/>
+                        </group>
+                        <group>
+                            <field name="max_capacity"/>
+                            <field name="current_guest_count" readonly="1"/>
+                        </group>
+                    </group>
+                    <group string="Structure">
+                        <field name="room_count"/>
+                        <field name="bathroom_count"/>
+                        <field name="kitchen_count"/>
+                    </group>
+                    <notebook>
+                        <page string="Unit Contents &amp; Inventory" name="contents">
+                            <field name="content_ids">
+                                <list editable="bottom">
+                                    <field name="location_type"/>
+                                    <field name="name"/>
+                                    <field name="quantity"/>
+                                    <field name="notes"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_accommodation_unit_search" model="ir.ui.view">
+        <field name="name">accommodation.unit.search</field>
+        <field name="model">accommodation.unit</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name" string="Unit Name"/>
+                <field name="unit_number" string="Unit Number"/>
+                <field name="type_id"/>
+                <filter string="Vacant" name="filter_vacant" domain="[('status','=','vacant')]"/>
+                <filter string="Reserved" name="filter_reserved" domain="[('status','=','reserved')]"/>
+                <filter string="Occupied" name="filter_occupied" domain="[('status','=','occupied')]"/>
+                <group expand="0" string="Group By">
+                    <filter string="Status" name="group_status" context="{'group_by': 'status'}"/>
+                    <filter string="Unit Type" name="group_type" context="{'group_by': 'type_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_accommodation_unit" model="ir.actions.act_window">
+        <field name="name">Accommodation Units</field>
+        <field name="res_model">accommodation.unit</field>
+        <field name="view_mode">kanban,list,form</field>
+        <field name="search_view_id" ref="view_accommodation_unit_search"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smart_action">
+                Create your first accommodation unit
+            </p>
+        </field>
+    </record>
+</odoo>

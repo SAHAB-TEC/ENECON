@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="crm_lead_view_form_inherit_rgb_construction" model="ir.ui.view">
+        <field name="name">crm.lead.form.inherit.rgb.construction</field>
+        <field name="model">crm.lead</field>
+        <field name="inherit_id" ref="crm.crm_lead_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[@name='button_box']" position="inside">
+                <button name="action_rgb_view_construction_project" type="object"
+                        class="oe_stat_button" icon="fa-building"
+                        invisible="not construction_project_id"
+                        groups="rgb_crm_project_custom.group_rgb_create_construction_project_from_crm">
+                    <div class="o_stat_info">
+                        <span class="o_stat_text">Construction</span>
+                    </div>
+                </button>
+            </xpath>
+            <xpath expr="//header" position="inside">
+                <button name="action_rgb_create_construction_project_from_opportunity"
+                        string="Create Construction Project"
+                        type="object" class="btn-secondary"
+                        invisible="type != 'opportunity' or not active"
+                        groups="rgb_crm_project_custom.group_rgb_create_construction_project_from_crm"/>
+            </xpath>
+            <xpath expr="//group[@name='opportunity_partner']" position="inside">
+                <field name="construction_project_id" readonly="1"
+                       groups="rgb_crm_project_custom.group_rgb_create_construction_project_from_crm"/>
+                <field name="rgb_allow_duplicate_construction_project"
+                       groups="rgb_crm_project_custom.group_rgb_create_construction_project_from_crm"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

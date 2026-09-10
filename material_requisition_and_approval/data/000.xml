@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) 2016-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<!-- License URL : <https://store.webkul.com/license.html/> -->
+
+<odoo>
+        
+        
+        <record id="draft" model="material.requisition.state">
+            <field name="name">draft</field>
+            <field name="display_name">Draft</field>
+            <field name="sequence">0</field>
+        </record>
+        
+
+        <record id="submitted" model="material.requisition.state">
+            <field name="name">submitted</field>
+            <field name="display_name">Submitted</field>
+            <field name="sequence">1</field>
+        </record>
+        
+       
+        <record id="waiting_level_1_approval" model="material.requisition.state">
+            <field name="name">waiting_level_1_approval</field>
+            <field name="display_name">Waiting Level 1 Approval</field>
+            <field name="sequence">2</field>
+        </record>
+        
+        
+
+        <record id="waiting_level_2_approval" model="material.requisition.state">
+            <field name="name">waiting_level_2_approval</field>
+            <field name="display_name">Waiting Level 2 Approval</field>
+            <field name="sequence">3</field>
+        </record>
+        
+        <record id="waiting_level_3_approval" model="material.requisition.state">
+            <field name="name">waiting_level_3_approval</field>
+            <field name="display_name">Waiting Level 3 Approval</field>
+            <field name="sequence">4</field>
+        </record>
+
+
+        <record id="waiting_level_4_approval" model="material.requisition.state">
+            <field name="name">waiting_level_4_approval</field>
+            <field name="display_name">Waiting Level 4 Approval</field>
+            <field name="sequence">5</field>
+        </record>
+        
+
+        <record id="waiting_level_5_approval" model="material.requisition.state">
+            <field name="name">waiting_level_5_approval</field>
+            <field name="display_name">Waiting Level 5 Approval</field>
+            <field name="sequence">6</field>
+        </record>
+
+
+        <record id="waiting_stock_manager_approval" model="material.requisition.state">
+            <field name="name">waiting_stock_manager_approval</field>
+            <field name="display_name">Waiting Stock Manager Approval</field>
+            <field name="sequence">7</field>
+        </record>
+
+
+        <record id="waiting_stock_check" model="material.requisition.state">
+            <field name="name">waiting_stock_check</field>
+            <field name="display_name">Waiting Stock Check</field>
+            <field name="sequence">8</field>
+        </record>
+        
+        
+
+        <record id="partial_rfq_created" model="material.requisition.state">
+            <field name="name">partial_rfq_created</field>
+            <field name="display_name">Partial RFQ Created</field>
+            <field name="sequence">9</field>
+        </record>
+        
+
+        <record id="rfq_created" model="material.requisition.state">
+            <field name="name">rfq_created</field>
+            <field name="display_name">RFQ Created</field>
+            <field name="sequence">10</field>
+        </record>
+        
+
+        <record id="partial_internal_transfer" model="material.requisition.state">
+            <field name="name">partial_internal_transfer</field>
+            <field name="display_name">Partial Internal Transfer</field>
+            <field name="sequence">11</field>
+        </record>
+        
+
+        <record id="internal_transfer_created" model="material.requisition.state">
+            <field name="name">internal_transfer_created</field>
+            <field name="display_name">Internal Transfer Created</field>
+            <field name="sequence">12</field>
+        </record>
+        
+
+        <record id="in_dispatch" model="material.requisition.state">
+            <field name="name">in_dispatch</field>
+            <field name="display_name">In Dispatch</field>
+            <field name="sequence">13</field>
+        </record>
+        
+        <record id="partial_fulfillment" model="material.requisition.state">
+            <field name="name">partial_fulfillment</field>
+            <field name="display_name">Partial Fulfillment</field>
+            <field name="sequence">15</field>
+        </record>
+
+        <record id="fulfilled" model="material.requisition.state">
+            <field name="name">fulfilled</field>
+            <field name="display_name">Fulfilled</field>
+            <field name="sequence">16</field>
+        </record>
+
+        
+
+        <record id="rejected" model="material.requisition.state">
+            <field name="name">rejected</field>
+            <field name="display_name">Rejected</field>
+            <field name="sequence">17</field>
+        </record>
+        
+
+        <record id="cancel" model="material.requisition.state">
+            <field name="name">cancel</field>
+            <field name="display_name">Cancelled</field>
+            <field name="sequence">18</field>
+        </record>
+        
+
+
+        
+
+</odoo>

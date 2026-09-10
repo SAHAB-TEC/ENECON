@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="mail_template_contract_approval" model="mail.template">
+        <field name="name">Contract: Approval Request</field>
+        <field name="model_id" ref="model_rgb_contract"/>
+        <field name="subject">Contract approval required: {{ object.name }}</field>
+        <field name="email_to">{{ object.approval_user_id.email }}</field>
+        <field name="body_html" type="html">
+            <p>Hello,</p>
+            <p>Contract <strong><t t-out="object.name"/></strong> requires your approval.</p>
+            <p>Partner: <t t-out="object.partner_id.name"/></p>
+            <p>Contract value: <t t-out="object.contract_value_currency"/> <t t-out="object.currency_id.name"/></p>
+        </field>
+    </record>
+
+    <record id="mail_template_guarantee_expiry" model="mail.template">
+        <field name="name">Contract: Performance Guarantee Expiry Reminder</field>
+        <field name="model_id" ref="model_rgb_contract"/>
+        <field name="subject">Performance guarantee expiring soon: {{ object.name }}</field>
+        <field name="email_to">{{ object.responsible_user_id.email or object.approval_user_id.email }}</field>
+        <field name="body_html" type="html">
+            <p>The performance guarantee for contract <strong><t t-out="object.name"/></strong>
+               expires on <t t-out="object.performance_guarantee_expiry_date"/>.</p>
+        </field>
+    </record>
+
+    <record id="mail_template_performance_guarantee_group_expiry" model="mail.template">
+        <field name="name">Contract: Performance Guarantee Group Reminder (10 days)</field>
+        <field name="model_id" ref="model_rgb_contract"/>
+        <field name="subject">Performance guarantee ending in 10 days: {{ object.name }}</field>
+        <field name="email_to">{{ object.responsible_user_id.email or object.approval_user_id.email }}</field>
+        <field name="body_html" type="html">
+            <p>The performance guarantee for contract
+               <strong><t t-out="object.name"/></strong>
+               (<t t-out="object.contract_code or ''"/>) expires on
+               <strong><t t-out="object.performance_guarantee_expiry_date"/></strong>.</p>
+            <p>Partner: <t t-out="object.partner_id.name"/></p>
+            <p>This is an automatic reminder sent 10 days before the performance guarantee expiry date.</p>
+        </field>
+    </record>
+
+    <record id="mail_template_contract_expiry" model="mail.template">
+        <field name="name">Contract: Expiry Reminder (10 days)</field>
+        <field name="model_id" ref="model_rgb_contract"/>
+        <field name="subject">Contract ending in 10 days: {{ object.name }}</field>
+        <field name="email_to">{{ object.responsible_user_id.email or object.approval_user_id.email }}</field>
+        <field name="body_html" type="html">
+            <p>Contract <strong><t t-out="object.name"/></strong>
+               (<t t-out="object.contract_code or ''"/>) ends on
+               <strong><t t-out="object.date_end"/></strong>.</p>
+            <p>Partner: <t t-out="object.partner_id.name"/></p>
+            <p>This is an automatic reminder sent 10 days before the contract end date.</p>
+        </field>
+    </record>
+
+    <record id="mail_template_advance_payment_due" model="mail.template">
+        <field name="name">Contract: Advance Payment Reminder (10 days)</field>
+        <field name="model_id" ref="model_rgb_contract"/>
+        <field name="subject">Advance payment due soon: {{ object.name }}</field>
+        <field name="email_to">{{ object.responsible_user_id.email or object.approval_user_id.email }}</field>
+        <field name="body_html" type="html">
+            <p>Advance payment for contract <strong><t t-out="object.name"/></strong>
+               (<t t-out="object.contract_code or ''"/>) is due on
+               <strong><t t-out="object.advance_payment_due_date"/></strong>.</p>
+            <p>Amount: <t t-out="object.advance_payment_amount"/>
+               <t t-out="object.currency_id.name"/>
+               (<t t-out="object.advance_payment_percent"/>%).</p>
+            <p>Partner: <t t-out="object.partner_id.name"/></p>
+            <p>This is an automatic reminder sent when 10 days or fewer remain until the due date.</p>
+        </field>
+    </record>
+</odoo>

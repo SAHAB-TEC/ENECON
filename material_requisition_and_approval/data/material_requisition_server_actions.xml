@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) 2016-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<!-- License URL : <https://store.webkul.com/license.html/> -->
+<odoo>
+    <data>
+        <!-- Server Action for Bulk Cancellation -->
+        <record id="action_bulk_cancel_requisitions" model="ir.actions.server">
+            <field name="name">Bulk Cancel Requisitions</field>
+            <field name="model_id" ref="model_material_requisition"/>
+            <field name="binding_model_id" ref="model_material_requisition"/>
+            <field name="binding_view_types">list</field>
+            <field name="state">code</field>
+           <field name="code">
+# Check if multiple records are selected
+if len(records) == 1:
+    # Single record - open normal cancel wizard
+    action = {
+        'name': 'Cancel Material Requisition',
+        'type': 'ir.actions.act_window',
+        'res_model': 'material.requisition.cancel.wizard',
+        'view_mode': 'form',
+        'target': 'new',
+        'context': {'active_model': 'material.requisition', 'active_id': records.id}
+    }
+else:
+    # Multiple records - show bulk cancel wizard
+    cancellable_records = records.filtered(lambda r: r.state in ['draft', 'submitted', 'waiting_for_approval'])
+
+    if not cancellable_records:
+        raise UserError("No requisitions can be cancelled. Only draft, submitted, or waiting for approval requisitions can be bulk cancelled.")
+
+    skipped = len(records) - len(cancellable_records)
+
+    # Continue even if some were skipped, don't use notify_warning
+    action = {
+        'name': f'Bulk Cancel {len(cancellable_records)} Requisitions',
+        'type': 'ir.actions.act_window',
+        'res_model': 'material.requisition.bulk.cancel.wizard',
+        'view_mode': 'form',
+        'target': 'new',
+        'context': {
+            'active_model': 'material.requisition',
+            'active_ids': cancellable_records.ids,
+            'bulk_cancel': True,
+            'skipped_count': skipped  # Optional: use this in wizard
+        }
+    }
+</field>
+
+        </record>
+    </data>
+</odoo>

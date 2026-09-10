@@ -1,0 +1,695 @@
+/* Copyright (c) 2016-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) */
+/* See LICENSE file for full copyright and licensing details. */
+/* License URL : <https://store.webkul.com/license.html/> */
+
+$surface:                #f8f9fa;
+$surface-bright:         #fcfcfd;
+$surface-container-low:  #f3f4f5;
+$surface-container:      #edeeef;
+$surface-container-high: #e7e8e9;
+$surface-container-highest: #e1e3e4;
+$surface-lowest:         #ffffff;
+$on-surface:             #191c1d;
+$on-surface-variant:     #404752;
+$outline-variant:        #bfc7d4;
+$primary:                #0061a4;
+$primary-container:      #2196f3;
+$secondary:              #006e1c;
+$secondary-container:    #91f78e;
+$on-secondary-container: #00731e;
+$tertiary:               #9a25ae;
+$tertiary-container:     #d661e7;
+$on-tertiary-container:  #4e005b;
+
+$badge-prod-bg:          #ffe0b2;
+$badge-prod-text:        #e65100;
+$radius-card:            24px;
+$radius-panel:           20px;
+$radius-sm:              12px;
+$ambient-shadow:         0 20px 25px -5px rgba(25, 28, 29, 0.05), 0 10px 10px -5px rgba(25, 28, 29, 0.02);
+
+.o_kanban_material_requisition_dashboard {
+    background:
+        radial-gradient(circle at top right, rgba($primary-container, 0.08), transparent 28%),
+        radial-gradient(circle at left center, rgba($secondary-container, 0.18), transparent 24%),
+        $surface;
+
+    .o_kanban_renderer {
+        display: grid !important;
+        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+        gap: 28px;
+        padding: 28px;
+        align-items: stretch;
+
+        @media (min-width: 1400px) {
+            grid-template-columns: repeat(12, minmax(0, 1fr));
+        }
+    }
+
+    .o_kanban_record {
+        min-height: 100%;
+
+        @media (min-width: 1400px) {
+            grid-column: span 4;
+        }
+
+        &:first-child {
+            @media (min-width: 1400px) {
+                grid-column: span 8;
+            }
+        }
+
+        &:nth-child(4n) {
+            @media (min-width: 1400px) {
+                grid-column: span 6;
+            }
+        }
+    }
+
+    .o_kanban_group {
+        background: transparent !important;
+        box-shadow: none !important;
+        border: none !important;
+        padding: 0 !important;
+    }
+}
+
+.mrd_card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-height: 100%;
+    padding: 28px;
+    overflow: hidden;
+    border-radius: $radius-card;
+    background:
+        linear-gradient(180deg, rgba($surface-lowest, 0.98), rgba($surface-lowest, 0.94)),
+        $surface-lowest;
+    border: 1px solid rgba($outline-variant, 0.75);
+    box-shadow:
+        0 16px 34px rgba(25, 28, 29, 0.08),
+        inset 0 0 0 1px rgba($surface-lowest, 0.34);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+
+    &::before {
+        content: "";
+        position: absolute;
+        inset: -30% auto auto -10%;
+        width: 220px;
+        height: 220px;
+        border-radius: 50%;
+        background: rgba($primary-container, 0.1);
+        filter: blur(10px);
+        pointer-events: none;
+    }
+
+    &:hover {
+        transform: translateY(-4px);
+        box-shadow:
+            0 20px 38px rgba(25, 28, 29, 0.1),
+            inset 0 0 0 1px rgba($surface-lowest, 0.34);
+
+        .mrd_view_details {
+            background: rgba($primary, 0.1);
+        }
+    }
+
+    &.mrd_card_requisition_by_department::before {
+        background: rgba($secondary-container, 0.18);
+    }
+
+    &.mrd_card_top_requested_products::before {
+        background: rgba(#ff9800, 0.16);
+    }
+
+    &.mrd_card_requisition_by_request_type::before {
+        background: rgba($tertiary-container, 0.16);
+    }
+}
+
+.mrd_card_header,
+.mrd_card_footer,
+.mrd_card_chart_shell {
+    position: relative;
+    z-index: 1;
+}
+
+.mrd_card_header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 20px;
+    margin-bottom: 24px;
+}
+
+.mrd_card_header_copy {
+    flex: 1;
+    min-width: 0;
+}
+
+.mrd_card_header_meta {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 10px;
+}
+
+.mrd_card_eyebrow {
+    display: inline-block;
+    margin-bottom: 12px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: $on-surface-variant;
+}
+
+.mrd_card_title {
+    font-size: 1.6rem;
+    font-weight: 800;
+    line-height: 1.1;
+    letter-spacing: -0.03em;
+    color: $on-surface;
+    margin-bottom: 12px;
+
+    span {
+        display: block;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+}
+
+.mrd_card_description {
+    max-width: 38ch;
+    margin: 0;
+    font-size: 0.9rem;
+    line-height: 1.6;
+    color: $on-surface-variant;
+}
+
+.mrd_badge,
+.mrd_chart_badge,
+.mrd_fs_badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 14px;
+    border-radius: 999px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+.mrd_badge.mrd_badge_requisition_by_state {
+    background: rgba($primary-container, 0.18);
+    color: darken($primary, 4%);
+}
+
+.mrd_badge.mrd_badge_requisition_by_department {
+    background: rgba($secondary-container, 0.42);
+    color: $on-secondary-container;
+}
+
+.mrd_badge.mrd_badge_top_requested_products {
+    background: $badge-prod-bg;
+    color: $badge-prod-text;
+}
+
+.mrd_badge.mrd_badge_requisition_by_request_type {
+    background: rgba($tertiary-container, 0.22);
+    color: $on-tertiary-container;
+}
+
+.mrd_chart_badge {
+    background: rgba($surface-container-highest, 0.9);
+    color: $on-surface-variant;
+    border: 1px solid rgba($outline-variant, 0.6);
+}
+
+.mrd_card_chart_shell {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    flex: 1;
+    padding: 22px;
+    border-radius: $radius-panel;
+    background:
+        linear-gradient(180deg, rgba($surface-container-low, 0.95), rgba($surface-lowest, 0.78));
+    border: 1px solid rgba($outline-variant, 0.7);
+    box-shadow: inset 0 1px 0 rgba($surface-lowest, 0.42);
+}
+
+.mrd_card_chart {
+    flex: 1;
+    min-height: 220px;
+    position: relative;
+    overflow: hidden;
+
+    .o_field_widget,
+    .o_dashboard_graph {
+        width: 100% !important;
+        height: 100% !important;
+    }
+
+    canvas {
+        width: 100% !important;
+        height: 100% !important;
+        max-height: 220px !important;
+    }
+}
+
+.mrd_card_metric_strip {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 14px 16px;
+    border-radius: 16px;
+    background: rgba($surface-lowest, 0.78);
+    border: 1px solid rgba($outline-variant, 0.62);
+}
+
+.mrd_metric_label {
+    font-size: 0.74rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: $on-surface-variant;
+}
+
+.mrd_metric_value {
+    font-size: 0.86rem;
+    font-weight: 600;
+    color: $on-surface;
+}
+
+.mrd_card_footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    margin-top: 18px;
+}
+
+.mrd_footer_left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.mrd_footer_label {
+    font-size: 0.82rem;
+    color: $on-surface-variant;
+}
+
+.mrd_view_details {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 14px;
+    border-radius: 999px;
+    background: rgba($primary, 0.06);
+    color: $primary;
+    font-size: 0.83rem;
+    font-weight: 700;
+    transition: background 0.2s ease;
+}
+
+.o_form_view .o_form_sheet_bg {
+
+    max-width: none;
+}
+
+.mrd_fullscreen_form {
+
+    .o_form_sheet_bg {
+        background:
+            radial-gradient(circle at top right, rgba($primary-container, 0.08), transparent 30%),
+            linear-gradient(180deg, rgba($surface-container-low, 0.9), $surface 60%);
+    }
+
+    .o_form_sheet {
+        // max-width: 100% !important;
+        // padding: 0 !important;
+        // background: transparent;
+        // box-shadow: none !important;
+    }
+
+    .mrd_fs_shell {
+        padding: 28px;
+    }
+
+    .mrd_fs_header {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 24px;
+        padding: 32px;
+        margin-bottom: 24px;
+        border-radius: 32px;
+        background:
+            linear-gradient(135deg, rgba($surface-lowest, 0.9), rgba($surface-bright, 0.74));
+        backdrop-filter: blur(20px);
+        box-shadow: inset 0 0 0 1px rgba($outline-variant, 0.12);
+    }
+
+    .mrd_fs_header_left {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        max-width: 62ch;
+    }
+
+    .mrd_fs_header_right {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: flex-end;
+        gap: 10px;
+    }
+
+    .mrd_fs_eyebrow,
+    .mrd_fs_section_label {
+        display: inline-block;
+        font-size: 0.74rem;
+        font-weight: 700;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: $on-surface-variant;
+    }
+
+    .mrd_fs_title {
+        font-size: 2.4rem;
+        font-weight: 800;
+        line-height: 1.02;
+        letter-spacing: -0.04em;
+        color: $on-surface;
+
+        span,
+        input {
+            font-size: 2.4rem;
+            font-weight: 800;
+            line-height: 1.02;
+            letter-spacing: -0.04em;
+            color: $on-surface;
+            padding: 0;
+            background: transparent !important;
+            border: 0 !important;
+            box-shadow: none !important;
+        }
+    }
+
+    .mrd_fs_subtitle {
+        margin: 0;
+        font-size: 0.95rem;
+        line-height: 1.7;
+        color: $on-surface-variant;
+    }
+
+    .mrd_fs_badge_op {
+        background: rgba($secondary-container, 0.42);
+        color: $on-secondary-container;
+    }
+
+    .mrd_fs_badge_chart {
+        background: rgba($primary-container, 0.14);
+        color: darken($primary, 5%);
+    }
+
+    .mrd_fs_content {
+        display: grid;
+        grid-template-columns: minmax(0, 1.75fr) minmax(320px, 0.85fr);
+        gap: 24px;
+
+        @media (max-width: 1200px) {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    .mrd_fs_main,
+    .mrd_fs_sidebar {
+        display: flex;
+        flex-direction: column;
+        gap: 24px;
+    }
+
+    .mrd_fs_chart_card,
+    .mrd_fs_filterbar,
+    .mrd_insight_card {
+        border-radius: 28px;
+        background:
+            linear-gradient(180deg, rgba($surface-lowest, 0.94), rgba($surface-lowest, 0.88));
+        border: 1px solid rgba($outline-variant, 0.75);
+        box-shadow:
+            0 14px 30px rgba(25, 28, 29, 0.08),
+            inset 0 0 0 1px rgba($surface-lowest, 0.3);
+    }
+
+    .mrd_fs_chart_card {
+        margin: 0;
+        padding: 28px;
+        min-height: 620px;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .mrd_fs_chart_card_top {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 20px;
+        margin-bottom: 22px;
+
+        @media (max-width: 768px) {
+            flex-direction: column;
+        }
+    }
+
+    .mrd_fs_section_title {
+        margin: 10px 0 0;
+        font-size: 1.5rem;
+        font-weight: 700;
+        letter-spacing: -0.03em;
+        color: $on-surface;
+    }
+
+    .mrd_fs_chart_legend {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        padding: 10px 14px;
+        border-radius: 999px;
+        background: rgba($surface-container-low, 0.85);
+        border: 1px solid rgba($outline-variant, 0.6);
+    }
+
+    .mrd_legend_dot {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background: $primary;
+        flex-shrink: 0;
+    }
+
+    .mrd_legend_label {
+        font-size: 0.82rem;
+        color: $on-surface-variant;
+    }
+
+    .mrd_fs_chart_shell {
+        flex: 1;
+        min-height: 480px;
+        height: clamp(480px, 62vh, 720px);
+        padding: 18px;
+        display: flex;
+        overflow: hidden;
+        border-radius: 22px;
+        background:
+            linear-gradient(180deg, rgba($surface-container-low, 0.95), rgba($surface-lowest, 0.82));
+        border: 1px solid rgba($outline-variant, 0.72);
+        box-shadow: inset 0 1px 0 rgba($surface-lowest, 0.42);
+
+        .o_field_widget,
+        .o_dashboard_graph {
+            width: 100% !important;
+            height: 100% !important;
+            min-height: 0;
+        }
+
+        canvas {
+            width: 100% !important;
+            height: 100% !important;
+            max-height: 100% !important;
+        }
+    }
+
+    .mrd_fs_filterbar {
+        padding: 24px;
+    }
+
+    .mrd_fs_filterbar_top {
+        margin-bottom: 18px;
+    }
+
+    .mrd_fs_filter_copy {
+        margin: 8px 0 0;
+        font-size: 0.88rem;
+        line-height: 1.6;
+        color: $on-surface-variant;
+    }
+
+    .mrd_fs_filter_group + .mrd_fs_filter_group {
+        margin-top: 16px;
+    }
+
+    .mrd_fs_filter_label {
+        display: block;
+        margin-bottom: 8px;
+        font-size: 0.74rem;
+        font-weight: 700;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: $on-surface-variant;
+    }
+
+    .mrd_fs_date_input {
+        width: 100%;
+        min-height: 46px;
+        padding: 10px 14px;
+        border: 1px solid rgba($outline-variant, 0.75);
+        border-radius: 14px;
+        background: rgba($surface-container-high, 0.85);
+        color: $on-surface;
+        font-size: 0.92rem;
+        outline: none;
+
+        &:focus {
+            box-shadow: 0 0 0 2px rgba($primary, 0.18);
+        }
+    }
+
+    .mrd_fs_insights {
+        display: grid;
+        gap: 18px;
+    }
+
+    .mrd_fs_breakdown_card {
+        .o_field_html {
+            margin-top: 14px;
+        }
+    }
+
+    .mrd_fs_breakdown {
+        display: grid;
+        gap: 10px;
+    }
+
+    .mrd_fs_breakdown_row {
+        display: grid;
+        grid-template-columns: 12px minmax(0, 1fr) auto;
+        align-items: center;
+        gap: 12px;
+        padding: 12px 14px;
+        border-radius: 14px;
+        background: rgba($surface-lowest, 0.74);
+        border: 1px solid rgba($outline-variant, 0.62);
+    }
+
+    .mrd_fs_breakdown_color {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        display: inline-block;
+    }
+
+    .mrd_fs_breakdown_label {
+        font-size: 0.86rem;
+        color: $on-surface;
+    }
+
+    .mrd_fs_breakdown_value {
+        font-size: 0.86rem;
+        font-weight: 700;
+        color: $on-surface;
+    }
+
+    .mrd_fs_breakdown_empty {
+        padding: 14px 16px;
+        border-radius: 14px;
+        background: rgba($surface-lowest, 0.74);
+        font-size: 0.84rem;
+        color: $on-surface-variant;
+        border: 1px solid rgba($outline-variant, 0.62);
+    }
+
+    .mrd_insight_card {
+        padding: 22px;
+    }
+
+    .mrd_insight_card_primary {
+        background:
+            linear-gradient(135deg, rgba($primary, 0.96), rgba($primary-container, 0.94));
+        box-shadow: none;
+
+        .mrd_insight_label,
+        .mrd_insight_value,
+        .mrd_insight_sub {
+            color: $surface-lowest;
+        }
+    }
+
+    .mrd_insight_label {
+        display: block;
+        margin-bottom: 10px;
+        font-size: 0.72rem;
+        font-weight: 700;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: $on-surface-variant;
+    }
+
+    .mrd_insight_value {
+        margin: 0;
+        font-size: 1.5rem;
+        font-weight: 700;
+        line-height: 1.25;
+        letter-spacing: -0.03em;
+        color: $on-surface;
+
+        .o_field_widget,
+        .o_field_widget span {
+            display: inline;
+            font-size: inherit;
+            font-weight: inherit;
+            color: inherit;
+            background: transparent !important;
+            border: 0 !important;
+            padding: 0 !important;
+        }
+    }
+
+    .mrd_insight_sub {
+        margin: 8px 0 0;
+        font-size: 0.84rem;
+        line-height: 1.6;
+        color: $on-surface-variant;
+    }
+
+    .oe_form_dashboard .o_field_widget {
+        height: 100%;
+        min-height: 0;
+    }
+}
+
+.o_field_picking_type_dashboard_graph .o_dashboard_graph {
+    margin-bottom: 0;
+    margin-left: -8px;
+    margin-right: -8px;
+}
+
+.material_dashbrd > div > .o_dashboard_graph > canvas {
+    height: 350px !important;
+    max-height: 350px !important;
+}
