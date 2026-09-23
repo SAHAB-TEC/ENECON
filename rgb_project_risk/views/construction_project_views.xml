@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_construction_project_form_risk" model="ir.ui.view">
+        <field name="name">construction.project.form.risk.register</field>
+        <field name="model">construction.project</field>
+        <field name="inherit_id" ref="sdlc_construction_management.view_construction_project_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook" position="inside">
+                <page string="سجل المخاطر" name="risk_register">
+                    <field name="risk_count" invisible="1"/>
+                    <field name="risk_ids">
+                        <list editable="bottom">
+                            <field name="sequence" widget="handle"/>
+                            <field name="name"/>
+                            <field name="probability_id"/>
+                            <field name="impact_id"/>
+                            <field name="response_plan"/>
+                            <field name="stakeholder_ids" widget="many2many_tags"/>
+                            <field name="user_ids" widget="many2many_tags"/>
+                            <field name="expected_delay_days"/>
+                        </list>
+                    </field>
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>

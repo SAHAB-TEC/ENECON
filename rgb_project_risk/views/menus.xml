@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <menuitem id="menu_rgb_risk_probability"
+              name="Probability Assessments"
+              parent="sdlc_construction_management.menu_construction_configuration"
+              action="action_rgb_risk_probability"
+              sequence="20"/>
+
+    <menuitem id="menu_rgb_risk_impact"
+              name="Impact Assessments"
+              parent="sdlc_construction_management.menu_construction_configuration"
+              action="action_rgb_risk_impact"
+              sequence="25"/>
+</odoo>

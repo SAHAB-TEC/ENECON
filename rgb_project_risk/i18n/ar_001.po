@@ -1,0 +1,69 @@
+# -*- coding: utf-8 -*-
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* rgb_project_risk
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 18.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-08-03 20:00+0000\n"
+"PO-Revision-Date: 2026-08-03 20:00+0000\n"
+"Language-Team: Arabic\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: ar_001\n"
+
+#. module: rgb_project_risk
+#: model:ir.model.fields,field_description:rgb_project_risk.field_rgb_project_risk__name
+msgid "Risk Name"
+msgstr "اسم الخطر"
+
+#. module: rgb_project_risk
+#: model:ir.model.fields,field_description:rgb_project_risk.field_rgb_project_risk__probability_id
+#: model:ir.actions.act_window,name:rgb_project_risk.action_rgb_risk_probability
+#: model:ir.ui.menu,name:rgb_project_risk.menu_rgb_risk_probability
+msgid "Probability Assessment"
+msgstr "تقييم الاحتمالية"
+
+#. module: rgb_project_risk
+#: model:ir.actions.act_window,name:rgb_project_risk.action_rgb_risk_probability
+msgid "Probability Assessments"
+msgstr "تقييمات الاحتمالية"
+
+#. module: rgb_project_risk
+#: model:ir.model.fields,field_description:rgb_project_risk.field_rgb_project_risk__impact_id
+msgid "Impact Assessment"
+msgstr "تقييم التأثير"
+
+#. module: rgb_project_risk
+#: model:ir.actions.act_window,name:rgb_project_risk.action_rgb_risk_impact
+#: model:ir.ui.menu,name:rgb_project_risk.menu_rgb_risk_impact
+msgid "Impact Assessments"
+msgstr "تقييمات التأثير"
+
+#. module: rgb_project_risk
+#: model:ir.model.fields,field_description:rgb_project_risk.field_rgb_project_risk__response_plan
+msgid "Response Plans"
+msgstr "خطط الاستجابة"
+
+#. module: rgb_project_risk
+#: model:ir.model.fields,field_description:rgb_project_risk.field_rgb_project_risk__stakeholder_ids
+msgid "Stakeholders"
+msgstr "أصحاب المصلحة"
+
+#. module: rgb_project_risk
+#: model:ir.model.fields,field_description:rgb_project_risk.field_rgb_project_risk__user_ids
+msgid "Users"
+msgstr "المستخدمون"
+
+#. module: rgb_project_risk
+#: model:ir.model.fields,field_description:rgb_project_risk.field_rgb_project_risk__expected_delay_days
+msgid "Expected Delay (Days)"
+msgstr "التأخير المتوقع بالأيام"
+
+#. module: rgb_project_risk
+#: model:ir.model.fields,field_description:rgb_project_risk.field_construction_project__risk_ids
+msgid "Risk Register"
+msgstr "سجل المخاطر"

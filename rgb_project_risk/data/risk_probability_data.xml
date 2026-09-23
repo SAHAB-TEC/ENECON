@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="risk_probability_low" model="rgb.risk.probability">
+            <field name="name">منخفض</field>
+            <field name="sequence">10</field>
+        </record>
+        <record id="risk_probability_medium" model="rgb.risk.probability">
+            <field name="name">متوسط</field>
+            <field name="sequence">20</field>
+        </record>
+        <record id="risk_probability_high" model="rgb.risk.probability">
+            <field name="name">مرتفع</field>
+            <field name="sequence">30</field>
+        </record>
+
+        <record id="risk_impact_low" model="rgb.risk.impact">
+            <field name="name">منخفض</field>
+            <field name="sequence">10</field>
+        </record>
+        <record id="risk_impact_medium" model="rgb.risk.impact">
+            <field name="name">متوسط</field>
+            <field name="sequence">20</field>
+        </record>
+        <record id="risk_impact_high" model="rgb.risk.impact">
+            <field name="name">مرتفع</field>
+            <field name="sequence">30</field>
+        </record>
+    </data>
+</odoo>

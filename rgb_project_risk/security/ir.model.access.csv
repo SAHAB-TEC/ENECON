@@ -1,0 +1,7 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_rgb_risk_probability_user,rgb.risk.probability.user,model_rgb_risk_probability,sdlc_construction_management.group_construction_user,1,0,0,0
+access_rgb_risk_probability_manager,rgb.risk.probability.manager,model_rgb_risk_probability,sdlc_construction_management.group_construction_manager,1,1,1,1
+access_rgb_risk_impact_user,rgb.risk.impact.user,model_rgb_risk_impact,sdlc_construction_management.group_construction_user,1,0,0,0
+access_rgb_risk_impact_manager,rgb.risk.impact.manager,model_rgb_risk_impact,sdlc_construction_management.group_construction_manager,1,1,1,1
+access_rgb_project_risk_user,rgb.project.risk.user,model_rgb_project_risk,sdlc_construction_management.group_construction_user,1,1,1,0
+access_rgb_project_risk_manager,rgb.project.risk.manager,model_rgb_project_risk,sdlc_construction_management.group_construction_manager,1,1,1,1
