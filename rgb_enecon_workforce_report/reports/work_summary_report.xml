@@ -4,8 +4,8 @@
         <field name="name">Work Summary</field>
         <field name="model">rgb.enecon.work.summary.report.wizard</field>
         <field name="report_type">qweb-pdf</field>
-        <field name="report_name">rgb_enecon_work_summary.work_summary_document</field>
-        <field name="report_file">rgb_enecon_work_summary.work_summary_document</field>
+        <field name="report_name">rgb_enecon_workforce_report.work_summary_document</field>
+        <field name="report_file">rgb_enecon_workforce_report.work_summary_document</field>
         <field name="print_report_name">'Work Summary - %s' % (object.project_id.name)</field>
     </record>
 

@@ -19,8 +19,6 @@
         'views/transport_type_views.xml',
         'views/work_summary_views.xml',
         'views/construction_project_views.xml',
-        'wizard/work_summary_report_wizard_views.xml',
-        'reports/work_summary_report.xml',
     ],
     'installable': True,
     'application': False,

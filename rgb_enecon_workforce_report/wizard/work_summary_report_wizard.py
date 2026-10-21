@@ -31,5 +31,5 @@ class EneconWorkSummaryReportWizard(models.TransientModel):
         if self.date_from > self.date_to:
             raise ValidationError(_('Date From must be before or equal to Date To.'))
         return self.env.ref(
-            'rgb_enecon_work_summary.action_report_rgb_enecon_work_summary'
+            'rgb_enecon_workforce_report.action_report_rgb_enecon_work_summary'
         ).report_action(self)

@@ -1,0 +1,2 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_enecon_workforce_report_wizard_user,enecon.workforce.report.wizard.user,model_rgb_enecon_work_summary_report_wizard,sdlc_construction_management.group_construction_user,1,1,1,1

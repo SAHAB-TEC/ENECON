@@ -5,7 +5,7 @@ from odoo import models
 
 
 class EneconWorkSummaryReport(models.AbstractModel):
-    _name = 'report.rgb_enecon_work_summary.work_summary_document'
+    _name = 'report.rgb_enecon_workforce_report.work_summary_document'
     _description = 'ENECON Work Summary Report'
 
     def _get_report_values(self, docids, data=None):
