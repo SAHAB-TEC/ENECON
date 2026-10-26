@@ -1,6 +1,6 @@
 {
     'name': 'ENECON Work Summary Report',
-    'version': '18.0.1.0.0',
+    'version': '18.0.1.0.1',
     'summary': 'Independent printable period summary for workforce, materials and transport',
     'category': 'Construction',
     'author': 'RGB / ENECON',

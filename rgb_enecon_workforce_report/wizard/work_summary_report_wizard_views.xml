@@ -31,7 +31,7 @@
 
     <menuitem id="menu_rgb_enecon_work_summary_report"
         name="Print Work Summary"
-        parent="sdlc_construction_management.menu_construction_executions"
+        parent="rgb_enecon_work_summary.menu_rgb_enecon_work_summary_root"
         action="action_rgb_enecon_work_summary_report_wizard" sequence="26"
-        groups="sdlc_construction_management.group_construction_user"/>
+        groups="rgb_enecon_work_summary.group_rgb_enecon_work_summary_user"/>
 </odoo>

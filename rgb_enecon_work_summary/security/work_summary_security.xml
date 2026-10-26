@@ -1,8 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
+    <record id="module_category_enecon_work_summary" model="ir.module.category">
+        <field name="name">ENECON Work Summary</field>
+        <field name="sequence">45</field>
+    </record>
+    <record id="group_rgb_enecon_work_summary_user" model="res.groups">
+        <field name="name">Work Summary User</field>
+        <field name="category_id" ref="module_category_enecon_work_summary"/>
+    </record>
+    <record id="group_rgb_enecon_work_summary_manager" model="res.groups">
+        <field name="name">Work Summary Manager</field>
+        <field name="category_id" ref="module_category_enecon_work_summary"/>
+        <field name="implied_ids" eval="[(4, ref('group_rgb_enecon_work_summary_user'))]"/>
+    </record>
     <record id="group_rgb_enecon_work_summary_approver" model="res.groups">
         <field name="name">Work Summary Approver</field>
-        <field name="category_id" ref="sdlc_construction_management.module_category_construction"/>
-        <field name="implied_ids" eval="[(4, ref('sdlc_construction_management.group_construction_user'))]"/>
+        <field name="category_id" ref="module_category_enecon_work_summary"/>
+        <field name="implied_ids" eval="[(3, ref('sdlc_construction_management.group_construction_user')), (4, ref('group_rgb_enecon_work_summary_user'))]"/>
     </record>
 </odoo>

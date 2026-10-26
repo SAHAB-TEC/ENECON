@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <menuitem id="menu_rgb_enecon_work_summary_root" name="Work Summary" sequence="44" groups="rgb_enecon_work_summary.group_rgb_enecon_work_summary_user"/>
+    <record id="menu_rgb_enecon_work_summary_entry" model="ir.ui.menu">
+        <field name="parent_id" ref="menu_rgb_enecon_work_summary_root"/>
+        <field name="groups_id" eval="[(6, 0, [ref('group_rgb_enecon_work_summary_user')])]"/>
+    </record>
+    <record id="menu_rgb_enecon_work_summary_report" model="ir.ui.menu">
+        <field name="name">Print Work Summary (Legacy)</field>
+        <field name="active" eval="False"/>
+    </record>
+    <record id="menu_rgb_enecon_work_summary_report" model="ir.ui.menu">
+        <field name="name">Print Work Summary (Legacy)</field>
+        <field name="active" eval="False"/>
+    </record>
+    <record id="menu_rgb_enecon_transport_type" model="ir.ui.menu">
+        <field name="parent_id" ref="menu_rgb_enecon_work_summary_root"/>
+        <field name="groups_id" eval="[(6, 0, [ref('group_rgb_enecon_work_summary_manager')])]"/>
+    </record>
+</odoo>
