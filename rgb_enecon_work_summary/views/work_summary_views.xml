@@ -49,9 +49,10 @@
                         <page string="Materials">
                             <field name="material_line_ids" readonly="state == 'approved'">
                                 <list editable="bottom">
-                                    <field name="product_id"
-                                        options="{'no_create': True, 'no_create_edit': True}"
-                                        domain="[('rgb_enecon_material', '=', True)]"/>
+                                    <control>
+                                        <create string="إضافة منتج"/>
+                                    </control>
+                                    <field name="product_id"/>
                                     <field name="quantity"/>
                                     <field name="uom_category_id" column_invisible="True"/>
                                     <field name="uom_id"

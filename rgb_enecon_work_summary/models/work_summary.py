@@ -108,7 +108,7 @@ class EneconWorkSummaryMaterial(models.Model):
     )
     product_id = fields.Many2one(
         'product.product', string='Material', required=True,
-        domain=[('rgb_enecon_material', '=', True)], ondelete='restrict',
+        ondelete='restrict',
     )
     quantity = fields.Float(string='Quantity', required=True, default=1.0)
     uom_id = fields.Many2one('uom.uom', string='Unit of Measure', required=True)
