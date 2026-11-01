@@ -1,0 +1,466 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    
+    <template id="report_invoice_akakos1">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-set="lang" t-value="o.partner_id.lang or o.company_id.partner_id.lang"/>
+                <t t-call="account_invoice_templates.report_invoice_document_akakos" t-lang="lang"/>
+            </t>
+        </t>
+    </template>
+
+    <template id="report_invoice_waha_A">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-set="lang" t-value="o.partner_id.lang or o.company_id.partner_id.lang"/>
+                <t t-call="account_invoice_templates.report_invoice_document_waha_A" t-lang="lang"/>
+            </t>
+        </t>
+    </template>
+
+    <template id="report_invoice_waha_B">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-set="lang" t-value="o.partner_id.lang or o.company_id.partner_id.lang"/>
+                <t t-call="account_invoice_templates.report_invoice_document_waha_B" t-lang="lang"/>
+            </t>
+        </t>
+    </template>
+
+    <template id="report_invoice_gulf">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-set="lang" t-value="o.partner_id.lang or o.company_id.partner_id.lang"/>
+                <t t-call="account_invoice_templates.report_invoice_document_gulf" t-lang="lang"/>
+            </t>
+        </t>
+    </template>
+
+    <template id="report_invoice_gulf_transport">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-set="lang" t-value="o.partner_id.lang or o.company_id.partner_id.lang"/>
+                <t t-call="account_invoice_templates.report_invoice_document_gulf_transport" t-lang="lang"/>
+            </t>
+        </t>
+    </template>
+
+
+    <record id="account_invoices_without_payment_akakos1" model="ir.actions.report">
+        <field name="name">PDF A</field>
+        <field name="model">account.move</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">account_invoice_templates.report_invoice_akakos1</field>
+        <field name="report_file">account_invoice_templates.report_invoice_akakos1</field>
+        <field name="print_report_name">(object._get_report_base_filename() + ' - A')</field>
+        <field name="attachment"/>
+        <field name="binding_model_id" ref="account.model_account_move"/>
+        <field name="binding_type">report</field>
+        <field name="domain" eval="[('move_type', '!=', 'entry')]"/>
+    </record>
+
+
+    <record id="account_invoices_waha_A" model="ir.actions.report">
+        <field name="name">PDF C</field>
+        <field name="model">account.move</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">account_invoice_templates.report_invoice_waha_A</field>
+        <field name="report_file">account_invoice_templates.report_invoice_waha_A</field>
+        <field name="print_report_name">(object._get_report_base_filename() + ' - C')</field>
+        <field name="attachment"/>
+        <field name="binding_model_id" ref="account.model_account_move"/>
+        <field name="binding_type">report</field>
+        <field name="domain" eval="[('move_type', '!=', 'entry')]"/>
+    </record>
+    <record id="account_invoices_waha_B" model="ir.actions.report">
+        <field name="name">PDF B</field>
+        <field name="model">account.move</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">account_invoice_templates.report_invoice_waha_B</field>
+        <field name="report_file">account_invoice_templates.report_invoice_waha_B</field>
+        <field name="print_report_name">(object._get_report_base_filename() + ' - B')</field>
+        <field name="attachment"/>
+        <field name="binding_model_id" ref="account.model_account_move"/>
+
+        <field name="binding_type">report</field>
+        <field name="domain" eval="[('move_type', '!=', 'entry')]"/>
+    </record>
+
+    <record id="account_invoices_gulf" model="ir.actions.report">
+        <field name="name">PDF D</field>
+        <field name="model">account.move</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">account_invoice_templates.report_invoice_gulf</field>
+        <field name="report_file">account_invoice_templates.report_invoice_gulf</field>
+        <field name="print_report_name">(object._get_report_base_filename() + ' - D')</field>
+        <field name="attachment"/>
+        <field name="binding_model_id" ref="account.model_account_move"/>
+        <field name="binding_type">report</field>
+        <field name="domain" eval="[('move_type', '!=', 'entry')]"/>
+    </record>
+
+    <record id="account_invoices_gulf_transport" model="ir.actions.report">
+        <field name="name">PDF E</field>
+        <field name="model">account.move</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">account_invoice_templates.report_invoice_gulf_transport</field>
+        <field name="report_file">account_invoice_templates.report_invoice_gulf_transport</field>
+        <field name="print_report_name">(object._get_report_base_filename() + ' - E')</field>
+        <field name="attachment"/>
+        <field name="binding_model_id" ref="account.model_account_move"/>
+        <field name="binding_type">report</field>
+        <field name="domain" eval="[('move_type', '!=', 'entry')]"/>
+    </record>
+
+
+    <!-- Hide Untaxed Amount row in invoice totals block -->
+    <template id="report_invoice_document_tax_totals" inherit_id="account.document_tax_totals_template">
+        <xpath expr="//tr[@class='o_subtotal']" position="attributes">
+            <attribute name="style">display: none;</attribute>
+        </xpath>
+    </template>
+
+    <!-- Hide per-line currency split row added by rgb_contract_management -->
+    <template id="report_invoice_hide_contract_currency_split" inherit_id="rgb_contract_management.report_invoice_document_contract">
+        <xpath expr="//tr[@t-if='o.contract_id and o.currency_split_ids']" position="replace"/>
+    </template>
+
+    <!-- Reusable currency split blocks (from rgb.contract currency_split_ids) -->
+    <template id="report_invoice_currency_split_percentages">
+        <tr t-if="report_currency_splits or o.ait_show_legacy_usd_on_report(report_lyd_filter) or o.ait_show_legacy_lyd_on_report(report_lyd_filter)"
+            class="is-subtotal text-end ait-currency-split-percentages">
+            <td colspan="99">
+                <t t-foreach="report_currency_splits" t-as="split">
+                    <p style="border: 1px solid #000; padding: 1px; display: inline-block; margin-right: 8px;">
+                        <strong t-field="split.currency_id"/>
+                        <strong> %</strong>
+                        <span t-field="split.percentage"/>
+                    </p>
+                </t>
+                <t t-if="not report_currency_splits">
+                    <p t-if="o.ait_show_legacy_usd_on_report(report_lyd_filter)"
+                       style="border: 1px solid #000; padding: 1px; display: inline-block; margin-right: 8px;">
+                        <strong class="mr16">USD %</strong>
+                        <span t-field="o.dollar_percentage"/>
+                    </p>
+                    <p t-if="o.ait_show_legacy_lyd_on_report(report_lyd_filter)"
+                       style="border: 1px solid #000; padding: 1px; display: inline-block;">
+                        <strong class="mr16">LYD %</strong>
+                        <span t-field="o.libya_dinar_percentage"/>
+                    </p>
+                </t>
+            </td>
+        </tr>
+    </template>
+
+    <template id="report_invoice_currency_split_amounts">
+        <t t-foreach="report_currency_splits" t-as="split">
+            <tr class="o_currency_split_total">
+                <td>
+                    <strong t-field="split.currency_id"/>
+                </td>
+                <td class="text-end">
+                    <span t-field="split.amount"
+                          t-options='{"widget": "monetary", "display_currency": split.currency_id}'/>
+                </td>
+            </tr>
+        </t>
+        <t t-if="not report_currency_splits">
+            <tr t-if="o.ait_show_legacy_usd_on_report(report_lyd_filter)" class="o_currency_split_total">
+                <td><strong>USD</strong></td>
+                <td class="text-end">
+                    <span t-out="o.usd_amount"
+                          t-options='{"widget": "monetary", "display_currency": o.env.ref("base.USD")}'/>
+                </td>
+            </tr>
+            <tr t-if="o.ait_show_legacy_lyd_on_report(report_lyd_filter)" class="o_currency_split_total">
+                <td><strong>LYD</strong></td>
+                <td class="text-end">
+                    <span t-out="o.lyd_amount"
+                          t-options='{"widget": "monetary", "display_currency": o.env.ref("base.LYD")}'/>
+                </td>
+            </tr>
+        </t>
+    </template>
+
+    <template id="report_invoice_document_all" inherit_id="account.report_invoice_document">
+
+        <!-- Line number column -->
+        <xpath expr="//th[@name='th_description']" position="before">
+            <th style="border: 1px solid #000; text-align: center; width: 4%;">No</th>
+        </xpath>
+        <xpath expr="//tbody" position="before">
+            <t t-set="line_no" t-value="0"/>
+        </xpath>
+        <xpath expr="//td[@name='account_invoice_line_name']" position="before">
+            <t t-set="line_no" t-value="line_no + 1"/>
+            <td style="border: 1px solid #000; text-align: center;">
+                <span t-out="line_no"/>
+            </td>
+        </xpath>
+
+        <!-- Keep only: No, Description, Quantity, Unit Price, Total -->
+        <xpath expr="//th[@name='th_discount']" position="attributes">
+            <attribute name="style">display: none;</attribute>
+        </xpath>
+        <xpath expr="//td[@name='td_discount']" position="attributes">
+            <attribute name="style">display: none;</attribute>
+        </xpath>
+        <xpath expr="//th[@name='th_taxes']" position="attributes">
+            <attribute name="style">display: none;</attribute>
+        </xpath>
+        <xpath expr="//td[@name='td_taxes']" position="attributes">
+            <attribute name="style">display: none;</attribute>
+        </xpath>
+        <xpath expr="//th[@name='th_subtotal']/span" position="replace">
+            <span>Total</span>
+        </xpath>
+        <xpath expr="//td[@name='td_subtotal']/span" position="replace">
+            <span class="text-nowrap" t-field="line.price_total">27.00</span>
+        </xpath>
+        <xpath expr="//tbody[hasclass('invoice_tbody')]" position="inside">
+            <t data-ait="currency-split-percentages">
+                <t t-set="report_lyd_filter" t-value="None"/>
+                <t t-set="report_currency_splits" t-value="o.ait_get_currency_splits_for_report(report_lyd_filter)"/>
+                <t t-call="account_invoice_templates.report_invoice_currency_split_percentages"/>
+            </t>
+        </xpath>
+
+        <!-- Currency split amounts below invoice Total -->
+        <xpath expr="//div[@id='total']//table[hasclass('o_total_table')]" position="inside">
+            <t data-ait="currency-split-amounts">
+                <t t-set="report_lyd_filter" t-value="None"/>
+                <t t-set="report_currency_splits" t-value="o.ait_get_currency_splits_for_report(report_lyd_filter)"/>
+                <t t-call="account_invoice_templates.report_invoice_currency_split_amounts"/>
+            </t>
+        </xpath>
+
+        <xpath expr="//div[@id='informations']" position="after">
+
+            <div class="akakos-extra-info"
+                style="width: 100%; margin-top: 12px; margin-bottom: 12px; font-size: 0;">
+
+                <div t-if="o.ait_well"
+                    style="display: inline-block; width: 25%; vertical-align: top; margin-bottom: 8px; font-size: 13px;">
+                    <strong>Well</strong><br/>
+                    <span t-field="o.ait_well"/>
+                </div>
+
+                <div t-if="o.ait_service_to"
+                    style="display: inline-block; width: 25%; vertical-align: top; margin-bottom: 8px; font-size: 13px;">
+                    <strong>Service To</strong><br/>
+                    <span t-field="o.ait_service_to"/>
+                </div>
+
+                <div t-if="o.ait_rig"
+                    style="display: inline-block; width: 25%; vertical-align: top; margin-bottom: 8px; font-size: 13px;">
+                    <strong>Rig</strong><br/>
+                    <span t-field="o.ait_rig"/>
+                </div>
+
+                <div t-if="o.ait_field"
+                    style="display: inline-block; width: 25%; vertical-align: top; margin-bottom: 8px; font-size: 13px;">
+                    <strong>Field</strong><br/>
+                    <span t-field="o.ait_field"/>
+                </div>
+
+                <div t-if="o.ait_work_date"
+                    style="display: inline-block; width: 25%; vertical-align: top; margin-bottom: 8px; font-size: 13px;">
+                    <strong>Work Date</strong><br/>
+                    <span t-field="o.ait_work_date"/>
+                </div>
+
+                <div t-if="o.ait_invoice_type"
+                    style="display: inline-block; width: 25%; vertical-align: top; margin-bottom: 8px; font-size: 13px;">
+                    <strong>Invoice Type</strong><br/>
+                    <span t-field="o.ait_invoice_type"/>
+                </div>
+
+                
+
+            </div>
+
+        </xpath>
+
+        <!-- Show bank block even when payment reference is empty -->
+        <xpath expr="//p[@name='payment_communication']/parent::div" position="attributes">
+            <attribute name="t-if">o.move_type in ('out_invoice', 'in_refund') and (o.payment_reference or o.partner_bank_id)</attribute>
+        </xpath>
+        <!-- Structured bilingual bank details instead of one mixed paragraph -->
+        <xpath expr="//p[@name='payment_communication']" position="replace">
+            <div name="payment_communication">
+                <p t-if="o.payment_reference" class="mb-1">
+                    Payment Communication: <span class="fw-bold" t-field="o.payment_reference"/>
+                </p>
+                <t t-if="o.partner_bank_id and o.partner_bank_id._ait_has_print_details()">
+                    <t t-set="bank" t-value="o.partner_bank_id"/>
+                    <table class="table table-borderless mb-0" style="font-size: 11px; width: 100%;">
+                        <tr t-if="bank.ait_print_instruction or bank.ait_print_instruction_ar">
+                            <td style="padding: 1px 8px 1px 0; vertical-align: top; direction: ltr; unicode-bidi: isolate; text-align: left;">
+                                <span t-field="bank.ait_print_instruction"/>
+                            </td>
+                            <td style="padding: 1px 0; vertical-align: top; direction: rtl; unicode-bidi: isolate; text-align: right;">
+                                <span t-field="bank.ait_print_instruction_ar"/>
+                            </td>
+                        </tr>
+                        <tr t-if="bank._ait_print_bank_name() or bank.ait_print_bank_name_ar">
+                            <td style="padding: 1px 8px 1px 0; vertical-align: top; direction: ltr; unicode-bidi: isolate; text-align: left;">
+                                <strong>Bank Name:</strong>
+                                <span t-out="bank._ait_print_bank_name()"/>
+                            </td>
+                            <td style="padding: 1px 0; vertical-align: top; direction: rtl; unicode-bidi: isolate; text-align: right;">
+                                <strong>اسم المصرف:</strong>
+                                <span t-field="bank.ait_print_bank_name_ar"/>
+                            </td>
+                        </tr>
+                        <tr t-if="bank._ait_print_bank_address() or bank.ait_print_bank_address_ar">
+                            <td style="padding: 1px 8px 1px 0; vertical-align: top; direction: ltr; unicode-bidi: isolate; text-align: left;">
+                                <strong>Bank Address:</strong>
+                                <span t-out="bank._ait_print_bank_address()"/>
+                            </td>
+                            <td style="padding: 1px 0; vertical-align: top; direction: rtl; unicode-bidi: isolate; text-align: right;">
+                                <strong>عنوان المصرف:</strong>
+                                <span t-field="bank.ait_print_bank_address_ar"/>
+                            </td>
+                        </tr>
+                        <tr t-if="bank._ait_print_swift()">
+                            <td style="padding: 1px 8px 1px 0; vertical-align: top; direction: ltr; unicode-bidi: isolate; text-align: left;">
+                                <strong>SWIFT:</strong>
+                                <span t-out="bank._ait_print_swift()"/>
+                            </td>
+                            <td style="padding: 1px 0; vertical-align: top; direction: rtl; unicode-bidi: isolate; text-align: right;">
+                                <strong>سويفت:</strong>
+                                <span t-out="bank._ait_print_swift()"/>
+                            </td>
+                        </tr>
+                        <tr t-if="bank._ait_print_acc_holder() or bank.ait_print_acc_holder_ar">
+                            <td style="padding: 1px 8px 1px 0; vertical-align: top; direction: ltr; unicode-bidi: isolate; text-align: left;">
+                                <strong>Account Holder:</strong>
+                                <span t-out="bank._ait_print_acc_holder()"/>
+                            </td>
+                            <td style="padding: 1px 0; vertical-align: top; direction: rtl; unicode-bidi: isolate; text-align: right;">
+                                <strong>صاحب الحساب:</strong>
+                                <span t-field="bank.ait_print_acc_holder_ar"/>
+                            </td>
+                        </tr>
+                        <tr t-if="bank._ait_print_acc_number()">
+                            <td style="padding: 1px 8px 1px 0; vertical-align: top; direction: ltr; unicode-bidi: isolate; text-align: left;">
+                                <strong t-out="bank._ait_print_acc_number_label_en()"/>:
+                                <span t-out="bank._ait_print_acc_number()"/>
+                            </td>
+                            <td style="padding: 1px 0; vertical-align: top; direction: rtl; unicode-bidi: isolate; text-align: right;">
+                                <strong t-out="bank._ait_print_acc_number_label_ar()"/>:
+                                <span t-out="bank._ait_print_acc_number()"/>
+                            </td>
+                        </tr>
+                    </table>
+                </t>
+            </div>
+        </xpath>
+
+    </template>
+
+    <template id="report_invoice_document_akakos" inherit_id="account_invoice_templates.report_invoice_document_all" primary="True">
+        <!-- PDF A: all currencies except LYD -->
+        <xpath expr="//t[@data-ait='currency-split-percentages']" position="replace">
+            <t data-ait="currency-split-percentages">
+                <t t-set="report_lyd_filter" t-value="'exclude'"/>
+                <t t-set="report_currency_splits" t-value="o.ait_get_currency_splits_for_report('exclude')"/>
+                <t t-call="account_invoice_templates.report_invoice_currency_split_percentages"/>
+            </t>
+        </xpath>
+        <xpath expr="//t[@data-ait='currency-split-amounts']" position="replace">
+            <t data-ait="currency-split-amounts">
+                <t t-set="report_lyd_filter" t-value="'exclude'"/>
+                <t t-set="report_currency_splits" t-value="o.ait_get_currency_splits_for_report('exclude')"/>
+                <t t-call="account_invoice_templates.report_invoice_currency_split_amounts"/>
+            </t>
+        </xpath>
+        <xpath expr="//td[@name='account_invoice_line_name']" position="replace">
+            <td name="account_invoice_line_name">
+                <span t-if="line.product_id" t-field="line.product_id.name" t-options="{'widget': 'text'}" dir="auto">Bacon Burger</span>
+            </td>
+        </xpath>
+    </template>
+
+    <template id="report_invoice_document_waha_A" inherit_id="account_invoice_templates.report_invoice_document_all" primary="True">
+        <!-- PDF C: non-LYD currencies (same as PDF A) -->
+        <xpath expr="//t[@data-ait='currency-split-percentages']" position="replace">
+            <t data-ait="currency-split-percentages">
+                <t t-set="report_lyd_filter" t-value="'exclude'"/>
+                <t t-set="report_currency_splits" t-value="o.ait_get_currency_splits_for_report('exclude')"/>
+                <t t-call="account_invoice_templates.report_invoice_currency_split_percentages"/>
+            </t>
+        </xpath>
+        <xpath expr="//t[@data-ait='currency-split-amounts']" position="replace">
+            <t data-ait="currency-split-amounts">
+                <t t-set="report_lyd_filter" t-value="'exclude'"/>
+                <t t-set="report_currency_splits" t-value="o.ait_get_currency_splits_for_report('exclude')"/>
+                <t t-call="account_invoice_templates.report_invoice_currency_split_amounts"/>
+            </t>
+        </xpath>
+        <xpath expr="//td[@name='account_invoice_line_name']" position="replace">
+            <td name="account_invoice_line_name">
+                <span t-if="line.product_id" t-field="line.product_id.name" t-options="{'widget': 'text'}" dir="auto">Bacon Burger</span>
+            </td>
+        </xpath>
+    </template>
+
+    <template id="report_invoice_document_waha_B" inherit_id="account_invoice_templates.report_invoice_document_all" primary="True">
+        <!-- PDF B: LYD only -->
+        <xpath expr="//t[@data-ait='currency-split-percentages']" position="replace">
+            <t data-ait="currency-split-percentages">
+                <t t-set="report_lyd_filter" t-value="'only'"/>
+                <t t-set="report_currency_splits" t-value="o.ait_get_currency_splits_for_report('only')"/>
+                <t t-call="account_invoice_templates.report_invoice_currency_split_percentages"/>
+            </t>
+        </xpath>
+        <xpath expr="//t[@data-ait='currency-split-amounts']" position="replace">
+            <t data-ait="currency-split-amounts">
+                <t t-set="report_lyd_filter" t-value="'only'"/>
+                <t t-set="report_currency_splits" t-value="o.ait_get_currency_splits_for_report('only')"/>
+                <t t-call="account_invoice_templates.report_invoice_currency_split_amounts"/>
+            </t>
+        </xpath>
+        <xpath expr="//td[@name='account_invoice_line_name']" position="replace">
+            <td name="account_invoice_line_name">
+                <span t-if="line.product_id" t-field="line.product_id.name" t-options="{'widget': 'text'}" dir="auto">Product</span>
+            </td>
+        </xpath>
+    </template>
+
+    <template id="report_invoice_document_gulf" inherit_id="account_invoice_templates.report_invoice_document_all" primary="True">
+        <xpath expr="//td[@name='account_invoice_line_name']" position="replace">
+            <td name="account_invoice_line_name">
+                <span t-if="line.product_id" t-field="line.product_id.name" t-options="{'widget': 'text'}" dir="auto">Product</span>
+            </td>
+        </xpath>
+    </template>
+
+    <template id="report_invoice_document_gulf_transport" inherit_id="account_invoice_templates.report_invoice_document_all" primary="True">
+        <xpath expr="//tbody[hasclass('invoice_tbody')]" position="inside">
+            <tr class="is-subtotal text-end">
+                <td colspan="99">
+                    <strong class="mr16">Subtotal (incl. tax)</strong>
+                    <span t-field="o.ait_transport_subtotal" class="text-nowrap"
+                          t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
+                </td>
+            </tr>
+            <tr class="is-subtotal text-end">
+                <td colspan="99">
+                    <strong class="mr16">Desert charge 15%</strong>
+                    <span t-field="o.ait_transport_desert_charge" class="text-nowrap"
+                          t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
+                </td>
+            </tr>
+            <tr class="is-subtotal text-end">
+                <td colspan="99">
+                    <strong class="mr16">Grand total</strong>
+                    <span t-field="o.ait_transport_grand_total" class="text-nowrap"
+                          t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
+                </td>
+            </tr>
+        </xpath>
+    </template>
+</odoo>

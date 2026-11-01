@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_ait_invoice_summary_report_wizard_form" model="ir.ui.view">
+        <field name="name">ait.invoice.summary.report.wizard.form</field>
+        <field name="model">ait.invoice.summary.report.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Invoice Summary Report">
+                <group>
+                    <group>
+                        <field name="date_from"/>
+                        <field name="date_to"/>
+                    </group>
+                    <group>
+                        <field name="partner_id"/>
+                        <field name="ait_rig"/>
+                    </group>
+                </group>
+                <footer>
+                    <button name="action_export_xlsx" type="object" string="Export Excel" class="btn-primary" data-hotkey="q"/>
+                    <button string="Cancel" special="cancel" class="btn-secondary" data-hotkey="x"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_ait_invoice_summary_report_wizard" model="ir.actions.act_window">
+        <field name="name">Invoice Summary Report</field>
+        <field name="res_model">ait.invoice.summary.report.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <!-- Direct download from invoice list Action menu (no wizard) -->
+    <record id="action_ait_invoice_summary_server_from_invoices" model="ir.actions.server">
+        <field name="name">Invoice Summary Report</field>
+        <field name="model_id" ref="account.model_account_move"/>
+        <field name="binding_model_id" ref="account.model_account_move"/>
+        <field name="binding_view_types">list</field>
+        <field name="state">code</field>
+        <field name="code">
+action = env['ait.invoice.summary.report.wizard'].action_export_from_selection()
+        </field>
+    </record>
+
+    <menuitem id="menu_ait_invoice_summary_report"
+              name="Invoice Summary Report"
+              parent="account.menu_finance_reports"
+              action="action_ait_invoice_summary_report_wizard"
+              sequence="45"/>
+</odoo>

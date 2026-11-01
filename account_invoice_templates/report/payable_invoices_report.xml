@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="action_report_payable_invoices" model="ir.actions.report">
+        <field name="name">فواتير جاهزة للدفع</field>
+        <field name="model">account.move</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">account_invoice_templates.report_payable_invoices</field>
+        <field name="report_file">account_invoice_templates.report_payable_invoices</field>
+        <field name="print_report_name">'فواتير_جاهزة_للدفع'</field>
+        <field name="binding_model_id" ref="account.model_account_move"/>
+        <field name="binding_type">report</field>
+        <field name="binding_view_types">list</field>
+    </record>
+
+    <template id="report_payable_invoices">
+        <t t-call="web.html_container">
+            <t t-call="web.external_layout">
+                <div class="page" style="direction: rtl;">
+                    <div class="text-center mb-4">
+                        <h4 style="margin-top: 0; font-weight: normal;">Invoices Ready for Payment</h4>
+                        <p t-esc="company.name"/>
+                    </div>
+
+                    <table class="table table-sm table-bordered o_main_table" style="width: 100%;">
+                        <thead>
+                            <tr style="background-color: #D9B38C;">
+                                <th class="text-center" style="width: 8%;">تسلسل</th>
+                                <th class="text-center" style="width: 22%;">اسم الفاتورة</th>
+                                <th class="text-center" style="width: 14%;">التاريخ</th>
+                                <th class="text-center" style="width: 28%;">الشريك</th>
+                                <th class="text-center" style="width: 10%;">العملة</th>
+                                <th class="text-center" style="width: 18%;">المبلغ المطلوب</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-set="seq" t-value="0"/>
+                            <tr t-foreach="moves" t-as="move">
+                                <t t-set="seq" t-value="seq + 1"/>
+                                <td class="text-center">
+                                    <span t-esc="seq"/>
+                                </td>
+                                <td class="text-center">
+                                    <span t-field="move.name"/>
+                                </td>
+                                <td class="text-center">
+                                    <span t-field="move.invoice_date"/>
+                                </td>
+                                <td class="text-center">
+                                    <span t-field="move.partner_id"/>
+                                </td>
+                                <td class="text-center">
+                                    <span t-esc="move.currency_id.name"/>
+                                </td>
+                                <td class="text-end">
+                                    <span t-esc="'{:,.3f}'.format(move.amount_residual or 0.0)"/>
+                                </td>
+                            </tr>
+                            <tr t-if="not moves">
+                                <td colspan="6" class="text-center">لا توجد فواتير</td>
+                            </tr>
+                        </tbody>
+                        <tfoot t-if="moves">
+                            <tr t-foreach="totals" t-as="total_line" style="background-color: #B8CCE4; font-weight: bold;">
+                                <td colspan="4" class="text-end">الإجمالي</td>
+                                <td class="text-center">
+                                    <span t-esc="total_line['currency'].name if total_line['currency'] else ''"/>
+                                </td>
+                                <td class="text-end">
+                                    <span t-esc="'{:,.3f}'.format(total_line['amount'])"/>
+                                </td>
+                            </tr>
+                        </tfoot>
+                    </table>
+
+                    <div class="mt-5 text-end">
+                        <p>نشكركم علي حسن تعاونكم معنا</p>
+                        <p>
+                            <span t-esc="company.name"/>
+                            - الإدارة المالية
+                        </p>
+                    </div>
+
+                    <div class="mt-5 avoid-page-break-inside clearfix"
+                         style="clear: both; width: 100%; display: block;">
+                        <div class="row mt-4 w-100">
+                            <div class="col-6 pe-4">
+                                <div class="text-center fw-bold mb-3">المسلم / Deliverer</div>
+                                <div class="mb-3">
+                                    <span>الاسم / Name:</span>
+                                    <span style="display:inline-block; min-width:70%; border-bottom:1px solid #000; margin-inline-start:6px;">&#160;</span>
+                                </div>
+                                <div class="mb-3">
+                                    <span>التوقيع / Signature:</span>
+                                    <span style="display:inline-block; min-width:60%; border-bottom:1px solid #000; margin-inline-start:6px;">&#160;</span>
+                                </div>
+                                <div>
+                                    <span>التاريخ / Date:</span>
+                                    <span style="display:inline-block; min-width:65%; border-bottom:1px solid #000; margin-inline-start:6px;">&#160;</span>
+                                </div>
+                            </div>
+                            <div class="col-6 ps-4">
+                                <div class="text-center fw-bold mb-3">المستلم / Receiver</div>
+                                <div class="mb-3">
+                                    <span>الاسم / Name:</span>
+                                    <span style="display:inline-block; min-width:70%; border-bottom:1px solid #000; margin-inline-start:6px;">&#160;</span>
+                                </div>
+                                <div class="mb-3">
+                                    <span>التوقيع / Signature:</span>
+                                    <span style="display:inline-block; min-width:60%; border-bottom:1px solid #000; margin-inline-start:6px;">&#160;</span>
+                                </div>
+                                <div>
+                                    <span>التاريخ / Date:</span>
+                                    <span style="display:inline-block; min-width:65%; border-bottom:1px solid #000; margin-inline-start:6px;">&#160;</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </t>
+        </t>
+    </template>
+</odoo>

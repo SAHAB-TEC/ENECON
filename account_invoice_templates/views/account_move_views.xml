@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_move_form_invoice_templates" model="ir.ui.view">
+        <field name="name">account.move.form.invoice.templates</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="rgb_contract_management.view_move_form_contract"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='contract_type']" position="after">
+                <group string="Invoice PDF template" colspan="2" invisible="move_type not in ('out_invoice', 'out_refund', 'out_receipt')">
+                    <group>
+                        <field name="dollar_percentage"/>
+                        <field name="libya_dinar_percentage"/>
+                        <field name="usd_amount" readonly="1"/>
+                        <field name="lyd_amount" readonly="1"/>
+                    </group>
+                    <group>
+                        <field name="ait_well"/>
+                        <field name="ait_service_to"/>
+                        <field name="ait_rig"/>
+                        <field name="ait_field"/>
+                        <field name="ait_work_date"/>
+                        <field name="ait_invoice_type"/>
+                    </group>
+                </group>
+            </xpath>
+            <xpath expr="//page[@id='invoice_tab']//field[@name='invoice_line_ids']/list/field[@name='quantity']" position="after">
+                <field name="ait_transport_service_date" optional="hide"/>
+                <field name="ait_transport_payload_type" optional="hide"/>
+                <field name="ait_transport_weight" optional="hide"/>
+                <field name="ait_transport_dt_no" optional="hide"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

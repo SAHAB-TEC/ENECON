@@ -1,0 +1,7 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_ait_invoice_summary_report_wizard,access.ait.invoice.summary.report.wizard,model_ait_invoice_summary_report_wizard,account.group_account_invoice,1,1,1,1
+access_ait_invoice_summary_report_wizard_user,access.ait.invoice.summary.report.wizard.user,model_ait_invoice_summary_report_wizard,account.group_account_readonly,1,1,1,1
+access_ait_tax_statement_report_wizard,access.ait.tax.statement.report.wizard,model_ait_tax_statement_report_wizard,account.group_account_invoice,1,1,1,1
+access_ait_tax_statement_report_wizard_user,access.ait.tax.statement.report.wizard.user,model_ait_tax_statement_report_wizard,account.group_account_readonly,1,1,1,1
+access_ait_payable_invoices_report_wizard,access.ait.payable.invoices.report.wizard,model_ait_payable_invoices_report_wizard,account.group_account_invoice,1,1,1,1
+access_ait_payable_invoices_report_wizard_user,access.ait.payable.invoices.report.wizard.user,model_ait_payable_invoices_report_wizard,account.group_account_readonly,1,1,1,1

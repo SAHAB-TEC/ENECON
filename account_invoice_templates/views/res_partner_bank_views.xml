@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_partner_bank_form_ait_print" model="ir.ui.view">
+        <field name="name">res.partner.bank.form.ait.print</field>
+        <field name="model">res.partner.bank</field>
+        <field name="inherit_id" ref="account.view_partner_bank_form_inherit_account"/>
+        <field name="arch" type="xml">
+            <xpath expr="//sheet/group" position="after">
+                <group string="Invoice Print Details">
+                    <group string="English">
+                        <field name="ait_print_instruction" placeholder="Please make payment in USD to:"/>
+                        <field name="ait_print_bank_name" placeholder="Bank al Etihad"/>
+                        <field name="ait_print_bank_address" placeholder="Queen Noor Street, Amman 11180 Jordan"/>
+                        <field name="ait_print_swift" placeholder="UBSIJOAXXXX"/>
+                        <field name="ait_print_acc_holder"/>
+                        <field name="ait_print_acc_number" placeholder="JO50UBSI1040000050271445415101"/>
+                        <field name="ait_print_acc_number_label" placeholder="Account Number USD"/>
+                    </group>
+                    <group string="Arabic">
+                        <field name="ait_print_instruction_ar" placeholder="يرجى الدفع بالدولار الأمريكي"/>
+                        <field name="ait_print_bank_name_ar" placeholder="بنك الاتحاد"/>
+                        <field name="ait_print_bank_address_ar"/>
+                        <field name="ait_print_acc_holder_ar"/>
+                        <field name="ait_print_acc_number_label_ar" placeholder="رقم الحساب بالدولار الأمريكي"/>
+                    </group>
+                </group>
+            </xpath>
+        </field>
+    </record>
+</odoo>

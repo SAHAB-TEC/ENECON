@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_ait_payable_invoices_report_wizard_form" model="ir.ui.view">
+        <field name="name">ait.payable.invoices.report.wizard.form</field>
+        <field name="model">ait.payable.invoices.report.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Invoices Ready for Payment">
+                <group>
+                    <group>
+                        <field name="date_from"/>
+                        <field name="date_to"/>
+                    </group>
+                    <group>
+                        <field name="partner_id"/>
+                    </group>
+                </group>
+                <footer>
+                    <button name="action_print_pdf" type="object" string="Print PDF" class="btn-primary" data-hotkey="q"/>
+                    <button name="action_export_xlsx" type="object" string="Export Excel" class="btn-secondary"/>
+                    <button string="Cancel" special="cancel" class="btn-secondary" data-hotkey="x"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_ait_payable_invoices_report_wizard" model="ir.actions.act_window">
+        <field name="name">فواتير جاهزة للدفع</field>
+        <field name="res_model">ait.payable.invoices.report.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <!-- Excel from invoice list Action menu -->
+    <record id="action_ait_payable_invoices_server_from_invoices" model="ir.actions.server">
+        <field name="name">فواتير جاهزة للدفع (Excel)</field>
+        <field name="model_id" ref="account.model_account_move"/>
+        <field name="binding_model_id" ref="account.model_account_move"/>
+        <field name="binding_view_types">list</field>
+        <field name="state">code</field>
+        <field name="code">
+action = env['ait.payable.invoices.report.wizard'].action_export_from_selection()
+        </field>
+    </record>
+
+    <!-- PDF from invoice list Action menu -->
+    <record id="action_ait_payable_invoices_pdf_server_from_invoices" model="ir.actions.server">
+        <field name="name">فواتير جاهزة للدفع</field>
+        <field name="model_id" ref="account.model_account_move"/>
+        <field name="binding_model_id" ref="account.model_account_move"/>
+        <field name="binding_view_types">list</field>
+        <field name="state">code</field>
+        <field name="code">
+action = env['ait.payable.invoices.report.wizard'].action_print_pdf_from_selection()
+        </field>
+    </record>
+
+    <menuitem id="menu_ait_payable_invoices_report"
+              name="فواتير جاهزة للدفع"
+              parent="account.menu_finance_reports"
+              action="action_ait_payable_invoices_report_wizard"
+              sequence="46"/>
+</odoo>
+
