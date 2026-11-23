@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="report_project_invoice_document">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <div class="page pi-page" dir="rtl">
+                    <style>
+                        .pi-page { font-family: 'Cairo','Tahoma','Arial',sans-serif; font-size: 12px; direction: rtl; text-align: right; color: #000; }
+                        .pi-head { width: 100%; margin-bottom: 6px; }
+                        .pi-head td { vertical-align: middle; }
+                        .pi-logo { max-height: 70px; max-width: 160px; }
+                        .pi-title { text-align: center; font-weight: bold; font-size: 16px; }
+                        .pi-sub { text-align: center; font-weight: bold; font-size: 13px; margin-bottom: 6px; }
+                        .pi-meta { width: 100%; margin-bottom: 6px; font-weight: bold; }
+                        .pi-meta td { padding: 2px 4px; }
+                        .pi-section { font-weight: bold; margin: 8px 0 3px 0; font-size: 13px; }
+                        .pi-table { width: 100%; border-collapse: collapse; page-break-inside: auto; }
+                        .pi-table th, .pi-table td { border: 1px solid #000; padding: 2px 4px; text-align: center; }
+                        .pi-table th { background: #f0f0f0; font-weight: bold; }
+                        .pi-table tr { page-break-inside: avoid; }
+                        .pi-table td.num { direction: ltr; }
+                        .pi-table td.txt { text-align: right; }
+                        .pi-total td { font-weight: bold; background: #fafafa; }
+                        .pi-notes { border: 1px solid #000; border-top: 0; padding: 3px 6px; white-space: pre-wrap; font-weight: bold; }
+                        .pi-grand { width: 100%; border-collapse: collapse; margin-top: 10px; }
+                        .pi-grand td { border: 1px solid #000; padding: 4px 8px; font-weight: bold; font-size: 14px; text-align: center; }
+                        .pi-sign { margin-top: 30px; text-align: left; font-weight: bold; }
+                    </style>
+
+                    <table class="pi-head">
+                        <tr>
+                            <td style="text-align:right; width:30%;">
+                                <img t-if="doc.partner_id.image_1920" class="pi-logo" t-att-src="image_data_uri(doc.partner_id.image_1920)"/>
+                            </td>
+                            <td style="width:40%;"></td>
+                            <td style="text-align:left; width:30%;">
+                                <img t-if="doc.company_id.logo" class="pi-logo" t-att-src="image_data_uri(doc.company_id.logo)"/>
+                            </td>
+                        </tr>
+                    </table>
+
+                    <div class="pi-title">فاتورة رقم <t t-esc="doc.manual_invoice_number"/></div>
+                    <div class="pi-sub"><t t-esc="doc.project_title"/></div>
+
+                    <table class="pi-meta">
+                        <tr>
+                            <td style="width:50%;">الاخوة / <t t-esc="doc.partner_id.name"/></td>
+                            <td style="width:50%; text-align:left;">
+                                فترة العمل من
+                                <t t-if="doc.work_date_from"><t t-esc="doc.work_date_from.strftime('%d/%m/%Y')"/></t>
+                                الى
+                                <t t-if="doc.work_date_to"><t t-esc="doc.work_date_to.strftime('%d/%m/%Y')"/></t>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>الرقم الاشاري : <t t-esc="doc.reference_number or ''"/></td>
+                            <td style="text-align:left;">التاريخ :
+                                <t t-if="doc.invoice_date"><t t-esc="doc.invoice_date.strftime('%d/%m/%Y')"/></t>
+                            </td>
+                        </tr>
+                    </table>
+
+            <div class="pi-section">أولاً: المواد</div>
+            <table class="pi-table">
+                <thead><tr><th>م</th><th>البيان</th><th>الوحدة</th><th>عدد الوحدات</th><th>سعر الوحدة</th><th>الإجمالي</th></tr></thead>
+                <tbody>
+                    <t t-foreach="doc.material_line_ids" t-as="l">
+                        <tr>
+                        <td><t t-esc="l_index + 1"/></td>
+                        <td class="txt"><t t-esc="l.product_id.display_name"/></td>
+                        <td><t t-esc="l.uom_id.name"/></td>
+                        <td class="num"><t t-esc="'%g' % l.qty"/></td>
+                        <td class="num"><t t-esc="'%.3f' % l.price_unit"/></td>
+                        <td class="num"><t t-esc="'%.3f' % l.subtotal"/></td>
+                        </tr>
+                    </t>
+                    <tr class="pi-total"><td colspan="5">المجموع</td><td class="num"><t t-esc="'%.3f' % doc.total_materials"/></td></tr>
+                </tbody>
+            </table>
+            <div t-if="doc.notes_materials" class="pi-notes"><t t-esc="doc.notes_materials"/></div>
+
+            <div class="pi-section">ثانياً: فريق العمل</div>
+            <table class="pi-table">
+                <thead><tr><th>م</th><th>البيان</th><th>عدد العاملين</th><th>السعر / اليوم</th><th>ساعات الإضافية</th><th>تكلفة الساعة</th><th>الإجمالي</th></tr></thead>
+                <tbody>
+                    <t t-foreach="doc.labor_line_ids" t-as="l">
+                        <tr>
+                        <td><t t-esc="l_index + 1"/></td>
+                        <td class="txt"><t t-esc="l.product_id.display_name"/></td>
+                        <td class="num"><t t-esc="'%g' % l.worker_days_qty"/></td>
+                        <td class="num"><t t-esc="'%.3f' % l.price_unit"/></td>
+                        <td class="num"><t t-esc="'%g' % l.overtime_hours"/></td>
+                        <td class="num"><t t-esc="'%.3f' % l.overtime_rate"/></td>
+                        <td class="num"><t t-esc="'%.3f' % l.subtotal"/></td>
+                        </tr>
+                    </t>
+                    <tr class="pi-total"><td colspan="2">المجموع</td><td class="num"><t t-esc="'%g' % doc.total_labor_qty"/></td><td colspan="3"></td><td class="num"><t t-esc="'%.3f' % doc.total_labor"/></td></tr>
+                </tbody>
+            </table>
+            <div t-if="doc.notes_labor" class="pi-notes"><t t-esc="doc.notes_labor"/></div>
+
+            <div class="pi-section">ثالثاً: وسائل النقل</div>
+            <table class="pi-table">
+                <thead><tr><th>م</th><th>البيان</th><th>عدد الأيام</th><th>المسافة كم</th><th>السعر</th><th>مسافة الإضافية كم</th><th>سعر المسافة الإضافية</th><th>تكلفة الشريحة الأولى (100-300 كم)</th><th>الإجمالي</th></tr></thead>
+                <tbody>
+                    <t t-foreach="doc.transport_line_ids" t-as="l">
+                        <tr>
+                        <td><t t-esc="l_index + 1"/></td>
+                        <td class="txt"><t t-esc="l.product_id.display_name"/></td>
+                        <td class="num"><t t-esc="'%g' % l.days_qty"/></td>
+                        <td><t t-esc="l.distance_label or ''"/></td>
+                        <td class="num"><t t-esc="'%.3f' % l.price_unit"/></td>
+                        <td class="num"><t t-esc="'%g' % l.extra_distance_km"/></td>
+                        <td class="num"><t t-esc="'%.3f' % l.extra_km_price"/></td>
+                        <td class="num"><t t-esc="'%.3f' % l.base_extra_tier_fee"/></td>
+                        <td class="num"><t t-esc="'%.3f' % l.subtotal"/></td>
+                        </tr>
+                    </t>
+                    <tr class="pi-total"><td colspan="8">المجموع</td><td class="num"><t t-esc="'%.3f' % doc.total_transport"/></td></tr>
+                </tbody>
+            </table>
+            <div t-if="doc.notes_transport" class="pi-notes"><t t-esc="doc.notes_transport"/></div>
+
+            <div class="pi-section">رابعاً: المعدات وأدوات التشغيل</div>
+            <table class="pi-table">
+                <thead><tr><th>م</th><th>البيان</th><th>عدد الوحدات</th><th>الوحدة</th><th>السعر</th><th>الإجمالي</th></tr></thead>
+                <tbody>
+                    <t t-foreach="doc.equipment_line_ids" t-as="l">
+                        <tr>
+                        <td><t t-esc="l_index + 1"/></td>
+                        <td class="txt"><t t-esc="l.product_id.display_name"/></td>
+                        <td class="num"><t t-esc="'%g' % l.qty"/></td>
+                        <td><t t-esc="l.uom_id.name"/></td>
+                        <td class="num"><t t-esc="'%.3f' % l.price_unit"/></td>
+                        <td class="num"><t t-esc="'%.3f' % l.subtotal"/></td>
+                        </tr>
+                    </t>
+                    <tr class="pi-total"><td colspan="5">المجموع</td><td class="num"><t t-esc="'%.3f' % doc.total_equipment"/></td></tr>
+                </tbody>
+            </table>
+            <div t-if="doc.notes_equipment" class="pi-notes"><t t-esc="doc.notes_equipment"/></div>
+
+            <div class="pi-section">خامساً: الإعاشة</div>
+            <table class="pi-table">
+                <thead><tr><th>م</th><th>البيان</th><th>عدد الوحدات</th><th>الوحدة</th><th>السعر</th><th>الإجمالي</th></tr></thead>
+                <tbody>
+                    <t t-foreach="doc.catering_line_ids" t-as="l">
+                        <tr>
+                        <td><t t-esc="l_index + 1"/></td>
+                        <td class="txt"><t t-esc="l.product_id.display_name"/></td>
+                        <td class="num"><t t-esc="'%g' % l.qty"/></td>
+                        <td><t t-esc="l.uom_id.name"/></td>
+                        <td class="num"><t t-esc="'%.3f' % l.price_unit"/></td>
+                        <td class="num"><t t-esc="'%.3f' % l.subtotal"/></td>
+                        </tr>
+                    </t>
+                    <tr class="pi-total"><td colspan="5">المجموع</td><td class="num"><t t-esc="'%.3f' % doc.total_catering"/></td></tr>
+                </tbody>
+            </table>
+            <div t-if="doc.notes_catering" class="pi-notes"><t t-esc="doc.notes_catering"/></div>
+
+                    <table class="pi-grand">
+                        <tr>
+                            <td style="width:70%;">الاجمالى</td>
+                            <td style="direction:ltr;"><t t-esc="'%.3f' % doc.grand_total"/></td>
+                        </tr>
+                    </table>
+
+                    <div class="pi-sign">
+                        <div><t t-esc="doc.signatory_name or ''"/></div>
+                        <div><t t-esc="doc.signatory_job_title or ''"/></div>
+                    </div>
+                </div>
+            </t>
+        </t>
+    </template>
+</odoo>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="module_category_project_invoice" model="ir.module.category">
+        <field name="name">فواتير المشاريع / Project Invoices</field>
+        <field name="sequence">60</field>
+    </record>
+
+    <record id="group_invoice_user" model="res.groups">
+        <field name="name">مستخدم / User (Creator)</field>
+        <field name="category_id" ref="module_category_project_invoice"/>
+        <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+        <field name="comment">Can create and view project invoices.</field>
+    </record>
+
+    <record id="group_invoice_editor" model="res.groups">
+        <field name="name">صلاحية التعديل / Invoice Editor</field>
+        <field name="category_id" ref="module_category_project_invoice"/>
+        <field name="implied_ids" eval="[(4, ref('group_invoice_user'))]"/>
+        <field name="comment">Can edit draft invoices only.</field>
+    </record>
+
+    <record id="group_invoice_admin" model="res.groups">
+        <field name="name">صلاحية الأدمن / Manager</field>
+        <field name="category_id" ref="module_category_project_invoice"/>
+        <field name="implied_ids" eval="[(4, ref('group_invoice_editor'))]"/>
+        <field name="users" eval="[(4, ref('base.user_root')), (4, ref('base.user_admin'))]"/>
+        <field name="comment">Full access: approve, reset to draft, edit at any time.</field>
+    </record>
+
+    <record id="rule_project_invoice_company" model="ir.rule">
+        <field name="name">Project Invoice: multi-company</field>
+        <field name="model_id" ref="model_project_custom_invoice"/>
+        <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
+    </record>
+</odoo>

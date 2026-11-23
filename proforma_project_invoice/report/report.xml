@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="paperformat_project_invoice" model="report.paperformat">
+        <field name="name">Project Invoice A4</field>
+        <field name="default" eval="False"/>
+        <field name="format">A4</field>
+        <field name="orientation">Portrait</field>
+        <field name="margin_top">8</field>
+        <field name="margin_bottom">10</field>
+        <field name="margin_left">8</field>
+        <field name="margin_right">8</field>
+        <field name="header_line" eval="False"/>
+        <field name="header_spacing">0</field>
+        <field name="dpi">90</field>
+    </record>
+
+    <record id="action_report_project_invoice" model="ir.actions.report">
+        <field name="name">طباعة فاتورة المشروع / Project Invoice</field>
+        <field name="model">project.custom.invoice</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">proforma_project_invoice.report_project_invoice_document</field>
+        <field name="report_file">proforma_project_invoice.report_project_invoice_document</field>
+        <field name="print_report_name">'Invoice_%s' % (object.name or '').replace('/', '_')</field>
+        <field name="paperformat_id" ref="paperformat_project_invoice"/>
+        <field name="binding_model_id" ref="model_project_custom_invoice"/>
+        <field name="binding_type">report</field>
+    </record>
+</odoo>

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <menuitem id="menu_project_invoice_root" name="فواتير المشاريع / Project Invoices"
+              sequence="45" groups="proforma_project_invoice.group_invoice_user"/>
+    <menuitem id="menu_project_invoice_list" name="فواتير المشاريع / Project Invoices"
+              parent="menu_project_invoice_root" action="action_project_invoice" sequence="10"/>
+</odoo>

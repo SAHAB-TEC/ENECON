@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- LIST -->
+    <record id="view_project_invoice_list" model="ir.ui.view">
+        <field name="name">project.custom.invoice.list</field>
+        <field name="model">project.custom.invoice</field>
+        <field name="arch" type="xml">
+            <list string="فواتير المشاريع" decoration-success="state == 'approved'" decoration-muted="state == 'draft'">
+                <field name="name"/>
+                <field name="manual_invoice_number"/>
+                <field name="project_title"/>
+                <field name="partner_id"/>
+                <field name="invoice_date"/>
+                <field name="grand_total" sum="الاجمالى"/>
+                <field name="state" widget="badge" decoration-success="state == 'approved'" decoration-info="state == 'draft'"/>
+                <field name="company_id" column_invisible="True"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- FORM -->
+    <record id="view_project_invoice_form" model="ir.ui.view">
+        <field name="name">project.custom.invoice.form</field>
+        <field name="model">project.custom.invoice</field>
+        <field name="arch" type="xml">
+            <form string="فاتورة مشروع">
+                <header>
+                    <button name="action_approve" type="object" string="اعتماد / Approve" class="btn-primary"
+                            invisible="state != 'draft'" groups="proforma_project_invoice.group_invoice_admin"/>
+                    <button name="action_reset_draft" type="object" string="إرجاع لمسودة / Reset to Draft"
+                            invisible="state != 'approved'" groups="proforma_project_invoice.group_invoice_admin"/>
+                    <button name="action_print_pdf" type="object" string="طباعة PDF / Print PDF" invisible="not id"/>
+                    <button name="action_export_xlsx" type="object" string="تصدير Excel / Export Excel" invisible="not id"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,approved"/>
+                </header>
+                <sheet>
+                    <field name="can_edit" invisible="1"/>
+                    <div class="oe_title">
+                        <h1><field name="name"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="manual_invoice_number" readonly="not can_edit"/>
+                            <field name="project_title" readonly="not can_edit"/>
+                            <field name="partner_id" readonly="not can_edit" options="{'no_create': True}"/>
+                            <field name="pricelist_id" readonly="not can_edit"/>
+                            <field name="reference_number" readonly="not can_edit"/>
+                        </group>
+                        <group>
+                            <field name="invoice_date" readonly="not can_edit"/>
+                            <field name="work_date_from" readonly="not can_edit"/>
+                            <field name="work_date_to" readonly="not can_edit"/>
+                            <field name="company_id" groups="base.group_multi_company" readonly="1"/>
+                        </group>
+                    </group>
+
+                    <separator string="أولاً: المواد"/>
+                    <field name="material_line_ids" nolabel="1" readonly="not can_edit">
+                        <list editable="bottom">
+                            <field name="sequence" widget="handle"/>
+                            <field name="line_no"/>
+                        <field name="product_id"/>
+                        <field name="uom_id"/>
+                        <field name="qty"/>
+                        <field name="price_unit"/>
+                        <field name="subtotal" sum="المجموع"/>
+                        </list>
+                    </field>
+                    <group>
+                        <group>
+                            <field name="notes_materials" readonly="not can_edit" placeholder="ملاحظات القسم..."/>
+                        </group>
+                        <group class="oe_subtotal_footer">
+                            <field name="total_materials"/>
+                        </group>
+                    </group>
+                    <separator string="ثانياً: فريق العمل"/>
+                    <field name="labor_line_ids" nolabel="1" readonly="not can_edit">
+                        <list editable="bottom">
+                            <field name="sequence" widget="handle"/>
+                            <field name="line_no"/>
+                        <field name="product_id"/>
+                        <field name="worker_days_qty" sum="عدد العاملين"/>
+                        <field name="price_unit"/>
+                        <field name="overtime_hours"/>
+                        <field name="overtime_rate"/>
+                        <field name="subtotal" sum="المجموع"/>
+                        </list>
+                    </field>
+                    <group>
+                        <group>
+                            <field name="notes_labor" readonly="not can_edit" placeholder="ملاحظات القسم..."/>
+                        </group>
+                        <group class="oe_subtotal_footer">
+                            <field name="total_labor_qty"/>
+                            <field name="total_labor"/>
+                        </group>
+                    </group>
+                    <separator string="ثالثاً: وسائل النقل"/>
+                    <field name="transport_line_ids" nolabel="1" readonly="not can_edit">
+                        <list editable="bottom">
+                            <field name="sequence" widget="handle"/>
+                            <field name="line_no"/>
+                        <field name="product_id"/>
+                        <field name="days_qty"/>
+                        <field name="distance_label"/>
+                        <field name="price_unit"/>
+                        <field name="extra_distance_km"/>
+                        <field name="extra_km_price"/>
+                        <field name="base_extra_tier_fee"/>
+                        <field name="subtotal" sum="المجموع"/>
+                        </list>
+                    </field>
+                    <group>
+                        <group>
+                            <field name="notes_transport" readonly="not can_edit" placeholder="ملاحظات القسم..."/>
+                        </group>
+                        <group class="oe_subtotal_footer">
+                            <field name="total_transport"/>
+                        </group>
+                    </group>
+                    <separator string="رابعاً: المعدات وأدوات التشغيل"/>
+                    <field name="equipment_line_ids" nolabel="1" readonly="not can_edit">
+                        <list editable="bottom">
+                            <field name="sequence" widget="handle"/>
+                            <field name="line_no"/>
+                        <field name="product_id"/>
+                        <field name="qty"/>
+                        <field name="uom_id"/>
+                        <field name="price_unit"/>
+                        <field name="subtotal" sum="المجموع"/>
+                        </list>
+                    </field>
+                    <group>
+                        <group>
+                            <field name="notes_equipment" readonly="not can_edit" placeholder="ملاحظات القسم..."/>
+                        </group>
+                        <group class="oe_subtotal_footer">
+                            <field name="total_equipment"/>
+                        </group>
+                    </group>
+                    <separator string="خامساً: الإعاشة"/>
+                    <field name="catering_line_ids" nolabel="1" readonly="not can_edit">
+                        <list editable="bottom">
+                            <field name="sequence" widget="handle"/>
+                            <field name="line_no"/>
+                        <field name="product_id"/>
+                        <field name="qty"/>
+                        <field name="uom_id"/>
+                        <field name="price_unit"/>
+                        <field name="subtotal" sum="المجموع"/>
+                        </list>
+                    </field>
+                    <group>
+                        <group>
+                            <field name="notes_catering" readonly="not can_edit" placeholder="ملاحظات القسم..."/>
+                        </group>
+                        <group class="oe_subtotal_footer">
+                            <field name="total_catering"/>
+                        </group>
+                    </group>
+
+                    <group class="oe_subtotal_footer">
+                        <field name="grand_total" class="oe_subtotal_footer_separator"/>
+                    </group>
+
+                    <separator string="التوقيع / Signatory"/>
+                    <group>
+                        <group>
+                            <field name="signatory_user_id" readonly="not can_edit"/>
+                            <field name="signatory_name" readonly="not can_edit"/>
+                            <field name="signatory_job_title" readonly="not can_edit"/>
+                        </group>
+                    </group>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <!-- SEARCH -->
+    <record id="view_project_invoice_search" model="ir.ui.view">
+        <field name="name">project.custom.invoice.search</field>
+        <field name="model">project.custom.invoice</field>
+        <field name="arch" type="xml">
+            <search string="فواتير المشاريع">
+                <field name="name"/>
+                <field name="manual_invoice_number"/>
+                <field name="project_title"/>
+                <field name="partner_id"/>
+                <field name="reference_number"/>
+                <filter name="filter_draft" string="مسودة / Draft" domain="[('state', '=', 'draft')]"/>
+                <filter name="filter_approved" string="معتمد / Approved" domain="[('state', '=', 'approved')]"/>
+                <separator/>
+                <filter name="filter_this_month" string="This Month"
+                        domain="[('invoice_date', '&gt;=', context_today().replace(day=1).strftime('%Y-%m-%d'))]"/>
+                <group expand="0" string="Group By">
+                    <filter name="group_partner" string="Partner" context="{'group_by': 'partner_id'}"/>
+                    <filter name="group_state" string="Status" context="{'group_by': 'state'}"/>
+                    <filter name="group_date" string="Date" context="{'group_by': 'invoice_date:month'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- ACTION -->
+    <record id="action_project_invoice" model="ir.actions.act_window">
+        <field name="name">فواتير المشاريع / Project Invoices</field>
+        <field name="res_model">project.custom.invoice</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="view_project_invoice_search"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">إنشاء فاتورة مشروع جديدة / Create a project invoice</p>
+        </field>
+    </record>
+</odoo>
