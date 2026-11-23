@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="report_progress_payment_schedule">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="web.basic_layout">
+                    <div class="page pps-page">
+                        <style>
+                            .pps-page table.pps-head, .pps-page table.pps-head *,
+                            .pps-page table.pps-info, .pps-page table.pps-info *,
+                            .pps-page table.pps-endorse, .pps-page table.pps-endorse *
+                            { border: 0 none !important; border-top: 0 none !important; border-bottom: 0 none !important;
+                              border-left: 0 none !important; border-right: 0 none !important;
+                              background: transparent !important; box-shadow: none !important; }
+                            .pps-page { font-family: Arial, Helvetica, sans-serif; font-size: 9px; color: #000; }
+                            .pps-page table { border-collapse: collapse; width: 100%; }
+                            .pps-head td { vertical-align: top; }
+                            .pps-grid td, .pps-grid th { border: 1px solid #000; padding: 2px 4px; }
+                            .pps-grid th { text-align: center; font-weight: normal; vertical-align: middle; background: #fff; }
+                            .pps-grid td.num { text-align: right; white-space: nowrap; }
+                            .pps-grid td.ctr { text-align: center; white-space: nowrap; }
+                            .pps-grid tr.pps-row td { height: 17px; }
+                            .pps-grey td { background: #d9d9d9; }
+                            .pps-noborder { border: none !important; background: #fff !important; }
+                            .pps-info td { padding: 1px 0; font-size: 9px; }
+                            .pps-endorse td { padding: 8px 0; font-size: 9px; }
+                        </style>
+
+                        <!-- Header: partner (left) / company logo (right) -->
+                        <table class="pps-head" style="margin-bottom:10px;">
+                            <tr>
+                                <td style="width:55%;">
+                                    <table class="pps-box" style="width:auto; border:0 none; padding:4px;">
+                                        <tr>
+                                            <td style="padding:4px 8px 4px 4px; vertical-align:middle;">
+                                                <img t-if="o.partner_id.image_256"
+                                                     t-att-src="image_data_uri(o.partner_id.image_256)"
+                                                     style="max-height:60px; max-width:90px;"/>
+                                            </td>
+                                            <td style="padding:4px; vertical-align:bottom; font-size:8px;">
+                                                <div style="font-weight:bold; text-transform:uppercase;"
+                                                     t-out="o.partner_id.name"/>
+                                                <div style="font-weight:bold; text-transform:uppercase;"
+                                                     t-out="o.partner_department"/>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                                <td style="width:45%; text-align:right; vertical-align:middle;">
+                                    <img t-if="o.company_id.logo"
+                                         t-att-src="image_data_uri(o.company_id.logo)"
+                                         style="max-height:55px; max-width:200px;"/>
+                                </td>
+                            </tr>
+                        </table>
+
+                        <!-- Title block -->
+                        <table class="pps-info" style="margin-bottom:6px;">
+                            <tr>
+                                <td style="font-size:8px;">
+                                    <b>PROGRESS PAYMENT SCHEDULE</b>&#160;&#160;<b t-out="o.schedule_title_line"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="font-size:8px;">
+                                    <b>CONTRACT:</b>&#160;<b style="font-size:10px;" t-out="o.contract_no"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="font-size:8px; padding-top:6px;">
+                                    <b>TITLE :</b>&#160;<span t-out="o.project_title"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="font-size:8px; padding-top:6px;">
+                                    <b>PROGRESS FOR PERIOD ENDING</b>&#160;&#160;
+                                    <span t-out="o.period_ending and o.period_ending.strftime('%d/%m/%Y') or ''"/>
+                                </td>
+                            </tr>
+                        </table>
+
+                        <!-- Main grid -->
+                        <table class="pps-grid">
+                            <colgroup>
+                                <col style="width:4%"/>
+                                <col style="width:24%"/>
+                                <col style="width:8%"/>
+                                <col style="width:12%"/>
+                                <col style="width:7%"/>
+                                <col style="width:8%"/>
+                                <col style="width:8%"/>
+                                <col style="width:9%"/>
+                                <col style="width:10%"/>
+                                <col style="width:10%"/>
+                            </colgroup>
+                            <thead>
+                                <tr>
+                                    <th rowspan="2" class="pps-noborder" style="border:none;"></th>
+                                    <th rowspan="2" style="text-align:left;"><b>DESCRIPTION OF WORKS</b></th>
+                                    <th rowspan="2">WTG% of total value</th>
+                                    <th rowspan="2">VALUE PER ITEM</th>
+                                    <th colspan="3"><b>% WORK PERFORMED</b></th>
+                                    <th colspan="3"><b>VALUE IN LIBYAN DINARS</b></th>
+                                </tr>
+                                <tr>
+                                    <th>PREVIOUS PERIOD</th>
+                                    <th>THIS PERIOD PROGRESS</th>
+                                    <th>OVERALL PROGRESS</th>
+                                    <th>previous period</th>
+                                    <th>This period</th>
+                                    <th>Cummulative</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td colspan="10" style="border:none; font-size:8px; padding:0;">ITEM</td>
+                                </tr>
+                                <t t-foreach="o.line_ids" t-as="line">
+                                    <tr class="pps-row"
+                                        t-att-style="'font-weight:bold;' if line.is_section else ''">
+                                        <td class="ctr"><b t-out="line.item_code or ''"/></td>
+                                        <td><span t-out="line.description or ''"/></td>
+                                        <t t-if="not line.is_section">
+                                            <td class="num"><t t-out="'%.2f' % line.wtg_pct"/>%</td>
+                                            <td class="num"><span t-field="line.value_per_item"/></td>
+                                            <td class="ctr"><t t-out="'%.2f' % line.prev_period_pct"/>%</td>
+                                            <td class="ctr"><t t-out="'%.2f' % line.this_period_pct"/>%</td>
+                                            <td class="ctr"><t t-out="'%.2f' % line.overall_pct"/>%</td>
+                                            <td class="num"><span t-field="line.prev_period_amount"/></td>
+                                            <td class="num"><span t-field="line.this_period_amount"/></td>
+                                            <td class="num"><span t-field="line.cumulative_amount"/></td>
+                                        </t>
+                                        <t t-else="">
+                                            <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+                                        </t>
+                                    </tr>
+                                </t>
+                                <!-- blank spacer rows to mimic the paper form -->
+                                <t t-foreach="range(max(0, 14 - len(o.line_ids)))" t-as="blank">
+                                    <tr class="pps-row">
+                                        <td></td><td></td><td></td><td></td><td></td>
+                                        <td></td><td></td><td></td><td></td><td></td>
+                                    </tr>
+                                </t>
+                                <tr class="pps-grey" style="font-weight:bold;">
+                                    <td></td>
+                                    <td>TOTAL</td>
+                                    <td class="num"><t t-out="'%.2f' % o.total_wtg_pct"/>%</td>
+                                    <td class="num"><span t-field="o.total_value_per_item"/></td>
+                                    <td class="ctr"><t t-out="'%.2f' % o.total_prev_period_pct"/>%</td>
+                                    <td class="ctr"><t t-out="'%.2f' % o.total_this_period_pct"/>%</td>
+                                    <td class="ctr"><t t-out="'%.2f' % o.total_overall_pct"/>%</td>
+                                    <td class="num"><span t-field="o.total_prev_period_amount"/></td>
+                                    <td class="num"><span t-field="o.total_this_period_amount"/></td>
+                                    <td class="num"><span t-field="o.total_cumulative_amount"/></td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2" style="border:none; padding-left:6px;">Less previous payment</td>
+                                    <td colspan="7" style="border:none;"></td>
+                                    <td class="num" style="font-weight:bold;"><span t-field="o.less_previous_payment"/></td>
+                                </tr>
+                                <tr class="pps-grey">
+                                    <td colspan="2" style="border:none; background:#fff;"></td>
+                                    <td colspan="5">Net amount due to this period</td>
+                                    <td></td>
+                                    <td class="num" style="font-weight:bold;"><span t-field="o.net_amount_due"/></td>
+                                    <td class="num" style="font-weight:bold;"><span t-field="o.net_amount_due"/></td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <!-- Endorsements -->
+                        <div style="margin-top:22px; font-weight:bold; text-decoration:underline;">ENDORSEMENTS:</div>
+                        <table class="pps-endorse" style="margin-top:20px; border:0 none;">
+                            <t t-foreach="[o.endorsement_1, o.endorsement_2, o.endorsement_3, o.endorsement_4]" t-as="endorsement">
+                                <tr>
+                                    <td style="width:65%;"><span t-out="endorsement or ''"/></td>
+                                    <td>DATE ........................................</td>
+                                </tr>
+                            </t>
+                        </table>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+</odoo>

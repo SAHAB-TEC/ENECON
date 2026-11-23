@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_pps_user,progress.payment.schedule.user,model_progress_payment_schedule,group_progress_payment_user,1,1,1,1
+access_pps_manager,progress.payment.schedule.manager,model_progress_payment_schedule,group_progress_payment_manager,1,1,1,1
+access_pps_line_user,progress.payment.schedule.line.user,model_progress_payment_schedule_line,group_progress_payment_user,1,1,1,1
+access_pps_line_manager,progress.payment.schedule.line.manager,model_progress_payment_schedule_line,group_progress_payment_manager,1,1,1,1

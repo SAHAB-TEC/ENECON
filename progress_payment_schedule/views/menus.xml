@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <menuitem id="menu_progress_payment_root"
+              name="Progress Payment"
+              sequence="60"
+              groups="group_progress_payment_user"/>
+
+    <menuitem id="menu_progress_payment_schedule"
+              name="Progress Payment Schedules"
+              parent="menu_progress_payment_root"
+              action="action_progress_payment_schedule"
+              sequence="10"
+              groups="group_progress_payment_user"/>
+</odoo>

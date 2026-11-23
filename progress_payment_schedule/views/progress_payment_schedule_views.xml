@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- LIST -->
+    <record id="view_progress_payment_schedule_list" model="ir.ui.view">
+        <field name="name">progress.payment.schedule.list</field>
+        <field name="model">progress.payment.schedule</field>
+        <field name="arch" type="xml">
+            <list string="Progress Payment Schedules">
+                <field name="name"/>
+                <field name="partner_id"/>
+                <field name="contract_no"/>
+                <field name="project_title"/>
+                <field name="period_ending"/>
+                <field name="company_id" column_invisible="True"/>
+                <field name="total_value_per_item" sum="Total Value"/>
+                <field name="total_this_period_amount" sum="Total This Period"/>
+                <field name="net_amount_due" sum="Net Amount Due"/>
+                <field name="state" widget="badge"
+                       decoration-info="state == 'draft'"
+                       decoration-success="state == 'approved'"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- SEARCH -->
+    <record id="view_progress_payment_schedule_search" model="ir.ui.view">
+        <field name="name">progress.payment.schedule.search</field>
+        <field name="model">progress.payment.schedule</field>
+        <field name="arch" type="xml">
+            <search string="Search Progress Payment Schedules">
+                <field name="name"/>
+                <field name="partner_id"/>
+                <field name="contract_no"/>
+                <field name="project_title"/>
+                <separator/>
+                <filter name="filter_draft" string="Draft" domain="[('state', '=', 'draft')]"/>
+                <filter name="filter_approved" string="Approved" domain="[('state', '=', 'approved')]"/>
+                <group expand="0" string="Group By">
+                    <filter name="group_partner" string="Client / Vendor"
+                            context="{'group_by': 'partner_id'}"/>
+                    <filter name="group_state" string="Status"
+                            context="{'group_by': 'state'}"/>
+                    <filter name="group_period" string="Period Ending"
+                            context="{'group_by': 'period_ending:month'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- FORM -->
+    <record id="view_progress_payment_schedule_form" model="ir.ui.view">
+        <field name="name">progress.payment.schedule.form</field>
+        <field name="model">progress.payment.schedule</field>
+        <field name="arch" type="xml">
+            <form string="Progress Payment Schedule">
+                <header>
+                    <button name="action_approve" string="Approve" type="object"
+                            class="btn-primary"
+                            invisible="state != 'draft'"
+                            groups="progress_payment_schedule.group_progress_payment_manager"/>
+                    <button name="action_draft" string="Reset to Draft" type="object"
+                            invisible="state != 'approved'"
+                            groups="progress_payment_schedule.group_progress_payment_manager"/>
+                    <button name="action_print_pdf" string="Print PDF" type="object"
+                            class="btn-secondary"/>
+                    <field name="state" widget="statusbar"
+                           statusbar_visible="draft,approved"/>
+                </header>
+                <sheet>
+                    <field name="partner_image_128" widget="image" class="oe_avatar"
+                           invisible="not partner_id"/>
+                    <div class="oe_title">
+                        <label for="name"/>
+                        <h1><field name="name"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="partner_id" readonly="state == 'approved'"/>
+                            <field name="partner_department" readonly="state == 'approved'"/>
+                            <field name="company_id" readonly="state == 'approved'"
+                                   groups="base.group_multi_company"/>
+                        </group>
+                        <group>
+                            <field name="schedule_title_line" readonly="state == 'approved'"/>
+                            <field name="contract_no" readonly="state == 'approved'"/>
+                            <field name="project_title" readonly="state == 'approved'"/>
+                            <field name="period_ending" readonly="state == 'approved'"/>
+                        </group>
+                    </group>
+                    <group invisible="state != 'approved'">
+                        <group>
+                            <field name="approved_by"/>
+                            <field name="approved_date"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Work Items" name="work_items">
+                            <field name="line_ids" readonly="state == 'approved'">
+                                <list editable="bottom" decoration-bf="is_section">
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="is_section"/>
+                                    <field name="item_code"/>
+                                    <field name="description" width="250px"/>
+                                    <field name="wtg_pct" readonly="is_section" sum="Total WTG %"/>
+                                    <field name="value_per_item" readonly="is_section" sum="Total Value"/>
+                                    <field name="prev_period_pct" readonly="is_section"/>
+                                    <field name="this_period_pct" readonly="is_section"/>
+                                    <field name="overall_pct" readonly="is_section"/>
+                                    <field name="prev_period_amount" readonly="is_section" sum="Total Previous"/>
+                                    <field name="this_period_amount" sum="Total This Period"/>
+                                    <field name="cumulative_amount" sum="Total Cumulative"/>
+                                </list>
+                            </field>
+                            <div class="d-flex justify-content-end mt-3">
+                                <table class="table table-sm table-bordered w-auto text-end">
+                                    <thead>
+                                        <tr class="table-light">
+                                            <th>TOTAL Previous Period %</th>
+                                            <th>TOTAL This Period %</th>
+                                            <th>TOTAL Overall %</th>
+                                            <th>Less previous payment</th>
+                                            <th>Net amount due to this period</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td><field name="total_prev_period_pct" nolabel="1"/></td>
+                                            <td><field name="total_this_period_pct" nolabel="1"/></td>
+                                            <td><field name="total_overall_pct" nolabel="1"/></td>
+                                            <td><field name="less_previous_payment" nolabel="1"/></td>
+                                            <td class="fw-bold"><field name="net_amount_due" nolabel="1"/></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </page>
+                        <page string="Endorsements" name="endorsements">
+                            <group>
+                                <field name="endorsement_1" readonly="state == 'approved'"/>
+                                <field name="endorsement_2" readonly="state == 'approved'"/>
+                                <field name="endorsement_3" readonly="state == 'approved'"/>
+                                <field name="endorsement_4" readonly="state == 'approved'"/>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <!-- ACTION -->
+    <record id="action_progress_payment_schedule" model="ir.actions.act_window">
+        <field name="name">Progress Payment Schedules</field>
+        <field name="res_model">progress.payment.schedule</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="view_progress_payment_schedule_search"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create your first Progress Payment Schedule
+            </p>
+            <p>
+                Record work items, track period progress and print the
+                approved schedule as a PDF.
+            </p>
+        </field>
+    </record>
+</odoo>

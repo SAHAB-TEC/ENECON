@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="module_category_progress_payment" model="ir.module.category">
+        <field name="name">Progress Payment</field>
+        <field name="description">Progress Payment Schedules</field>
+        <field name="sequence">60</field>
+    </record>
+
+    <record id="group_progress_payment_user" model="res.groups">
+        <field name="name">User</field>
+        <field name="category_id" ref="module_category_progress_payment"/>
+        <field name="comment">Can create and edit schedules while in Draft.</field>
+    </record>
+
+    <record id="group_progress_payment_manager" model="res.groups">
+        <field name="name">Administrator</field>
+        <field name="category_id" ref="module_category_progress_payment"/>
+        <field name="implied_ids" eval="[(4, ref('group_progress_payment_user'))]"/>
+        <field name="users" eval="[(4, ref('base.user_root')), (4, ref('base.user_admin'))]"/>
+        <field name="comment">Full access, can approve and reset schedules to draft.</field>
+    </record>
+
+    <!-- Multi-company -->
+    <record id="rule_pps_company" model="ir.rule">
+        <field name="name">Progress Payment Schedule: multi-company</field>
+        <field name="model_id" ref="model_progress_payment_schedule"/>
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+    </record>
+
+    <!-- User: write / delete only in draft (read is unrestricted) -->
+    <record id="rule_pps_user" model="ir.rule">
+        <field name="name">Progress Payment Schedule: user edits draft only</field>
+        <field name="model_id" ref="model_progress_payment_schedule"/>
+        <field name="groups" eval="[(4, ref('group_progress_payment_user'))]"/>
+        <field name="domain_force">[('state', '=', 'draft')]</field>
+        <field name="perm_read" eval="False"/>
+        <field name="perm_create" eval="True"/>
+        <field name="perm_write" eval="True"/>
+        <field name="perm_unlink" eval="True"/>
+    </record>
+
+    <record id="rule_pps_manager" model="ir.rule">
+        <field name="name">Progress Payment Schedule: manager full access</field>
+        <field name="model_id" ref="model_progress_payment_schedule"/>
+        <field name="groups" eval="[(4, ref('group_progress_payment_manager'))]"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+    </record>
+
+    <!-- Lines -->
+    <record id="rule_pps_line_company" model="ir.rule">
+        <field name="name">Progress Payment Schedule Line: multi-company</field>
+        <field name="model_id" ref="model_progress_payment_schedule_line"/>
+        <field name="domain_force">[('schedule_id.company_id', 'in', company_ids)]</field>
+    </record>
+
+    <record id="rule_pps_line_user" model="ir.rule">
+        <field name="name">Progress Payment Schedule Line: user edits draft only</field>
+        <field name="model_id" ref="model_progress_payment_schedule_line"/>
+        <field name="groups" eval="[(4, ref('group_progress_payment_user'))]"/>
+        <field name="domain_force">[('schedule_id.state', '=', 'draft')]</field>
+        <field name="perm_read" eval="False"/>
+        <field name="perm_create" eval="True"/>
+        <field name="perm_write" eval="True"/>
+        <field name="perm_unlink" eval="True"/>
+    </record>
+
+    <record id="rule_pps_line_manager" model="ir.rule">
+        <field name="name">Progress Payment Schedule Line: manager full access</field>
+        <field name="model_id" ref="model_progress_payment_schedule_line"/>
+        <field name="groups" eval="[(4, ref('group_progress_payment_manager'))]"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+    </record>
+</odoo>

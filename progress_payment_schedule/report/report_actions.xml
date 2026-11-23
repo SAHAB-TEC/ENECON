@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="action_report_progress_payment_schedule" model="ir.actions.report">
+        <field name="name">Progress Payment Schedule</field>
+        <field name="model">progress.payment.schedule</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">progress_payment_schedule.report_progress_payment_schedule</field>
+        <field name="report_file">progress_payment_schedule.report_progress_payment_schedule</field>
+        <field name="print_report_name">'Progress Payment Schedule - %s' % (object.name or '').replace('/', '_')</field>
+        <field name="paperformat_id" ref="paperformat_progress_payment_schedule"/>
+        <field name="binding_model_id" ref="model_progress_payment_schedule"/>
+        <field name="binding_type">report</field>
+    </record>
+</odoo>
