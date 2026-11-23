@@ -3,11 +3,11 @@
     <template id="report_project_invoice_document">
         <t t-call="web.html_container">
             <t t-foreach="docs" t-as="doc">
-                <div class="page pi-page" dir="rtl">
+                <t t-set="o" t-value="doc"/>
+                <t t-call="web.basic_layout">
+                <div class="page pi-page" dir="rtl" lang="ar">
                     <style>
                         .pi-page { font-family: 'Cairo','Tahoma','Arial',sans-serif; font-size: 12px; direction: rtl; text-align: right; color: #000; }
-                        .pi-head { width: 100%; margin-bottom: 6px; }
-                        .pi-head td { vertical-align: middle; }
                         .pi-logo { max-height: 70px; max-width: 160px; }
                         .pi-title { text-align: center; font-weight: bold; font-size: 16px; }
                         .pi-sub { text-align: center; font-weight: bold; font-size: 13px; margin-bottom: 6px; }
@@ -27,17 +27,15 @@
                         .pi-sign { margin-top: 30px; text-align: left; font-weight: bold; }
                     </style>
 
-                    <table class="pi-head">
-                        <tr>
-                            <td style="text-align:right; width:30%;">
-                                <img t-if="doc.partner_id.image_1920" class="pi-logo" t-att-src="image_data_uri(doc.partner_id.image_1920)"/>
-                            </td>
-                            <td style="width:40%;"></td>
-                            <td style="text-align:left; width:30%;">
-                                <img t-if="doc.company_id.logo" class="pi-logo" t-att-src="image_data_uri(doc.company_id.logo)"/>
-                            </td>
-                        </tr>
-                    </table>
+                    <div class="pi-head" style="border:0; margin:0 0 6px 0; padding:0; overflow:hidden; width:100%;">
+                        <div style="float:right; border:0; margin:0; padding:0; text-align:right;">
+                            <img t-if="doc.partner_id.image_1920" class="pi-logo" style="border:0; outline:0;" t-att-src="image_data_uri(doc.partner_id.image_1920)"/>
+                        </div>
+                        <div style="float:left; border:0; margin:0; padding:0; text-align:left;">
+                            <img t-if="doc.company_id.logo" class="pi-logo" style="border:0; outline:0;" t-att-src="image_data_uri(doc.company_id.logo)"/>
+                        </div>
+                        <div style="clear:both; height:0; border:0;"></div>
+                    </div>
 
                     <div class="pi-title">فاتورة رقم <t t-esc="doc.manual_invoice_number"/></div>
                     <div class="pi-sub"><t t-esc="doc.project_title"/></div>
@@ -171,6 +169,7 @@
                         <div><t t-esc="doc.signatory_job_title or ''"/></div>
                     </div>
                 </div>
+                </t>
             </t>
         </t>
     </template>
